@@ -139,6 +139,7 @@ taxa = taxa %>%
 
 # We will need a vector of protein superfamilies
 psuperfamilies = (classified_proteins %>% select(psuperfamily) %>% distinct() %>% arrange(psuperfamily))$psuperfamily
+tdomains = (taxa %>% select(tdomain) %>% distinct() %>% arrange(tdomain))$tdomain
 
 # We also need a vector of databases
 dbs = (classified_proteins %>% select(db) %>% distinct() %>% arrange(db))$db
@@ -184,6 +185,12 @@ ui <- fluidPage(
         ),
         uiOutput('pfamilies'),
         uiOutput('pclasses')
+      ),
+      wellPanel(
+        selectInput(
+          'tdomains', 'Taxonomic domains',
+          c('', tdomains), multiple = T
+        )
       )
     ),
     mainPanel(
@@ -224,17 +231,13 @@ server <- function(input, output) {
       filter(db == input$db) %>%
       inner_join(taxa %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     
-    if ( length(input$psuperfamilies) > 0 ) {
-      t = t %>% filter(psuperfamily %in% input$psuperfamilies)
-    }
-    
-    if ( length(input$pfamilies) > 0 ) {
-      t = t %>% filter(pfamily %in% input$pfamilies)
-    }
-    
-    if ( length(input$pclasses) > 0 ) {
-      t = t %>% filter(pclass %in% input$pclasses)
-    }
+    # Filters for protein hierarchy
+    if ( length(input$psuperfamilies) > 0 ) { t = t %>% filter(psuperfamily %in% input$psuperfamilies) }
+    if ( length(input$pfamilies) > 0 ) { t = t %>% filter(pfamily %in% input$pfamilies) }
+    if ( length(input$pclasses) > 0 ) { t = t %>% filter(pclass %in% input$pclasses) }
+
+    # Filters for taxon hierarchy
+    if ( length(input$tdomains) > 0 ) { t = t %>% filter(tdomain %in% input$tdomains) }
 
     # Construct a field for taxonomical sort and on for tooltip for taxonomy.
     # This is done in two steps: first a string is constructed, then the the
