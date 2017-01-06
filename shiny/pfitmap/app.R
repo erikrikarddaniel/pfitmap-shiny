@@ -426,7 +426,12 @@ server <- function(input, output) {
       geom_sina(aes(colour=subc), method='counts') +
       scale_colour_manual(sprintf('Protein %s', sub('^p', '', subc)), values=DIV_PALETTE_768X) +
       xlab(sprintf("Protein %s", sub('^p', '', input$proteinrank))) +
-      ylab('Statistic')
+      ylab('Statistic') +
+      theme(
+        axis.title = element_text(size=18),
+        axis.text = element_text(size=12),
+        axis.text.x = element_text(angle=60, hjust=1)
+      )
   }) 
   
   output$ssversion = renderText(
