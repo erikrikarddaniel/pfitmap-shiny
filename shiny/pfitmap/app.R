@@ -18,6 +18,7 @@ library(ggplot2)
 library(ggforce)
 library(stringr)
 library(DT)
+library(chorddiag)
 
 # Some constants
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
@@ -188,6 +189,9 @@ ui <- fluidPage(
           ),
           dataTableOutput('mainmatrix')
         ),
+        tabPanel('chord graph',
+          chorddiagOutput('chordgraph')
+        ),
         tabPanel('distributions',
           selectInput(
             'sinastat', 'Statistic',
@@ -195,7 +199,7 @@ ui <- fluidPage(
               'HMM score' = 'score', 'Sequence length' = 'seqlen', 'Alignment length' = 'align_length'
             )
           ),
-          plotOutput('maingraph'))
+          plotOutput('distgraph'))
       )
     )
   )
@@ -371,7 +375,20 @@ server <- function(input, output) {
     }
   )
   
-  output$maingraph = renderPlot({
+  output$chordgraph = renderChorddiag({
+    t = switch(
+      input$protstattype,
+      indproteins  = indproteins_sums_table() %>% spread_(input$proteinrank, 'n', fill=0),
+      combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
+    ) %>% 
+      select(-tsort, -tcolour, -taxon_tooltip, -n_genomes)
+    write(sprintf("colnames(t): %s", colnames(t)), stderr())
+    m = as.matrix(t[,2:length(colnames(t))])
+    rownames(m) = (t %>% select(t=1))$t
+    chorddiag(m, type = "bipartite")
+  })
+  
+  output$distgraph = renderPlot({
     subc =  ifelse(
       which(PROTEIN_HIERARCHY==input$proteinrank) == length(PROTEIN_HIERARCHY),
       input$proteinrank, PROTEIN_HIERARCHY[which(PROTEIN_HIERARCHY==input$proteinrank) + 1]
