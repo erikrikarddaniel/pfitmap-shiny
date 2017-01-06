@@ -190,7 +190,7 @@ ui <- fluidPage(
           dataTableOutput('mainmatrix')
         ),
         tabPanel('chord graph',
-          chorddiagOutput('chordgraph')
+          chorddiagOutput('chordgraph', height=800)
         ),
         tabPanel('distributions',
           selectInput(
@@ -199,7 +199,7 @@ ui <- fluidPage(
               'HMM score' = 'score', 'Sequence length' = 'seqlen', 'Alignment length' = 'align_length'
             )
           ),
-          plotOutput('distgraph'))
+          plotOutput('distgraph', height=600))
       )
     )
   )
@@ -385,7 +385,13 @@ server <- function(input, output) {
     write(sprintf("colnames(t): %s", colnames(t)), stderr())
     m = as.matrix(t[,2:length(colnames(t))])
     rownames(m) = (t %>% select(t=1))$t
-    chorddiag(m, type = "bipartite")
+    chorddiag(
+      m, type = "bipartite",  groupnameFontsize =  14,
+      categoryNames = c(
+        Hmisc::capitalize(sub('^t', '', input$taxonrank)),
+        Hmisc::capitalize(sub('^p', '', input$proteinrank))
+      ), categorynameFontsize = 16
+    )
   })
   
   output$distgraph = renderPlot({
