@@ -190,7 +190,13 @@ ui <- fluidPage(
         selectInput(
           'tdomains', 'Taxonomic domains',
           c('', tdomains), multiple = T
-        )
+        ),
+        uiOutput('tphyla'),
+        uiOutput('tclasses'),
+        uiOutput('torders'),
+        uiOutput('tfamilies'),
+        uiOutput('tgenera'),
+        uiOutput('tspecies')
       )
     ),
     mainPanel(
@@ -238,6 +244,7 @@ server <- function(input, output) {
 
     # Filters for taxon hierarchy
     if ( length(input$tdomains) > 0 ) { t = t %>% filter(tdomain %in% input$tdomains) }
+    if ( length(input$tphyla) > 0 ) { t = t %>% filter(tphylum %in% input$tphyla) }
 
     # Construct a field for taxonomical sort and on for tooltip for taxonomy.
     # This is done in two steps: first a string is constructed, then the the
@@ -336,6 +343,23 @@ server <- function(input, output) {
       'pclasses', 'Protein classes',
       pc, multiple = T
     )
+  })
+
+  output$tphyla = renderUI({
+    write(sprintf("input$tdomains, len: %d: %s", length(input$tdomains), input$tdomains), stderr())
+    if ( length(input$tdomains) > 0 ) {
+      selectInput(
+        'tphyla', 'Phyla',
+        (taxa %>% filter(tdomain %in% input$tdomains) %>% select(tphylum) %>% distinct())$tphylum,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'tphyla', 'Phyla',
+        (taxa %>% select(tphylum) %>% distinct())$tphylum,
+        multiple = T
+      )
+    }
   })
 
   output$trank4colour = renderUI({
