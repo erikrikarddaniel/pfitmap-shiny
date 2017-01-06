@@ -7,7 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-library(Hmisc)       # Place early; it masks summarize from dplyr!
 library(shiny)
 library(readr)
 library(dplyr)
@@ -245,6 +244,11 @@ server <- function(input, output) {
     # Filters for taxon hierarchy
     if ( length(input$tdomains) > 0 ) { t = t %>% filter(tdomain %in% input$tdomains) }
     if ( length(input$tphyla) > 0 ) { t = t %>% filter(tphylum %in% input$tphyla) }
+    if ( length(input$tclasses) > 0 ) { t = t %>% filter(tclass %in% input$tclasses) }
+    if ( length(input$torders) > 0 ) { t = t %>% filter(torder %in% input$torders) }
+    if ( length(input$tfamilies) > 0 ) { t = t %>% filter(tfamily %in% input$tfamilies) }
+    if ( length(input$tgenera) > 0 ) { t = t %>% filter(tgenus %in% input$tgenera) }
+    if ( length(input$tspecies) > 0 ) { t = t %>% filter(tspecies %in% input$tspecies) }
 
     # Construct a field for taxonomical sort and on for tooltip for taxonomy.
     # This is done in two steps: first a string is constructed, then the the
@@ -327,7 +331,7 @@ server <- function(input, output) {
     pf = (pf %>% select(pfamily) %>% distinct())$pfamily
     
     selectInput(
-      'pfamilies', 'Protein families',
+      'pfamilies', 'Families',
       pf, multiple = T
     )
   })
@@ -340,23 +344,108 @@ server <- function(input, output) {
     pc = (pc %>% select(pclass) %>% distinct() %>% arrange(pclass))$pclass
     
     selectInput(
-      'pclasses', 'Protein classes',
+      'pclasses', 'Classes',
       pc, multiple = T
     )
   })
 
   output$tphyla = renderUI({
-    write(sprintf("input$tdomains, len: %d: %s", length(input$tdomains), input$tdomains), stderr())
+    ###write(sprintf("input$tdomains, len: %d: %s", length(input$tdomains), input$tdomains), stderr())
     if ( length(input$tdomains) > 0 ) {
       selectInput(
         'tphyla', 'Phyla',
-        (taxa %>% filter(tdomain %in% input$tdomains) %>% select(tphylum) %>% distinct())$tphylum,
+        (taxa %>% filter(tdomain %in% input$tdomains) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
         multiple = T
       )
     } else {
       selectInput(
         'tphyla', 'Phyla',
-        (taxa %>% select(tphylum) %>% distinct())$tphylum,
+        (taxa %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
+        multiple = T
+      )
+    }
+  })
+  
+  output$tclasses = renderUI({
+    ###write(sprintf("tphyla: %d: %s", length(input$tphyla), input$tphyla), stderr())
+    if ( length(input$tphyla) > 0 ) {
+      selectInput(
+        'tclasses', 'Classes',
+        (taxa %>% filter(tphylum %in% input$tphyla) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'tclasses', 'Classes',
+        (taxa %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
+        multiple = T
+      )
+    }
+  })
+  
+  output$torders = renderUI({
+    ###write(sprintf("tclasses: %d: %s", length(input$tclasses), input$tclasses), stderr())
+    if ( length(input$tclasses) > 0 ) {
+      selectInput(
+        'torders', 'Orders',
+        (taxa %>% filter(tclass %in% input$tclasses) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'torders', 'Orders',
+        (taxa %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
+        multiple = T
+      )
+    }
+  })
+  
+  output$tfamilies = renderUI({
+    ###write(sprintf("torders: %d: %s", length(input$torders), input$torders), stderr())
+    if ( length(input$torders) > 0 ) {
+      selectInput(
+        'tfamilies', 'Families',
+        (taxa %>% filter(torder %in% input$torders) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'tfamilies', 'Families',
+        (taxa %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
+        multiple = T
+      )
+    }
+  })
+  
+  output$tgenera = renderUI({
+    ###write(sprintf("tfamilies: %d: %s", length(input$tfamilies), input$tfamilies), stderr())
+    if ( length(input$tfamilies) > 0 ) {
+      selectInput(
+        'tgenera', 'Genera',
+        (taxa %>% filter(tfamily %in% input$tfamilies) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'tgenera', 'Genera',
+        (taxa %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
+        multiple = T
+      )
+    }
+  })
+  
+  output$tspecies = renderUI({
+    ###write(sprintf("tgenera: %d: %s", length(input$tgenera), input$tgenera), stderr())
+    if ( length(input$tgenera) > 0 ) {
+      selectInput(
+        'tspecies', 'Species',
+        (taxa %>% filter(tgenus %in% input$tgenera) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
+        multiple = T
+      )
+    } else {
+      selectInput(
+        'tspecies', 'Species',
+        (taxa %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
         multiple = T
       )
     }
@@ -365,7 +454,7 @@ server <- function(input, output) {
   output$trank4colour = renderUI({
     ranks = list()
     for ( r in TAXON_HIERARCHY[1:which(TAXON_HIERARCHY==input$taxonrank)] ) { 
-      ranks[[capitalize(sub('^t', '', r))]] = r 
+      ranks[[Hmisc::capitalize(sub('^t', '', r))]] = r 
     }
     selectInput(
       'trank4colour', 'Colour by taxon',
