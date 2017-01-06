@@ -54,6 +54,15 @@ LIGHT_PALETTE_98304X = c(
   LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X, LIGHT_PALETTE_6144X
 )
 
+DARK_PALETTE = c('#1f78b4','#33a02c','#e31a1c','#ff7f00','#6a3d9a','#b15928')
+DARK_PALETTE_96X = c(
+  DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE,
+  DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE, DARK_PALETTE
+)
+DARK_PALETTE_768X = c(
+  DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X, DARK_PALETTE_96X
+)
+
 # Reading data and transforming
 classified_proteins = data.table(
   read_tsv(
@@ -387,6 +396,7 @@ server <- function(input, output) {
     rownames(m) = (t %>% select(t=1))$t
     chorddiag(
       m, type = "bipartite",  groupnameFontsize =  14,
+      groupColors = c(DARK_PALETTE_768X[1:length(m[,1])], LIGHT_PALETTE_768X[1:length(m[1,])]),
       categoryNames = c(
         sprintf("Organism %s", sub('^t', '', input$taxonrank)),
         sprintf(
