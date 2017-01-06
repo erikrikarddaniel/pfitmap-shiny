@@ -388,8 +388,12 @@ server <- function(input, output) {
     chorddiag(
       m, type = "bipartite",  groupnameFontsize =  14,
       categoryNames = c(
-        Hmisc::capitalize(sub('^t', '', input$taxonrank)),
-        Hmisc::capitalize(sub('^p', '', input$proteinrank))
+        sprintf("Organism %s", sub('^t', '', input$taxonrank)),
+        sprintf(
+          "Protein %s%s",
+          sub('^p', '', input$proteinrank),
+          ifelse( input$protstattype == 'indproteins', '', ' combinations' )
+        )
       ), categorynameFontsize = 16
     )
   })
