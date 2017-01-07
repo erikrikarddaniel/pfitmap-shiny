@@ -290,11 +290,11 @@ server <- function(input, output) {
       ) %>%
       mutate(fraction = n/n_genomes) %>%
       gather(s, v, n, fraction) %>%
-      mutate(
-        pclass = ifelse(s == 'n', pclass, sprintf("%s%s", pclass, s)),
-        n = v
+      mutate_(
+        'proteinrank' = paste("ifelse(s == 'n',", input$proteinrank, ', sprintf("%s%s",', input$proteinrank, ', s))'),
+        'n' = 'v'
       ) %>%
-      select(-s, -v)
+      select_(paste('-', input$proteinrank)) %>% select(-s, -v)
     
     d
   })
@@ -473,7 +473,7 @@ server <- function(input, output) {
     {
       t = switch(
         input$protstattype,
-        indproteins  = indproteins_sums_table() %>% spread_(input$proteinrank, 'n', fill=0),
+        indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
       )
       ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
