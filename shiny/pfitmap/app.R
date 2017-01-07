@@ -311,7 +311,7 @@ server <- function(input, output) {
       select(-n)
     d = d %>%
       unite(comb, 6:length(colnames(d)), sep=':') %>%
-      mutate(comb=sub('::*', ':', sub(':*$', '', sub('^:*', '', comb)))) %>%
+      mutate(comb=sub(':::*', ':', sub(':*$', '', sub('^:*', '', comb)))) %>%
       group_by_('tsort', 'tcolour', 'taxon_tooltip', input$taxonrank, 'comb') %>%
       summarise(n=n()) %>%
       inner_join(
@@ -325,7 +325,14 @@ server <- function(input, output) {
           group_by_(input$taxonrank) %>%
           summarise(n_genomes = n()),
         by=c(input$taxonrank)
-      )
+      ) %>%
+      mutate(fraction = n/n_genomes) %>%
+      gather(s, v, n, fraction) %>%
+      mutate(
+        comb = ifelse(s == 'n', comb, sprintf("%s%s", comb, s)),
+        n = v
+      ) %>%
+      select(-s, -v)
 
     d
   })
@@ -477,6 +484,8 @@ server <- function(input, output) {
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
       )
       ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
+      write("table:", stderr())
+      write(sprintf("\tcolnames: %s", paste(colnames(t), collapse=", ")), stderr())
       
       if ( input$taxonomysort ) {
         t = t %>% arrange(tsort)
