@@ -483,9 +483,7 @@ server <- function(input, output) {
         indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
       )
-      ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
-      write("table:", stderr())
-      write(sprintf("\tcolnames: %s", paste(colnames(t), collapse=", ")), stderr())
+      ###write(sprintf("\tcolnames: %s", paste(colnames(t), collapse=", ")), stderr())
       
       if ( input$taxonomysort ) {
         t = t %>% arrange(tsort)
@@ -525,7 +523,6 @@ server <- function(input, output) {
         )
       
       for (ff in c[grep('fraction', c)]) {
-        write(sprintf("ff: %s", ff), stderr())
         dt = dt %>% formatStyle(
           sub('fraction', '', ff), ff,
           backgroundColor = styleInterval(brks, clrs)
@@ -543,7 +540,7 @@ server <- function(input, output) {
       combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
     ) %>% 
       select(-tsort, -tcolour, -taxon_tooltip, -n_genomes)
-    write(sprintf("colnames(t): %s", colnames(t)), stderr())
+    ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
     m = as.matrix(t[,2:length(colnames(t))])
     rownames(m) = (t %>% select(t=1))$t
     chorddiag(
