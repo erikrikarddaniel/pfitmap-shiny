@@ -206,7 +206,12 @@ ui <- fluidPage(
         tabPanel('table', 
           fluidRow(
             column(4, checkboxInput('taxonomysort', 'Taxonomic sort', value=T)),
-            column(4, uiOutput('trank4colour'))
+            column(4, 
+              selectInput(
+                'trank4colour', 'Colour by taxon', 
+                list('Domain' = 'tdomain'), selected='tdomain'
+              )
+            )
           ),
           dataTableOutput('mainmatrix')
         ),
@@ -272,7 +277,6 @@ server <- function(input, output) {
   # Returns a filtered and summarised table after applying the group by
   # criteria called for by the user.
   indproteins_sums_table = reactive({
-    ###write(sprintf("indproteins_sums_table, protstattype: %s", input$protstattype), stderr())
     d = filtered_table() %>%
       group_by_('tsort', 'tcolour', 'taxon_tooltip', input$taxonrank, input$proteinrank) %>%
       summarise(n=n()) %>%
@@ -449,7 +453,6 @@ server <- function(input, output) {
   })
   
   output$tspecies = renderUI({
-    ###write(sprintf("tgenera: %d: %s", length(input$tgenera), input$tgenera), stderr())
     if ( length(input$tgenera) > 0 ) {
       selectInput(
         'tspecies', 'Species',
@@ -470,7 +473,7 @@ server <- function(input, output) {
     for ( r in TAXON_HIERARCHY[1:which(TAXON_HIERARCHY==input$taxonrank)] ) { 
       ranks[[Hmisc::capitalize(sub('^t', '', r))]] = r 
     }
-    selectInput(
+    updateSelectInput(
       'trank4colour', 'Colour by taxon',
       ranks, selected = 'tdomain'
     )
