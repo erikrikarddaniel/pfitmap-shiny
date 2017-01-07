@@ -540,6 +540,12 @@ server <- function(input, output) {
       combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
     ) %>% 
       select(-tsort, -tcolour, -taxon_tooltip, -n_genomes)
+    
+    # Delete all columns ending in 'fraction'
+    for ( c in colnames(t)[grep('fraction', colnames(t))] ) {
+      t = t %>% select_(sprintf("-`%s`", c))
+    }
+    
     ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
     m = as.matrix(t[,2:length(colnames(t))])
     rownames(m) = (t %>% select(t=1))$t
