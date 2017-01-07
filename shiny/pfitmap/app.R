@@ -495,12 +495,11 @@ server <- function(input, output) {
       
       # Hide some columns
       invisible = c(0, grep('fraction', c) - 3)
-      write(sprintf("invisible: %s", invisible), stderr())
-      #invisible = c(0)
+      ###write(sprintf("invisible: %s", invisible), stderr())
 
       t = t %>%
         select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
-      datatable(
+      dt = datatable(
         t, 
         rownames=F, 
         escape = c(T, F),
@@ -514,19 +513,17 @@ server <- function(input, output) {
           backgroundColor = styleEqual(
             unique(t$tcolour), LIGHT_PALETTE_98304X[1:length(unique(t$tcolour))]
           )
-        ) %>%
-        formatStyle(
-          'NrdA', 'NrdAfraction',
-          backgroundColor = styleInterval(brks, clrs)
-        ) %>%
-        formatStyle(
-          'NrdD', 'NrdDfraction',
-          backgroundColor = styleInterval(brks, clrs)
-        ) %>%
-        formatStyle(
-          'NrdJ', 'NrdJfraction',
+        )
+      
+      for (ff in c[grep('fraction', c)]) {
+        write(sprintf("ff: %s", ff), stderr())
+        dt = dt %>% formatStyle(
+          sub('fraction', '', ff), ff,
           backgroundColor = styleInterval(brks, clrs)
         )
+      }
+      
+      dt
     }
   )
   
