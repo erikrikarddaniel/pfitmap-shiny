@@ -539,7 +539,7 @@ server <- function(input, output) {
   output$chordgraph = renderChorddiag({
     t = switch(
       input$protstattype,
-      indproteins  = indproteins_sums_table() %>% spread_(input$proteinrank, 'n', fill=0),
+      indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
       combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
     ) %>% 
       select(-tsort, -tcolour, -taxon_tooltip, -n_genomes)
