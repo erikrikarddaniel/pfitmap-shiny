@@ -287,7 +287,14 @@ server <- function(input, output) {
           group_by_(input$taxonrank) %>%
           summarise(n_genomes = n()),
         by=c(input$taxonrank)
-      )
+      ) %>%
+      mutate(fraction = n/n_genomes) %>%
+      gather(s, v, n, fraction) %>%
+      mutate(
+        pclass = ifelse(s == 'n', pclass, sprintf("%s%s", pclass, s)),
+        n = v
+      ) %>%
+      select(-s, -v)
     
     d
   })
