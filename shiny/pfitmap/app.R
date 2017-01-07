@@ -487,6 +487,17 @@ server <- function(input, output) {
         mutate(Taxon = sprintf("<span title='%s'>%s</span>", taxon_tooltip, Taxon))
       c = colnames(t)
       ###write(sprintf("c: %s", c), stderr())
+      
+      # Colours for heatmap
+      brks = quantile(c(0,1), probs = seq(.0, 1, .05), na.rm = TRUE)
+      clrs = round(seq(255, 40, length.out = length(brks) + 1), 0) %>%
+      {paste0("rgb(255,", ., ",", ., ")")}
+      
+      # Hide some columns
+      invisible = c(0, grep('fraction', c) - 3)
+      write(sprintf("invisible: %s", invisible), stderr())
+      #invisible = c(0)
+
       t = t %>%
         select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
       datatable(
@@ -495,7 +506,7 @@ server <- function(input, output) {
         escape = c(T, F),
         options=list(
           lengthMenu = c(50, 100, 250, 500),
-          columnDefs = list(list(targets = 0, visible = FALSE))
+          columnDefs = list(list(targets = invisible, visible = FALSE))
         )
       ) %>%
         formatStyle(
@@ -503,6 +514,18 @@ server <- function(input, output) {
           backgroundColor = styleEqual(
             unique(t$tcolour), LIGHT_PALETTE_98304X[1:length(unique(t$tcolour))]
           )
+        ) %>%
+        formatStyle(
+          'NrdA', 'NrdAfraction',
+          backgroundColor = styleInterval(brks, clrs)
+        ) %>%
+        formatStyle(
+          'NrdD', 'NrdDfraction',
+          backgroundColor = styleInterval(brks, clrs)
+        ) %>%
+        formatStyle(
+          'NrdJ', 'NrdJfraction',
+          backgroundColor = styleInterval(brks, clrs)
         )
     }
   )
