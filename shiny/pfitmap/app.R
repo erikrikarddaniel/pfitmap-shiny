@@ -18,6 +18,7 @@ library(ggforce)
 library(stringr)
 library(DT)
 library(chorddiag)
+library(feather)
 
 # Some constants
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
@@ -63,28 +64,40 @@ DARK_PALETTE_768X = c(
 )
 
 # Reading data and transforming
-classified_proteins = data.table(
-  read_tsv(
-    Sys.getenv('PFITMAP_DATA'),
-    col_types = cols(
-      .default = col_character(),
-      profile_length = col_integer(),
-      align_length = col_integer(),
-      align_start = col_integer(),
-      align_end = col_integer(),
-      prop_matching = col_double(),
-      ss_version = col_integer(),
-      e_value = col_double(),
-      score = col_double()
+if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
+  write(sprintf("LOG: Reading tsv data"), stderr())
+  classified_proteins = data.table(
+    read_tsv(
+      Sys.getenv('PFITMAP_DATA'),
+      col_types = cols(
+        .default = col_character(),
+        profile_length = col_integer(),
+        align_length = col_integer(),
+        align_start = col_integer(),
+        align_end = col_integer(),
+        prop_matching = col_double(),
+        ss_version = col_integer(),
+        e_value = col_double(),
+        score = col_double()
+      )
     )
-  ) %>%
-    mutate(
-      pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
-      pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
-      psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
-      pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
+  )
+} else {
+  if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
+    write(sprintf("LOG: Reading feather data"), stderr())
+    classified_proteins = data.table(
+      read_feather(Sys.getenv('PFITMAP_DATA'))
     )
-)
+  }
+}
+
+classified_proteins = classified_proteins %>%
+  mutate(
+    pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
+    pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
+    psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
+    pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
+  )
 
 # We have problematic organisms, where multiple sequences of the same kind are
 # assigned to the same taxon, a species or a genus. Trying to get rid of the
