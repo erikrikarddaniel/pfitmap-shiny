@@ -570,8 +570,11 @@ server <- function(input, output) {
     }
     
     ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
-    m = as.matrix(t[,2:length(colnames(t))])
-    rownames(m) = (t %>% select(t=1))$t
+    
+    # The detour via a data frame below fixes a problem (issue #36) when there's only a
+    # single column. Don't know why it's necessary.
+    d = data.frame(t[,2:length(colnames(t))], row.names=t[,1])
+    m = as.matrix(d)
     chorddiag(
       m, type = "bipartite",  groupnameFontsize =  14,
       groupColors = c(DARK_PALETTE_768X[1:length(m[,1])], LIGHT_PALETTE_768X[1:length(m[1,])]),
