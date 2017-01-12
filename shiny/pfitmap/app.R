@@ -65,7 +65,7 @@ DARK_PALETTE_768X = c(
 
 # Reading data and transforming
 if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
-  write(sprintf("LOG: Reading tsv data"), stderr())
+  write(sprintf("LOG: Reading tsv data from %s", Sys.getenv('PFITMAP_DATA')), stderr())
   classified_proteins = data.table(
     read_tsv(
       Sys.getenv('PFITMAP_DATA'),
@@ -84,7 +84,7 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   )
 } else {
   if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
-    write(sprintf("LOG: Reading feather data"), stderr())
+    write(sprintf("LOG: Reading feather data from %s", Sys.getenv('PFITMAP_DATA')), stderr())
     classified_proteins = data.table(
       read_feather(Sys.getenv('PFITMAP_DATA'))
     )
