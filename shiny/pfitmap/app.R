@@ -65,7 +65,7 @@ DARK_PALETTE_768X = c(
 
 # Reading data and transforming
 if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
-  write(sprintf("LOG: Reading tsv data from %s", Sys.getenv('PFITMAP_DATA')), stderr())
+  write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
   classified_proteins = data.table(
     read_tsv(
       Sys.getenv('PFITMAP_DATA'),
@@ -84,13 +84,14 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   )
 } else {
   if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
-    write(sprintf("LOG: Reading feather data from %s", Sys.getenv('PFITMAP_DATA')), stderr())
+    write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
     classified_proteins = data.table(
       read_feather(Sys.getenv('PFITMAP_DATA'))
     )
   }
 }
 
+write(sprintf("LOG: %s: Filling in taxonomy", Sys.time()), stderr())
 classified_proteins = classified_proteins %>%
   mutate(
     pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
@@ -104,6 +105,8 @@ classified_proteins = classified_proteins %>%
 # species cases by filtering non-strain taxa from species with at least one
 # strain. At the same time, delete all taxa with tgenus == tstrain and no
 # tspecies.
+
+write(sprintf("LOG: %s: Finding correct taxa", Sys.time()), stderr())
 
 # Step 1. Get all unique taxa
 taxa = classified_proteins %>% 
@@ -126,6 +129,7 @@ taxa = taxa %>%
 
 # Fill in empty levels of the taxon hierarchy (can't be done before the steps
 # involving taxa above).
+write(sprintf("LOG: %s: Filling in empty taxa in classified_proteins table", Sys.time()), stderr())
 classified_proteins = classified_proteins %>%
   mutate(
     tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
@@ -138,6 +142,7 @@ classified_proteins = classified_proteins %>%
   )
 
 # Do the same for taxa
+write(sprintf("LOG: %s: Filling in empty taxa in taxa table", Sys.time()), stderr())
 taxa = taxa %>%
   mutate(
     tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
@@ -155,6 +160,8 @@ tdomains = (taxa %>% select(tdomain) %>% distinct() %>% arrange(tdomain))$tdomai
 
 # We also need a vector of databases
 dbs = (classified_proteins %>% select(db) %>% distinct() %>% arrange(db))$db
+
+write(sprintf("LOG: %s: Data init done", Sys.time()), stderr())
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
