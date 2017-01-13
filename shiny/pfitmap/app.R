@@ -255,7 +255,11 @@ ui <- fluidPage(
               'HMM score' = 'score', 'Sequence length' = 'seqlen', 'Alignment length' = 'align_length'
             )
           ),
-          plotOutput('distgraph', height=600))
+          plotOutput('distgraph', height=600)
+        ),
+        tabPanel('sequences',
+          downloadLink('fastaseq', 'Download sequences in fasta format')
+        )
       )
     )
   )
@@ -624,6 +628,20 @@ server <- function(input, output) {
         axis.text.x = element_text(angle=60, hjust=1)
       )
   }) 
+
+  output$fastaseq = downloadHandler(
+    filename = 'pfitmap_sequences.faa',
+    content = function(file) {
+      d = filtered_table() %>% transmute(
+          taxon = sprintf("%s:%s:%s", tdomain, tphylum, tstrain),
+          protein = sub('.*:', '', paste(psuperfamily, pfamily, pclass, psubclass, sep=":")),
+          s = gsub('  *', '_', sprintf(">%s_%s_@%s\n%s", taxon, protein, accno, seq))
+        ) %>%
+        select(s)
+      write(d$s, file)
+    },
+    contentType = 'text/fasta'
+  )
   
   output$ssversion = renderText(
     (classified_proteins %>% 
