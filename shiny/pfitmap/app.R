@@ -632,7 +632,8 @@ server <- function(input, output) {
   output$fastaseq = downloadHandler(
     filename = 'pfitmap_sequences.faa',
     content = function(file) {
-      d = filtered_table() %>% transmute(
+      d = filtered_table() %>% 
+        transmute(
           taxon = sprintf("%s:%s:%s", tdomain, tphylum, tstrain),
           protein = sub('.*:', '', paste(psuperfamily, pfamily, pclass, psubclass, sep=":")),
           s = gsub('  *', '_', sprintf(">%s_%s_@%s\n%s", taxon, protein, accno, seq))
