@@ -638,6 +638,8 @@ server <- function(input, output, session) {
         grepl('windows', session$request$HTTP_USER_AGENT, ignore.case=T), "\r\n",
         ifelse(grepl('mac', session$request$HTTP_USER_AGENT, ignore.case=T), "\r", "\n")
       )
+      if ( is.na(nl) ) nl = "\n"
+      
       d = filtered_table() %>% 
         transmute(
           taxon = sprintf("%s:%s:%s", tdomain, tphylum, tstrain),
