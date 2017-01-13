@@ -634,11 +634,11 @@ server <- function(input, output, session) {
     content = function(file) {
       write(sprintf("DEBUG: %s: user-agent: %s", Sys.time(), session$request$HTTP_USER_AGENT), stderr())
       
+      nl = "\n"
       nl = ifelse(
         grepl('windows', session$request$HTTP_USER_AGENT, ignore.case=T), "\r\n",
         ifelse(grepl('mac', session$request$HTTP_USER_AGENT, ignore.case=T), "\r", "\n")
       )
-      if ( is.na(nl) ) nl = "\n"
       
       d = filtered_table() %>% 
         transmute(
