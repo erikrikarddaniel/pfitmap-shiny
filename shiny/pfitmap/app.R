@@ -92,13 +92,15 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
 }
 
 write(sprintf("LOG: %s: Filling in taxonomy", Sys.time()), stderr())
-classified_proteins = classified_proteins %>%
-  mutate(
-    pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
-    pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
-    psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
-    pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
-  )
+classified_proteins = data.table(
+  classified_proteins %>%
+    mutate(
+      pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
+      pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
+      psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
+      pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
+    )
+)
 
 # We have problematic organisms, where multiple sequences of the same kind are
 # assigned to the same taxon, a species or a genus. Trying to get rid of the
@@ -109,50 +111,58 @@ classified_proteins = classified_proteins %>%
 write(sprintf("LOG: %s: Finding correct taxa", Sys.time()), stderr())
 
 # Step 1. Get all unique taxa
-taxa = classified_proteins %>% 
-  select(ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
-  distinct() %>% 
-  filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
-  mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
+taxa = data.table(
+  classified_proteins %>% 
+    select(ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
+    distinct() %>% 
+    filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
+    mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
+)
 
 # Step 2. Left join with a list of species that have strains, and then filter.
-taxa = taxa %>% 
-  left_join(
-    taxa %>% 
-      filter(tspecies != tstrain) %>% 
-      select(tdomain:tspecies) %>% distinct() %>% 
-      mutate(strains=T),
-    by = c("tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
-  ) %>% 
-  replace_na(list('strains'=F)) %>%
-  filter( ! ( strains & tspecies == tstrain ) )
+taxa = data.table(
+  taxa %>% 
+    left_join(
+      taxa %>% 
+        filter(tspecies != tstrain) %>% 
+        select(tdomain:tspecies) %>% distinct() %>% 
+        mutate(strains=T),
+      by = c("tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
+    ) %>% 
+    replace_na(list('strains'=F)) %>%
+    filter( ! ( strains & tspecies == tstrain ) )
+)
 
 # Fill in empty levels of the taxon hierarchy (can't be done before the steps
 # involving taxa above).
 write(sprintf("LOG: %s: Filling in empty taxa in classified_proteins table", Sys.time()), stderr())
-classified_proteins = classified_proteins %>%
-  mutate(
-    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-  )
+classified_proteins = data.table(
+  classified_proteins %>%
+    mutate(
+      tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
+      tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
+      tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
+      torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
+      tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
+      tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
+      tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
+    )
+)
 
 # Do the same for taxa
 write(sprintf("LOG: %s: Filling in empty taxa in taxa table", Sys.time()), stderr())
-taxa = taxa %>%
-  mutate(
-    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-  )
+taxa = data.table(
+  taxa %>%
+    mutate(
+      tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
+      tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
+      tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
+      torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
+      tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
+      tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
+      tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
+    )
+)
 
 # We will need a vector of protein superfamilies
 psuperfamilies = (classified_proteins %>% select(psuperfamily) %>% distinct() %>% arrange(psuperfamily))$psuperfamily
