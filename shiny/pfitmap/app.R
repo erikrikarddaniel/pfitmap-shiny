@@ -266,7 +266,7 @@ ui <- fluidPage(
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
   # Reactive methods outside assignments
   
   # Returns a table after applying all filters the user have called for
@@ -632,17 +632,31 @@ server <- function(input, output) {
   output$fastaseq = downloadHandler(
     filename = 'pfitmap_sequences.faa',
     content = function(file) {
+      write(sprintf("DEBUG: %s: user-agent: %s", Sys.time(), session$request$HTTP_USER_AGENT), stderr())
+      
+      nl = ifelse(
+        grepl('windows', session$request$HTTP_USER_AGENT, ignore.case=T), "\r\n",
+        ifelse(grepl('mac', session$request$HTTP_USER_AGENT, ignore.case=T), "\r", "\n")
+      )
       d = filtered_table() %>% 
         transmute(
           taxon = sprintf("%s:%s:%s", tdomain, tphylum, tstrain),
           protein = sub('.*:', '', paste(psuperfamily, pfamily, pclass, psubclass, sep=":")),
-          s = gsub('  *', '_', sprintf(">%s_%s_@%s\n%s", taxon, protein, accno, seq))
+          s = gsub('  *', '_', sprintf(">%s_%s_@%s%s%s", taxon, protein, accno, nl, seq))
         ) %>%
         select(s)
       write(d$s, file)
     },
     contentType = 'text/fasta'
   )
+  
+  #output$debug = renderText({
+    #paste(
+      #names(session),
+      #names(session$request),
+      #sep='\n*****\n'
+    #)
+  #})
   
   output$ssversion = renderText(
     (classified_proteins %>% 
