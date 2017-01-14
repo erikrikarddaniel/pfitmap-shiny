@@ -175,6 +175,8 @@ write(sprintf("LOG: %s: Data init done", Sys.time()), stderr())
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+  titlePanel('pfitmap/RNRdb'),
+  
   sidebarLayout(
     sidebarPanel( 
       radioButtons(
@@ -229,7 +231,6 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
-      h1('pfitmap'),
       textOutput('ssversion'),
       textOutput('debug'),
       tabsetPanel(type= 'tabs', 
@@ -632,13 +633,14 @@ server <- function(input, output, session) {
   output$fastaseq = downloadHandler(
     filename = 'pfitmap_sequences.faa',
     content = function(file) {
-      write(sprintf("DEBUG: %s: user-agent: %s", Sys.time(), session$request$HTTP_USER_AGENT), stderr())
+      # The session variable doesn't seem to be available in shiny-server
+      #write(sprintf("DEBUG: %s: user-agent: %s", Sys.time(), session$request$HTTP_USER_AGENT), stderr())
       
       nl = "\n"
-      nl = ifelse(
-        grepl('windows', session$request$HTTP_USER_AGENT, ignore.case=T), "\r\n",
-        ifelse(grepl('mac', session$request$HTTP_USER_AGENT, ignore.case=T), "\r", "\n")
-      )
+      #nl = ifelse(
+        #grepl('windows', session$request$HTTP_USER_AGENT, ignore.case=T), "\r\n",
+        #ifelse(grepl('mac', session$request$HTTP_USER_AGENT, ignore.case=T), "\r", "\n")
+      #)
       
       d = filtered_table() %>% 
         transmute(
