@@ -91,7 +91,7 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   }
 }
 
-write(sprintf("LOG: %s: Filling in taxonomy", Sys.time()), stderr())
+write(sprintf("LOG: %s: Filling in protein hierarchy", Sys.time()), stderr())
 classified_proteins = data.table(
   classified_proteins %>%
     mutate(
@@ -113,7 +113,7 @@ write(sprintf("LOG: %s: Finding correct taxa", Sys.time()), stderr())
 # Step 1. Get all unique taxa
 taxa = data.table(
   classified_proteins %>% 
-    select(ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
+    select(db, ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
     distinct() %>% 
     filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
     mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
@@ -121,13 +121,13 @@ taxa = data.table(
 
 # Step 2. Left join with a list of species that have strains, and then filter.
 taxa = data.table(
-  taxa %>% 
+  taxa %>%
     left_join(
       taxa %>% 
         filter(tspecies != tstrain) %>% 
-        select(tdomain:tspecies) %>% distinct() %>% 
+        select(db,tdomain:tspecies) %>% distinct() %>% 
         mutate(strains=T),
-      by = c("tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
+      by = c("db", "tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
     ) %>% 
     replace_na(list('strains'=F)) %>%
     filter( ! ( strains & tspecies == tstrain ) )
@@ -274,7 +274,7 @@ server <- function(input, output, session) {
   filtered_table = reactive({
     t = classified_proteins %>% 
       filter(db == input$db) %>%
-      inner_join(taxa %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
+      inner_join(taxa %>% select(db, ncbi_taxon_id), by=c('db', 'ncbi_taxon_id'))
     
     # Filters for protein hierarchy
     if ( length(input$psuperfamilies) > 0 ) { t = t %>% filter(psuperfamily %in% input$psuperfamilies) }
@@ -301,12 +301,16 @@ server <- function(input, output, session) {
     ttt_string = paste(
       'paste(', paste(TAXON_HIERARCHY[1:which(TAXON_HIERARCHY==input$taxonrank)], collapse=", "), ', sep="; ")'
     )
-    t %>%
+    t = t %>%
       mutate_(
         'tsort' = ts_string, 
         'tcolour' = input$trank4colour,
         'taxon_tooltip' = ttt_string
       )
+    
+    write(sprintf("DEBUG: %s: rows in table: %d", Sys.time(), length(t[,1])), stderr())
+    
+    t
   })
 
   # Returns a filtered and summarised table after applying the group by
@@ -320,8 +324,8 @@ server <- function(input, output, session) {
           inner_join(
             classified_proteins %>%
               filter(db == input$db) %>%
-              select(ncbi_taxon_id) %>% distinct(),
-            by = 'ncbi_taxon_id'
+              select(db, ncbi_taxon_id) %>% distinct(),
+            by = c('db', 'ncbi_taxon_id')
           ) %>%
           group_by_(input$taxonrank) %>%
           summarise(n_genomes = n()),
@@ -334,6 +338,8 @@ server <- function(input, output, session) {
         'n' = 'v'
       ) %>%
       select_(paste('-', input$proteinrank)) %>% select(-s, -v)
+    
+    write(sprintf("DEBUG: %s: rows in grouped table: %d", Sys.time(), length(d[,1])), stderr())
     
     d
   })
@@ -358,8 +364,8 @@ server <- function(input, output, session) {
           inner_join(
             classified_proteins %>%
               filter(db == input$db) %>%
-              select(ncbi_taxon_id) %>% distinct(),
-            by = 'ncbi_taxon_id'
+              select(db, ncbi_taxon_id) %>% distinct(),
+            by = c('db', 'ncbi_taxon_id')
           ) %>%
           group_by_(input$taxonrank) %>%
           summarise(n_genomes = n()),
@@ -521,7 +527,8 @@ server <- function(input, output, session) {
         indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
       )
-      ###write(sprintf("\tcolnames: %s", paste(colnames(t), collapse=", ")), stderr())
+      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+      #write.csv(t, stderr(), row.names=F)
       
       if ( input$taxonomysort ) {
         t = t %>% arrange(tsort)
@@ -531,19 +538,21 @@ server <- function(input, output, session) {
       t = t %>% mutate_('Taxon'=input$taxonrank, `N. genomes`='n_genomes') %>%
         mutate(Taxon = sprintf("<span title='%s'>%s</span>", taxon_tooltip, Taxon))
       c = colnames(t)
-      ###write(sprintf("c: %s", c), stderr())
+      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       
       # Colours for heatmap
       brks = quantile(c(0,1), probs = seq(.0, 1, .05), na.rm = TRUE)
-      clrs = round(seq(255, 40, length.out = length(brks) + 1), 0) %>%
-      {paste0("rgb(255,", ., ",", ., ")")}
+      clrs = round(seq(255, 40, length.out = length(brks) + 1), 0) %>% { paste0("rgb(255,", ., ",", ., ")") }
       
       # Hide some columns
       invisible = c(0, grep('fraction', c) - 3)
-      ###write(sprintf("invisible: %s", invisible), stderr())
+      write(sprintf("--> invisible: %s", paste(invisible, collapse=", ")), stderr())
 
+      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       t = t %>%
-        select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
+        select(tcolour, c(length(c)-1,length(c),7:length(c)-2))
+      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+      #write.csv(t, stderr(), row.names=F)
       dt = datatable(
         t, 
         rownames=F, 
