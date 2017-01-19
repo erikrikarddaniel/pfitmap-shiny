@@ -308,7 +308,7 @@ server <- function(input, output, session) {
         'taxon_tooltip' = ttt_string
       )
     
-    write(sprintf("DEBUG: %s: rows in table: %d", Sys.time(), length(t[,1])), stderr())
+    ###write(sprintf("DEBUG: %s: rows in table: %d", Sys.time(), length(t[,1])), stderr())
     
     t
   })
@@ -339,7 +339,7 @@ server <- function(input, output, session) {
       ) %>%
       select_(paste('-', input$proteinrank)) %>% select(-s, -v)
     
-    write(sprintf("DEBUG: %s: rows in grouped table: %d", Sys.time(), length(d[,1])), stderr())
+    ###write(sprintf("DEBUG: %s: rows in grouped table: %d", Sys.time(), length(d[,1])), stderr())
     
     d
   })
@@ -527,7 +527,7 @@ server <- function(input, output, session) {
         indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
       )
-      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+      ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
       
       if ( input$taxonomysort ) {
@@ -538,7 +538,7 @@ server <- function(input, output, session) {
       t = t %>% mutate_('Taxon'=input$taxonrank, `N. genomes`='n_genomes') %>%
         mutate(Taxon = sprintf("<span title='%s'>%s</span>", taxon_tooltip, Taxon))
       c = colnames(t)
-      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+      ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       
       # Colours for heatmap
       brks = quantile(c(0,1), probs = seq(.0, 1, .05), na.rm = TRUE)
@@ -546,12 +546,12 @@ server <- function(input, output, session) {
       
       # Hide some columns
       invisible = c(0, grep('fraction', c) - 3)
-      write(sprintf("--> invisible: %s", paste(invisible, collapse=", ")), stderr())
+      ###write(sprintf("--> invisible: %s", paste(invisible, collapse=", ")), stderr())
 
-      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+      ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       t = t %>%
-        select(tcolour, c(length(c)-1,length(c),7:length(c)-2))
-      write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
+        select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
+      ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
       dt = datatable(
         t, 
