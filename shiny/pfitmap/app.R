@@ -269,6 +269,33 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   # Reactive methods outside assignments
+
+  # Filters the taxa table based on all selectors. Don't use to set
+  # lists for input boxes; works for the select in filtered_table().
+  filtered_taxa = reactive({
+    t = taxa %>% filter(db == input$db)
+
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
+    if ( length(input$tgenera) > 0 )   t = t %>% filter(tgenus   %in% input$tgenera)
+    if ( length(input$tspecies) > 0 )  t = t %>% filter(tspecies %in% input$tspecies)
+
+    t
+  })
+
+  # Filters proteins similar to the above.
+  filtered_proteins = reactive({
+    p = classified_proteins %>% filter(db == input$db)
+
+    if ( length(input$psuperfamilies) > 0 )  p = p %>% filter(psuperfamily  %in% input$psuperfamilies)
+    if ( length(input$pfamilies) > 0 )       p = p %>% filter(pfamily       %in% input$pfamilies)
+    if ( length(input$pclasses) > 0 )        p = p %>% filter(pclass        %in% input$pclasses)
+
+    p
+  })
   
   # Returns a table after applying all filters the user have called for
   filtered_table = reactive({
@@ -375,9 +402,9 @@ server <- function(input, output, session) {
 
   output$pfamilies = renderUI({
     pf = classified_proteins %>% filter(db == input$db)
-    if ( length(input$psuperfamilies) > 0 ) {
-      pf = pf %>% filter(psuperfamily %in% input$psuperfamilies)
-    }
+
+    if ( length(input$psuperfamilies) > 0 ) pf = pf %>% filter(psuperfamily %in% input$psuperfamilies)
+
     pf = (pf %>% select(pfamily) %>% distinct())$pfamily
     
     selectInput(
@@ -388,44 +415,16 @@ server <- function(input, output, session) {
   
   output$pclasses = renderUI({
     pc = classified_proteins %>% filter(db == input$db)
-    if ( length(input$psuperfamilies) > 0 ) {
-      pc = pc %>% filter(psuperfamily %in% input$psuperfamilies)
-    }
-    if ( length(input$pfamilies) > 0) {
-      pc = pc %>% filter(pfamily %in% input$pfamilies)
-    }
+
+    if ( length(input$psuperfamilies) > 0 ) pc = pc %>% filter(psuperfamily %in% input$psuperfamilies)
+    if ( length(input$pfamilies) > 0) pc = pc %>% filter(pfamily %in% input$pfamilies)
+
     pc = (pc %>% select(pclass) %>% distinct() %>% arrange(pclass))$pclass
     
     selectInput(
       'pclasses', 'Classes',
       pc, multiple = T
     )
-  })
-
-  # Filters the taxa table based on all selectors. Don't use to set
-  # lists for input boxes; works for the select in filtered_table().
-  filtered_taxa = reactive({
-    t = taxa %>% filter(db == input$db)
-
-    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
-    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
-    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
-    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
-    if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
-    if ( length(input$tgenera) > 0 )   t = t %>% filter(tgenus   %in% input$tgenera)
-    if ( length(input$tspecies) > 0 )  t = t %>% filter(tspecies %in% input$tspecies)
-
-    t
-  })
-
-  filtered_proteins = reactive({
-    p = classified_proteins %>% filter(db == input$db)
-
-    if ( length(input$psuperfamilies) > 0 )  p = p %>% filter(psuperfamily  %in% input$psuperfamilies)
-    if ( length(input$pfamilies) > 0 )       p = p %>% filter(pfamily       %in% input$pfamilies)
-    if ( length(input$pclasses) > 0 )        p = p %>% filter(pclass        %in% input$pclasses)
-
-    p
   })
 
   output$tphyla = renderUI({
@@ -445,9 +444,12 @@ server <- function(input, output, session) {
   output$tclasses = renderUI({
     ###write(sprintf("tphyla: %d: %s", length(input$tphyla), input$tphyla), stderr())
     t = taxa %>% filter(db == input$db)
+
     if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
     if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+
     t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
+
     selectInput(
       'tclasses', 'Classes',
       (t %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
