@@ -676,6 +676,7 @@ server <- function(input, output, session) {
   output$sequencelist = renderText({
     d = filtered_table() %>%
       transmute(
+        db, ncbi_taxon_id, tstrain,
         acclink = ifelse(
           db == 'pdb',
           sprintf("<a href='http://www.rcsb.org/pdb/explore/explore.do?structureId=%s'>%s</a>", sub('_.*', '', accno), accno),
@@ -689,13 +690,18 @@ server <- function(input, output, session) {
             )
           )
         ),
-        orglink = sprintf(
-          "<a href='https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=%s&lvl=3&lin=f&keep=1&srchmode=1&unlock'>%s</a>", 
-          ncbi_taxon_id, tstrain
+        taxon = sprintf(
+          "<a href='https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=%s&lvl=3&lin=f&keep=1&srchmode=1&unlock'>%s:%s:%s</a>", 
+          ncbi_taxon_id, tdomain, tphylum, tstrain
         ),
-        s = sprintf(">%s %s %s\n%s", orglink, paste(psuperfamily, pfamily, pclass, psubclass, pgroup, sep='|'), acclink, seq)
+        protein = sub('.*:', '', paste(psuperfamily, pfamily, pclass, psubclass, sep=":")),
+        seq
       ) %>%
-      arrange(acclink)
+      group_by(db, ncbi_taxon_id, tstrain, taxon, protein, seq) %>%
+      summarise( acclinks = paste(acclink, collapse=", ")) %>%
+      ungroup() %>%
+      arrange(tstrain, protein) %>%
+      transmute(s = sprintf(">%s %s (%s)\n%s", taxon, protein, acclinks, seq))
 
     sprintf("<pre>%s</pre>", paste(d$s, sep="\n", collapse="\n"))
   })
