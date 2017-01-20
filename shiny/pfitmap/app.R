@@ -406,6 +406,7 @@ server <- function(input, output, session) {
   # lists for input boxes; works for the select in filtered_table().
   filtered_taxa = reactive({
     t = taxa %>% filter(db == input$db)
+
     if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
     if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
     if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
@@ -417,12 +418,23 @@ server <- function(input, output, session) {
     t
   })
 
+  filtered_proteins = reactive({
+    p = classified_proteins %>% filter(db == input$db)
+
+    if ( length(input$psuperfamilies) > 0 )  p = p %>% filter(psuperfamily  %in% input$psuperfamilies)
+    if ( length(input$pfamilies) > 0 )       p = p %>% filter(pfamily       %in% input$pfamilies)
+    if ( length(input$pclasses) > 0 )        p = p %>% filter(pclass        %in% input$pclasses)
+
+    p
+  })
+
   output$tphyla = renderUI({
     ###write(sprintf("input$tdomains, len: %d: %s", length(input$tdomains), input$tdomains), stderr())
     # Calling the filtered_taxa() function doesn't work. It seems the
     # reference to lower taxonomic rank inputs resets everything.
     t = taxa %>% filter(db == input$db)
     if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'tphyla', 'Phyla',
       (t %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
@@ -435,6 +447,7 @@ server <- function(input, output, session) {
     t = taxa %>% filter(db == input$db)
     if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
     if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'tclasses', 'Classes',
       (t %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
@@ -448,6 +461,7 @@ server <- function(input, output, session) {
     if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
     if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
     if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'torders', 'Orders',
       (t %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
@@ -462,6 +476,7 @@ server <- function(input, output, session) {
     if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
     if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
     if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'tfamilies', 'Families',
       (t %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
@@ -477,6 +492,7 @@ server <- function(input, output, session) {
     if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
     if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
     if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'tgenera', 'Genera',
       (t %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
@@ -492,6 +508,7 @@ server <- function(input, output, session) {
     if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
     if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
     if ( length(input$tgenera) > 0 )   t = t %>% filter(tgenus   %in% input$tgenera)
+    t = t %>% inner_join(filtered_proteins() %>% select(ncbi_taxon_id), by='ncbi_taxon_id')
     selectInput(
       'tspecies', 'Species',
       (t %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
