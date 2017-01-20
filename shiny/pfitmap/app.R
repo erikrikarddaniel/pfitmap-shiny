@@ -276,6 +276,9 @@ ui <- fluidPage(
         tabPanel('sequences',
           downloadLink('fastaseq', 'Download sequences in fasta format'),
           htmlOutput('sequencelist')
+        ),
+        tabPanel('phenotypes',
+          plotOutput('traitplot')
         )
       )
     )
@@ -724,6 +727,28 @@ server <- function(input, output, session) {
       transmute(s = sprintf(">%s %s (%s)\n%s", taxon, protein, acclinks, seq))
 
     sprintf("<pre>%s</pre>", paste(d$s, sep="\n", collapse="\n"))
+  })
+
+  output$traitplot = renderPlot({
+    d = filtered_table() %>%
+      inner_join(protraits, by='ncbi_taxon_id') %>%
+      mutate(
+        present = ifelse(Minority == '-', T, F),
+        score = ifelse(Minority == '-', `Integrated_score_+`, `Integrated_score_-`)
+      ) %>%
+      mutate_('wrap' = input$proteinrank) %>%
+      group_by(Phenotype, present, wrap) %>%
+      summarise(n=n()) %>%
+      ungroup() %>%
+      mutate(freq = n/sum(n))
+
+    ggplot(d, aes(x=Phenotype, y=freq, colour=present)) +
+      geom_point() +
+      scale_y_log10() +
+      theme(
+        axis.text.x = element_text(angle=60, hjust=1)
+      ) +
+      facet_wrap(~wrap, ncol=1)
   })
   
   #output$debug = renderText({
