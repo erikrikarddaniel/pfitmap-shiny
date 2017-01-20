@@ -259,7 +259,8 @@ ui <- fluidPage(
           plotOutput('distgraph', height=600)
         ),
         tabPanel('sequences',
-          downloadLink('fastaseq', 'Download sequences in fasta format')
+          downloadLink('fastaseq', 'Download sequences in fasta format'),
+          htmlOutput('sequencelist')
         )
       )
     )
@@ -671,6 +672,33 @@ server <- function(input, output, session) {
     },
     contentType = 'text/fasta'
   )
+
+  output$sequencelist = renderText({
+    d = filtered_table() %>%
+      transmute(
+        acclink = ifelse(
+          db == 'pdb',
+          sprintf("<a href='http://www.rcsb.org/pdb/explore/explore.do?structureId=%s'>%s</a>", sub('_.*', '', accno), accno),
+          ifelse(
+            db %in% c('ref', 'gb'),
+            sprintf("<a href='https://www.ncbi.nlm.nih.gov/protein/%s'>%s</a>", accno, accno),
+            ifelse(
+              db == 'sp', 
+              sprintf("<a href='http://www.uniprot.org/uniprot/%s'>%s</a>", accno, accno),
+              sprintf("%s:%s", db, accno)
+            )
+          )
+        ),
+        orglink = sprintf(
+          "<a href='https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=%s&lvl=3&lin=f&keep=1&srchmode=1&unlock'>%s</a>", 
+          ncbi_taxon_id, tstrain
+        ),
+        s = sprintf(">%s %s %s\n%s", orglink, paste(psuperfamily, pfamily, pclass, psubclass, pgroup, sep='|'), acclink, seq)
+      ) %>%
+      arrange(acclink)
+
+    sprintf("<pre>%s</pre>", paste(d$s, sep="\n", collapse="\n"))
+  })
   
   #output$debug = renderText({
     #paste(
