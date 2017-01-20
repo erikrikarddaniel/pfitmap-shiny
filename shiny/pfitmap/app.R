@@ -416,13 +416,13 @@ server <- function(input, output, session) {
     if ( length(input$tdomains) > 0 ) {
       selectInput(
         'tphyla', 'Phyla',
-        (taxa %>% filter(tdomain %in% input$tdomains) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
+        (taxa %>% filter(tdomain %in% input$tdomains, db == input$db) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
         multiple = T
       )
     } else {
       selectInput(
         'tphyla', 'Phyla',
-        (taxa %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
+        (taxa %>% filter(db == input$db) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
         multiple = T
       )
     }
@@ -433,13 +433,13 @@ server <- function(input, output, session) {
     if ( length(input$tphyla) > 0 ) {
       selectInput(
         'tclasses', 'Classes',
-        (taxa %>% filter(tphylum %in% input$tphyla) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
+        (taxa %>% filter(tphylum %in% input$tphyla, db == input$db) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
         multiple = T
       )
     } else {
       selectInput(
         'tclasses', 'Classes',
-        (taxa %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
+        (taxa %>% filter(db == input$db) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
         multiple = T
       )
     }
@@ -450,13 +450,13 @@ server <- function(input, output, session) {
     if ( length(input$tclasses) > 0 ) {
       selectInput(
         'torders', 'Orders',
-        (taxa %>% filter(tclass %in% input$tclasses) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
+        (taxa %>% filter(tclass %in% input$tclasses, db == input$db) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
         multiple = T
       )
     } else {
       selectInput(
         'torders', 'Orders',
-        (taxa %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
+        (taxa %>% filter(db == input$db) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
         multiple = T
       )
     }
@@ -467,13 +467,13 @@ server <- function(input, output, session) {
     if ( length(input$torders) > 0 ) {
       selectInput(
         'tfamilies', 'Families',
-        (taxa %>% filter(torder %in% input$torders) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
+        (taxa %>% filter(torder %in% input$torders, db == input$db) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
         multiple = T
       )
     } else {
       selectInput(
         'tfamilies', 'Families',
-        (taxa %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
+        (taxa %>% filter(db == input$db) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
         multiple = T
       )
     }
@@ -484,13 +484,13 @@ server <- function(input, output, session) {
     if ( length(input$tfamilies) > 0 ) {
       selectInput(
         'tgenera', 'Genera',
-        (taxa %>% filter(tfamily %in% input$tfamilies) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
+        (taxa %>% filter(tfamily %in% input$tfamilies, db == input$db) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
         multiple = T
       )
     } else {
       selectInput(
         'tgenera', 'Genera',
-        (taxa %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
+        (taxa %>% filter(db == input$db) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
         multiple = T
       )
     }
@@ -500,13 +500,13 @@ server <- function(input, output, session) {
     if ( length(input$tgenera) > 0 ) {
       selectInput(
         'tspecies', 'Species',
-        (taxa %>% filter(tgenus %in% input$tgenera) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
+        (taxa %>% filter(tgenus %in% input$tgenera, db == input$db) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
         multiple = T
       )
     } else {
       selectInput(
         'tspecies', 'Species',
-        (taxa %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
+        (taxa %>% filter(db == input$db) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
         multiple = T
       )
     }
