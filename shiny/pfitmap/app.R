@@ -665,9 +665,14 @@ server <- function(input, output, session) {
         transmute(
           taxon = sprintf("%s:%s:%s", tdomain, tphylum, tstrain),
           protein = sub('.*:', '', paste(psuperfamily, pfamily, pclass, psubclass, sep=":")),
-          s = gsub('  *', '_', sprintf(">%s_%s_@%s%s%s", taxon, protein, accno, nl, seq))
+          accno, nl, seq
         ) %>%
-        select(s)
+        group_by(taxon, protein, seq) %>%
+        summarise(accnos = paste(accno, collapse="_")) %>%
+        ungroup() %>%
+        transmute(
+          s = gsub('  *', '_', sprintf(">%s_%s_@%s%s%s", taxon, protein, accnos, nl, seq))
+        )
       write(d$s, file)
     },
     contentType = 'text/fasta'
