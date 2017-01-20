@@ -274,21 +274,12 @@ server <- function(input, output, session) {
   filtered_table = reactive({
     t = classified_proteins %>% 
       filter(db == input$db) %>%
-      inner_join(taxa %>% select(db, ncbi_taxon_id), by=c('db', 'ncbi_taxon_id'))
+      inner_join(filtered_taxa() %>% select(db, ncbi_taxon_id), by=c('db', 'ncbi_taxon_id'))
     
     # Filters for protein hierarchy
     if ( length(input$psuperfamilies) > 0 ) { t = t %>% filter(psuperfamily %in% input$psuperfamilies) }
     if ( length(input$pfamilies) > 0 ) { t = t %>% filter(pfamily %in% input$pfamilies) }
     if ( length(input$pclasses) > 0 ) { t = t %>% filter(pclass %in% input$pclasses) }
-
-    # Filters for taxon hierarchy
-    if ( length(input$tdomains) > 0 ) { t = t %>% filter(tdomain %in% input$tdomains) }
-    if ( length(input$tphyla) > 0 ) { t = t %>% filter(tphylum %in% input$tphyla) }
-    if ( length(input$tclasses) > 0 ) { t = t %>% filter(tclass %in% input$tclasses) }
-    if ( length(input$torders) > 0 ) { t = t %>% filter(torder %in% input$torders) }
-    if ( length(input$tfamilies) > 0 ) { t = t %>% filter(tfamily %in% input$tfamilies) }
-    if ( length(input$tgenera) > 0 ) { t = t %>% filter(tgenus %in% input$tgenera) }
-    if ( length(input$tspecies) > 0 ) { t = t %>% filter(tspecies %in% input$tspecies) }
 
     # Construct a field for taxonomical sort and on for tooltip for taxonomy.
     # This is done in two steps: first a string is constructed, then the the
@@ -411,105 +402,101 @@ server <- function(input, output, session) {
     )
   })
 
+  # Filters the taxa table based on all selectors. Don't use to set
+  # lists for input boxes; works for the select in filtered_table().
+  filtered_taxa = reactive({
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
+    if ( length(input$tgenera) > 0 )   t = t %>% filter(tgenus   %in% input$tgenera)
+    if ( length(input$tspecies) > 0 )  t = t %>% filter(tspecies %in% input$tspecies)
+
+    t
+  })
+
   output$tphyla = renderUI({
     ###write(sprintf("input$tdomains, len: %d: %s", length(input$tdomains), input$tdomains), stderr())
-    if ( length(input$tdomains) > 0 ) {
-      selectInput(
-        'tphyla', 'Phyla',
-        (taxa %>% filter(tdomain %in% input$tdomains, db == input$db) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'tphyla', 'Phyla',
-        (taxa %>% filter(db == input$db) %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
-        multiple = T
-      )
-    }
+    # Calling the filtered_taxa() function doesn't work. It seems the
+    # reference to lower taxonomic rank inputs resets everything.
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    selectInput(
+      'tphyla', 'Phyla',
+      (t %>% select(tphylum) %>% distinct() %>% arrange(tphylum))$tphylum,
+      multiple = T
+    )
   })
   
   output$tclasses = renderUI({
     ###write(sprintf("tphyla: %d: %s", length(input$tphyla), input$tphyla), stderr())
-    if ( length(input$tphyla) > 0 ) {
-      selectInput(
-        'tclasses', 'Classes',
-        (taxa %>% filter(tphylum %in% input$tphyla, db == input$db) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'tclasses', 'Classes',
-        (taxa %>% filter(db == input$db) %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
-        multiple = T
-      )
-    }
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    selectInput(
+      'tclasses', 'Classes',
+      (t %>% select(tclass) %>% distinct() %>% arrange(tclass))$tclass,
+      multiple = T
+    )
   })
   
   output$torders = renderUI({
     ###write(sprintf("tclasses: %d: %s", length(input$tclasses), input$tclasses), stderr())
-    if ( length(input$tclasses) > 0 ) {
-      selectInput(
-        'torders', 'Orders',
-        (taxa %>% filter(tclass %in% input$tclasses, db == input$db) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'torders', 'Orders',
-        (taxa %>% filter(db == input$db) %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
-        multiple = T
-      )
-    }
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    selectInput(
+      'torders', 'Orders',
+      (t %>% select(torder) %>% distinct() %>% arrange(torder))$torder,
+      multiple = T
+    )
   })
   
   output$tfamilies = renderUI({
     ###write(sprintf("torders: %d: %s", length(input$torders), input$torders), stderr())
-    if ( length(input$torders) > 0 ) {
-      selectInput(
-        'tfamilies', 'Families',
-        (taxa %>% filter(torder %in% input$torders, db == input$db) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'tfamilies', 'Families',
-        (taxa %>% filter(db == input$db) %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
-        multiple = T
-      )
-    }
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    selectInput(
+      'tfamilies', 'Families',
+      (t %>% select(tfamily) %>% distinct() %>% arrange(tfamily))$tfamily,
+      multiple = T
+    )
   })
   
   output$tgenera = renderUI({
     ###write(sprintf("tfamilies: %d: %s", length(input$tfamilies), input$tfamilies), stderr())
-    if ( length(input$tfamilies) > 0 ) {
-      selectInput(
-        'tgenera', 'Genera',
-        (taxa %>% filter(tfamily %in% input$tfamilies, db == input$db) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'tgenera', 'Genera',
-        (taxa %>% filter(db == input$db) %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
-        multiple = T
-      )
-    }
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
+    selectInput(
+      'tgenera', 'Genera',
+      (t %>% select(tgenus) %>% distinct() %>% arrange(tgenus))$tgenus,
+      multiple = T
+    )
   })
   
   output$tspecies = renderUI({
-    if ( length(input$tgenera) > 0 ) {
-      selectInput(
-        'tspecies', 'Species',
-        (taxa %>% filter(tgenus %in% input$tgenera, db == input$db) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
-        multiple = T
-      )
-    } else {
-      selectInput(
-        'tspecies', 'Species',
-        (taxa %>% filter(db == input$db) %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
-        multiple = T
-      )
-    }
+    t = taxa %>% filter(db == input$db)
+    if ( length(input$tdomains) > 0 )  t = t %>% filter(tdomain  %in% input$tdomains)
+    if ( length(input$tphyla) > 0 )    t = t %>% filter(tphylum  %in% input$tphyla)
+    if ( length(input$tclasses) > 0 )  t = t %>% filter(tclass   %in% input$tclasses)
+    if ( length(input$torders) > 0 )   t = t %>% filter(torder   %in% input$torders)
+    if ( length(input$tfamilies) > 0 ) t = t %>% filter(tfamily  %in% input$tfamilies)
+    if ( length(input$tgenera) > 0 )   t = t %>% filter(tgenus   %in% input$tgenera)
+    selectInput(
+      'tspecies', 'Species',
+      (t %>% select(tspecies) %>% distinct() %>% arrange(tspecies))$tspecies,
+      multiple = T
+    )
   })
 
   output$trank4colour = renderUI({
