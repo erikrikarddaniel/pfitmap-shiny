@@ -24,6 +24,10 @@ library(feather)
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
 TAXON_HIERARCHY = c( 'tdomain', 'tkingdom', 'tphylum', 'tclass', 'torder', 'tfamily', 'tgenus', 'tspecies', 'tstrain' )
 
+TRAIT_PRESENCE_BOTH = 'Present/absent'
+TRAIT_PRESENCE_ONLY_PRESENT = 'Only presences'
+TRAIT_PRESENCE_ONLY_ABSENT = 'Only absences'
+
 INDPROTEINS = 'indproteins'
 COMBPROTEINS = 'combproteins'
 
@@ -278,7 +282,37 @@ ui <- fluidPage(
           htmlOutput('sequencelist')
         ),
         tabPanel('phenotypes',
-          plotOutput('traitplot')
+          fluidRow(
+            p(
+              HTML(
+                paste(
+                  'This is an experimental view of presence/absence of traits in Archaea and Bacteria.',
+                  'The data was downloaded from the ',
+                  a(href="http://protraits.irb.hr/", "ProTraits"),
+                  'database.',
+                  'The purpose is to allow analysis of what traits are associated or not with the selection of organisms implied by your current selection.',
+                  'To be useful in its current incarnation, you need to subset taxa and/or proteins sufficiently.',
+                  'I will add a statistical test.'
+                )
+              )
+            )
+          ),
+          fluidRow(
+            column(4,
+              selectInput(
+                'trait.present', 'Presence',
+                list(TRAIT_PRESENCE_BOTH, TRAIT_PRESENCE_ONLY_PRESENT, TRAIT_PRESENCE_ONLY_ABSENT),
+                TRAIT_PRESENCE_BOTH
+              )
+            ),
+            column(4,
+              sliderInput('trait.minsupport', 'Min. stat. support in assignment', 0, 1, 0.95)
+###            ),
+###            column(4,
+###              sliderInput('trait.freqrange', 'Frequency range', 0, 1, c(0,1))
+            )
+          ),
+          plotOutput('traitplot', height=800)
         )
       )
     )
@@ -736,19 +770,40 @@ server <- function(input, output, session) {
         present = ifelse(Minority == '-', T, F),
         score = ifelse(Minority == '-', `Integrated_score_+`, `Integrated_score_-`)
       ) %>%
+      filter(
+        score >= input$trait.minsupport
+      )
+
+    if ( input$trait.present == TRAIT_PRESENCE_ONLY_PRESENT ) {
+      d = d %>% filter(present)
+    } else if ( input$trait.present == TRAIT_PRESENCE_ONLY_ABSENT ) {
+      d = d %>% filter(! present)
+    }
+
+    ###write(sprintf("DEBUG: freqrange %f - %f", input$trait.freqrange[1], input$trait.freqrange[2]), stderr())
+
+    d = d %>% 
       mutate_('wrap' = input$proteinrank) %>%
       group_by(Phenotype, present, wrap) %>%
       summarise(n=n()) %>%
       ungroup() %>%
-      mutate(freq = n/sum(n))
+      mutate(freq = n/sum(n))### %>%
+###      filter(
+###        freq >= input$trait.freqrange[1],
+###        freq <= input$trait.freqrange[2]
+###      )
 
-    ggplot(d, aes(x=Phenotype, y=freq, colour=present)) +
+    p = ggplot(d, aes(x=Phenotype, y=n, colour=present)) +
       geom_point() +
       scale_y_log10() +
       theme(
         axis.text.x = element_text(angle=60, hjust=1)
       ) +
-      facet_wrap(~wrap, ncol=1)
+      ylab('N. genomes having/not having the trait')
+    #write(sprintf("input$trait.present: %s", paste(input$trait.present, collapse=',')), stderr())
+    #if ( input$trait.present == 'Present/absent' ) p = p + facet_wrap(~wrap, ncol=1)
+
+    p
   })
   
   #output$debug = renderText({
