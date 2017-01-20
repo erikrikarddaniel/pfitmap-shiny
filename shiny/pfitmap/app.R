@@ -64,6 +64,8 @@ DARK_PALETTE_768X = c(
 )
 
 # Reading data and transforming
+
+# classified_proteins table
 if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
   classified_proteins = data.table(
@@ -82,13 +84,26 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
       )
     )
   )
-} else {
-  if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
-    write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
-    classified_proteins = data.table(
-      read_feather(Sys.getenv('PFITMAP_DATA'))
-    )
-  }
+} else if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
+  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
+  classified_proteins = data.table(
+    read_feather(Sys.getenv('PFITMAP_DATA'))
+  )
+}
+
+# protraits table
+if ( grepl('\\.scsv$', Sys.getenv('PROTRAITS_DATA')) ) {
+  write(sprintf("LOG: %s: Reading semicolon separated data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
+  protraits = data.table(
+    read_delim(
+      Sys.getenv('PROTRAITS_DATA'), delim=';', 
+      col_types =cols(.default=col_character())
+    ) %>% 
+    mutate(ncbi_taxon_id = Tax_ID) %>% select(-Tax_ID)
+  )
+} else if ( grepl('\\.feather$', Sys.getenv('PROTRAITS_DATA')) ) {
+  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
+  protraits = data.table(read_feather(Sys.getenv('PROTRAITS_DATA')))
 }
 
 write(sprintf("LOG: %s: Filling in protein hierarchy", Sys.time()), stderr())
