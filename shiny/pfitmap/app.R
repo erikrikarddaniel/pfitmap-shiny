@@ -173,7 +173,7 @@ dbs = (classified_proteins %>% select(db) %>% distinct() %>% arrange(db))$db
 
 write(sprintf("LOG: %s: Data init done", Sys.time()), stderr())
 
-# Define UI for application that draws a histogram
+# Define UI
 ui <- fluidPage(
   titlePanel('pfitmap/RNRdb'),
   
@@ -383,7 +383,7 @@ server <- function(input, output, session) {
   })
 
   output$pfamilies = renderUI({
-    pf = classified_proteins
+    pf = classified_proteins %>% filter(db == input$db)
     if ( length(input$psuperfamilies) > 0 ) {
       pf = pf %>% filter(psuperfamily %in% input$psuperfamilies)
     }
@@ -396,7 +396,10 @@ server <- function(input, output, session) {
   })
   
   output$pclasses = renderUI({
-    pc = classified_proteins
+    pc = classified_proteins %>% filter(db == input$db)
+    if ( length(input$psuperfamilies) > 0 ) {
+      pc = pc %>% filter(psuperfamily %in% input$psuperfamilies)
+    }
     if ( length(input$pfamilies) > 0) {
       pc = pc %>% filter(pfamily %in% input$pfamilies)
     }
