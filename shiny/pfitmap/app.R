@@ -77,6 +77,7 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
       Sys.getenv('PFITMAP_DATA'),
       col_types = cols(
         .default = col_character(),
+        ncbi_taxon_id = col_integer(),
         profile_length = col_integer(),
         align_length = col_integer(),
         align_start = col_integer(),
@@ -101,7 +102,7 @@ if ( grepl('\\.scsv$', Sys.getenv('PROTRAITS_DATA')) ) {
   protraits = data.table(
     read_delim(
       Sys.getenv('PROTRAITS_DATA'), delim=';', 
-      col_types =cols(.default=col_character())
+      col_types =cols(.default=col_character(), Tax_ID=col_integer())
     ) %>% 
     mutate(ncbi_taxon_id = Tax_ID) %>% select(-Tax_ID)
   )
