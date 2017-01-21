@@ -800,7 +800,10 @@ server <- function(input, output, session) {
       group_by(Phenotype, present, wrap) %>%
       summarise(n=n()) %>%
       ungroup() %>%
-      mutate(freq = n/o$n) %>%
+      mutate(
+        freq = n/o$n,
+        present = ifelse(present, 'Present', 'Absent')
+      ) %>%
       filter(
         freq >= input$trait.freqrange[1],
         freq <= input$trait.freqrange[2]
@@ -813,6 +816,7 @@ server <- function(input, output, session) {
         axis.text.x = element_text(angle=60, hjust=1)
       ) +
       ylab('Frequency in genomes') +
+      scale_colour_manual('Present/absent', values=c('Present' = 'darkgreen', 'Absent' = 'darkred')) +
       facet_wrap(~wrap, ncol=1)
 
     p
