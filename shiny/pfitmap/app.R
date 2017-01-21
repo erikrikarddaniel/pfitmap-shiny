@@ -302,7 +302,7 @@ ui <- fluidPage(
                 paste(
                   em('Present/absent'), ' etc. allows you to look at either present or absent traits, or both (the default).',
                   'The ', em('Min. stat. support in assignment'), ' controls significance (1-FDR) of ProTrait\'s assignment of traits. ',
-                  'The ', em('Frequency range'), ' slider controls the the window of "commoness" per genome for traits.'
+                  'The ', em('Frequency range'), ' slider controls the the window of "commoness" per genome for traits so that you can filter out very rare or very common traits.'
                 )
               )
             )
@@ -813,7 +813,7 @@ server <- function(input, output, session) {
       geom_point() +
       scale_y_log10() +
       theme(
-        axis.text.x = element_text(angle=60, hjust=1)
+        axis.text.x = element_text(angle=60, hjust=1, size=12)
       ) +
       ylab('Frequency in genomes') +
       scale_colour_manual('Present/absent', values=c('Present' = 'darkgreen', 'Absent' = 'darkred')) +
