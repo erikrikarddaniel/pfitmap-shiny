@@ -308,9 +308,9 @@ ui <- fluidPage(
             ),
             column(4,
               sliderInput('trait.minsupport', 'Min. stat. support in assignment', 0, 1, 0.95)
-###            ),
-###            column(4,
-###              sliderInput('trait.freqrange', 'Frequency range', 0, 1, c(0,1))
+            ),
+            column(4,
+              sliderInput('trait.freqrange', 'Frequency range', 0, 1, c(0,1))
             )
           ),
           plotOutput('traitplot', height=800)
@@ -783,16 +783,19 @@ server <- function(input, output, session) {
 
     ###write(sprintf("DEBUG: freqrange %f - %f", input$trait.freqrange[1], input$trait.freqrange[2]), stderr())
 
+    # Count the number of unique organisms, to use in freq calc
+    o = d %>% select(ncbi_taxon_id) %>% distinct() %>% summarise(n=n())
+
     d = d %>% 
       mutate_('wrap' = input$proteinrank) %>%
       group_by(Phenotype, present, wrap) %>%
       summarise(n=n()) %>%
       ungroup() %>%
-      mutate(freq = n/sum(n))### %>%
-###      filter(
-###        freq >= input$trait.freqrange[1],
-###        freq <= input$trait.freqrange[2]
-###      )
+      mutate(freq = n/o$n) %>%
+      filter(
+        freq >= input$trait.freqrange[1],
+        freq <= input$trait.freqrange[2]
+      )
 
     p = ggplot(d, aes(x=Phenotype, y=n, colour=present)) +
       geom_point() +
@@ -801,8 +804,6 @@ server <- function(input, output, session) {
         axis.text.x = element_text(angle=60, hjust=1)
       ) +
       ylab('N. genomes having/not having the trait')
-    #write(sprintf("input$trait.present: %s", paste(input$trait.present, collapse=',')), stderr())
-    #if ( input$trait.present == 'Present/absent' ) p = p + facet_wrap(~wrap, ncol=1)
 
     p
   })
