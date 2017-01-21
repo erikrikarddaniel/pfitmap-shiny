@@ -806,13 +806,13 @@ server <- function(input, output, session) {
         freq <= input$trait.freqrange[2]
       )
 
-    p = ggplot(d, aes(x=Phenotype, y=n, colour=present)) +
+    p = ggplot(d, aes(x=Phenotype, y=freq, colour=present)) +
       geom_point() +
       scale_y_log10() +
       theme(
         axis.text.x = element_text(angle=60, hjust=1)
       ) +
-      ylab('N. genomes having/not having the trait') +
+      ylab('Frequency in genomes') +
       facet_wrap(~wrap, ncol=1)
 
     p
