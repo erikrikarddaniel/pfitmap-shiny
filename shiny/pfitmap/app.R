@@ -292,8 +292,17 @@ ui <- fluidPage(
                   a(href="http://protraits.irb.hr/", "ProTraits"),
                   'database.',
                   'The purpose is to allow analysis of what traits are associated or not with the selection of organisms implied by your current selection.',
-                  'To be useful in its current incarnation, you need to subset taxa and/or proteins sufficiently.',
+                  'To be useful in its current incarnation, you need to ', em('subset taxa and/or proteins sufficiently'), '.',
                   'I will add a statistical test.'
+                )
+              )
+            ),
+            p(
+              HTML(
+                paste(
+                  em('Present/absent'), ' etc. allows you to look at either present or absent traits, or both (the default).',
+                  'The ', em('Min. stat. support in assignment'), ' controls significance (1-FDR) of ProTrait\'s assignment of traits. ',
+                  'The ', em('Frequency range'), ' slider controls the the window of "commoness" per genome for traits.'
                 )
               )
             )
