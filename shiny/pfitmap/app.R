@@ -76,16 +76,11 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
     read_tsv(
       Sys.getenv('PFITMAP_DATA'),
       col_types = cols(
-        .default = col_character(),
-        ncbi_taxon_id = col_integer(),
-        profile_length = col_integer(),
-        align_length = col_integer(),
-        align_start = col_integer(),
-        align_end = col_integer(),
-        prop_matching = col_double(),
-        ss_version = col_integer(),
-        e_value = col_double(),
-        score = col_double()
+        .default = col_character(),     ncbi_taxon_id = col_integer(),
+        profile_length = col_integer(), align_length = col_integer(),
+        align_start = col_integer(),    align_end = col_integer(),
+        prop_matching = col_double(),   ss_version = col_integer(),
+        e_value = col_double(),         score = col_double()
       )
     )
   )
@@ -93,6 +88,27 @@ if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
   classified_proteins = data.table(
     read_feather(Sys.getenv('PFITMAP_DATA'))
+  )
+}
+
+# domain_hits table
+if ( grepl('\\.tsv$', Sys.getenv('DOMAIN_DATA')) ) {
+  write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
+  domain_hits = data.table(
+    read_tsv(
+      Sys.getenv('DOMAIN_DATA'),
+      col_types = cols(
+        .default = col_character(),     ss_version = col_integer(),
+        profile_length = col_integer(), hmm_from = col_integer(),
+        hmm_to = col_integer(),         score = col_double(),
+        align_length = col_integer(),   prop_matching = col_double()
+      )
+    )
+  )
+} else if ( grepl('\\.feather$', Sys.getenv('DOMAIN_DATA')) ) {
+  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
+  domain_hits = data.table(
+    read_feather(Sys.getenv('DOMAIN_DATA'))
   )
 }
 
