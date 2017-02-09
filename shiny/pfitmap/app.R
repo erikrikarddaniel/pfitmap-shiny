@@ -28,8 +28,9 @@ TRAIT_PRESENCE_BOTH = 'Present/absent'
 TRAIT_PRESENCE_ONLY_PRESENT = 'Only presences'
 TRAIT_PRESENCE_ONLY_ABSENT = 'Only absences'
 
-INDPROTEINS = 'indproteins'
+INDPROTEINS  = 'indproteins'
 COMBPROTEINS = 'combproteins'
+COMBDOMAINS  = 'combdomains'
 
 DIV_PALETTE = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928')
 DIV_PALETTE_96X = c(
@@ -219,7 +220,8 @@ ui <- fluidPage(
         'protstattype', 'Type of protein statistic',
         list(
           'Individual proteins' = INDPROTEINS,
-          'Combinations of proteins' = COMBPROTEINS
+          'Combinations of proteins' = COMBPROTEINS,
+          'Combinations of domains' = COMBDOMAINS
         ),
         selected = INDPROTEINS
       ),
@@ -479,6 +481,61 @@ server <- function(input, output, session) {
     d
   })
 
+  # Calculates all present combinations of proteins at the proteinrank selected,
+  # groups by the combinations, combines with n_genomes from taxa and returns.
+  combdomains_sums_table = reactive({
+    ###write(sprintf("combdomains_sums_table, protstattype: %s", input$protstattype), stderr())
+    d = filtered_table() %>%
+      select_('accno', 'tsort', 'tcolour', 'taxon_tooltip', 'ncbi_taxon_id', input$taxonrank, input$proteinrank) %>%
+      distinct()
+    names(d)[names(d)==input$proteinrank] = 'domain'
+    d = d %>%
+      union(
+        domain_hits %>% select(accno, domain) %>%  
+          inner_join(d %>% select(-domain), by='accno')
+      ) %>%
+      group_by_('tsort', 'tcolour', 'taxon_tooltip', 'accno', input$taxonrank) %>%
+      mutate(n = row_number(domain)) %>%
+      ungroup() %>%
+      unite(domain, n, domain) %>%
+      spread(domain, domain, fill='')
+    d = d %>% unite(comb, 7:length(colnames(d0)), sep=':') %>%
+      mutate(
+        comb = gsub(
+          '[0-9][0-9]*_', '', gsub(
+            '::*', '><', gsub(
+              '::*$', '>', gsub(
+                '^::*', '<', sprintf(':%s:', comb)
+              )
+            )
+          )
+        )
+      ) %>%
+      group_by_('tsort', 'tcolour', 'taxon_tooltip', 'comb', input$taxonrank) %>%
+      summarise(n = n()) %>%
+      inner_join(
+        taxa %>%
+          inner_join(
+            classified_proteins %>%
+              filter(db == input$db) %>%
+              select(db, ncbi_taxon_id) %>% distinct(),
+            by = c('db', 'ncbi_taxon_id')
+          ) %>%
+          group_by_(input$taxonrank) %>%
+          summarise(n_genomes = n()),
+        by=c(input$taxonrank)
+      ) %>%
+      mutate(fraction = n/n_genomes) %>%
+      gather(s, v, n, fraction) %>%
+      mutate(
+        comb = ifelse(s == 'n', comb, sprintf("%s%s", comb, s)),
+        n = v
+      ) %>%
+      select(-s, -v)
+
+    d
+  })
+
   output$pfamilies = renderUI({
     pf = classified_proteins %>% filter(db == input$db)
 
@@ -613,7 +670,8 @@ server <- function(input, output, session) {
       t = switch(
         input$protstattype,
         indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
-        combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0)
+        combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0),
+        combdomains = combdomains_sums_table() %>% spread(comb, n, fill=0)
       )
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
