@@ -503,9 +503,9 @@ server <- function(input, output, session) {
       mutate(
         comb = gsub(
           '[0-9][0-9]*_', '', gsub(
-            '::*', '><', gsub(
-              '::*$', '>', gsub(
-                '^::*', '<', sprintf(':%s:', comb)
+            '::*', '', gsub(
+              '::*$', '', gsub(
+                '^::*', '', comb
               )
             )
           )
@@ -671,7 +671,7 @@ server <- function(input, output, session) {
         input$protstattype,
         indproteins  = indproteins_sums_table() %>% spread(proteinrank, n, fill=0),
         combproteins = combproteins_sums_table() %>% spread(comb, n, fill=0),
-        combdomains = combdomains_sums_table() %>% spread(comb, n, fill=0)
+        combdomains  = combdomains_sums_table() %>% spread(comb, n, fill=0)
       )
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
