@@ -21,6 +21,9 @@ library(chorddiag)
 library(feather)
 
 # Some constants
+PROFILES_VERSION = '0.7'
+UI_VERSION = '0.9'
+
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
 TAXON_HIERARCHY = c( 'tdomain', 'tkingdom', 'tphylum', 'tclass', 'torder', 'tfamily', 'tgenus', 'tspecies', 'tstrain' )
 
@@ -269,7 +272,7 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
-      textOutput('ssversion'),
+      htmlOutput('ssversion'),
       textOutput('debug'),
       tabsetPanel(type= 'tabs', 
         tabPanel('table', 
@@ -905,11 +908,18 @@ server <- function(input, output, session) {
     #)
   #})
   
-  output$ssversion = renderText(
-    (classified_proteins %>% 
-      transmute(ssversion = sprintf("Source database: %s %s, downloaded %s", ss_source, ss_name, ss_version)) %>% 
-      distinct())$ssversion
-  )
+  output$ssversion = renderText({
+    sprintf(
+      "<a href='news.html'>%s</a>",
+      sv = paste(
+        (classified_proteins %>% 
+          transmute(ssversion = sprintf("Source database: %s %s %s.", ss_source, ss_name, ss_version)) %>% 
+          distinct())$ssversion,
+        sprintf("Profiles version %s.", PROFILES_VERSION),
+        sprintf("UI version %s.", UI_VERSION)
+      )
+    )
+  })
 }
 
 # Run the application 
