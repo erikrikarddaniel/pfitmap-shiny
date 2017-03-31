@@ -35,12 +35,26 @@ logmsg("Starting classification")
 
 tblout = data.table(
   accno = character(), profile = character(),
-  evalue = double(), score = double(), bias = double(),
-  desc = character()
+  evalue = double(), score = double(), bias = double()
 )
-for ( tblout in opt$args ) {
-  logmsg(sprintf("Reading %s", tblout))
-  t = read_fwf('hmmsearch2classification.00.d/NrdAe.tblout', fwf_cols(content = c(1, NA)), comment='#') %>% separate(content, c('accno', 't0', 'profile', 't1', 'evalue', 'score', 'bias', 'f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'rest'), '\\s+', extra='merge') %>% select(accno, profile, evalue, score, bias, rest)
+for ( tbloutfile in opt$args ) {
+  logmsg(sprintf("Reading %s", tbloutfile))
+  tblout = tblout %>%
+    union(
+      read_fwf(
+        tbloutfile, fwf_cols(content = c(1, NA)), 
+        col_types = cols(content = col_character()), 
+        comment='#'
+      ) %>% 
+        separate(
+          content, 
+          c('accno', 't0', 'profile', 't1', 'evalue', 'score', 'bias', 'f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'rest'), 
+          '\\s+', 
+          extra='merge',
+          convert = T
+        ) %>% 
+        select(accno, profile, evalue, score, bias)#,rest)
+    )
 }
 
 logmsg("Done")
