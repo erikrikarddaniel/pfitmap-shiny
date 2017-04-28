@@ -14,6 +14,9 @@ suppressPackageStartupMessages(library(tidyr))
 # Get arguments
 option_list = list(
   make_option(
+    c('--profilehierarchies', default=NA, help='tsv file with profile hiearchies')
+  ),
+  make_option(
     c('--singletable', default=NA, help='Write data in a single tsv format to this filename.')
   ),
   make_option(
@@ -89,15 +92,24 @@ accmap = accmap %>% distinct()
 # Infer databases from the structure of accession numbers
 
 # Calculate best scoring profile for each accession
-bestscoring = tblout %>% group_by(accno) %>% top_n(1, score)
+bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup()
 
-# Join bestscoring with accmap to get a one table output
-onetable = bestscoring %>% inner_join(accmap, by='accno')
+# Join bestscoring with accmap to get a single table output
+singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
+  transmute(accno=accto, profile, taxon, score, evalue)
+
+# If we have a profile hierarchy file name, read it and join
+if ( ! is.na(opt$options$profilehierarchies) ) {
+  singletable = singletable %>% left_join(
+      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
+      by='profile'
+    ) %>%
+    select(-profile)
+}
 
 logmsg(sprintf("Writing single table %s", opt$options$singletable))
 write_tsv(
-  onetable %>% 
-    select(accno, profile, taxon, score, evalue) %>%
+  singletable %>% 
     arrange(accno),
   opt$options$singletable
 )

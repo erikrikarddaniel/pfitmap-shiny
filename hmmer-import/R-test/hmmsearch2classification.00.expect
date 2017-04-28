@@ -1,22 +1,23 @@
-accno	psuperfamily	pfamily	pclass	psubclass	pgroup	taxon	score
-NP_001024.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNC_A	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNC_B	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HND_A	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HND_B	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNE_A	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNE_B	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNF_A	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-3HNF_B	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-4X3V_A	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-4X3V_B	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-CAA42118.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-CAA42180.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-AAH06498.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-EAX02583.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-ABM83954.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-ABM87271.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-AIC55076.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1272.8
-NP_001304993.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1267.4
-NP_001317122.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	1056.5
-NP_001304994.1	NrdGRE	NrdAJ	NrdA	NrdAe	Homo sapiens	801.5
+accno	taxon	score	evalue	superfamily	family	class	subclass	group
+3HNC_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HNC_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HND_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HND_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HNE_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HNE_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HNF_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+3HNF_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+4X3V_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+4X3V_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+AAH06498.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+ABM83954.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+ABM87271.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+AIC55076.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+CAA42118.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+CAA42180.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+EAX02583.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+NP_001024.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+NP_001304993.1	Homo sapiens	1267.4	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+NP_001304994.1	Homo sapiens	801.5	3.9e-237	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+NP_001317122.1	Homo sapiens	1056.5	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
+P23921.1	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA
