@@ -14,6 +14,9 @@ suppressPackageStartupMessages(library(tidyr))
 # Get arguments
 option_list = list(
   make_option(
+    c('--singletable', default=NA, help='Write data in a single tsv format to this filename.')
+  ),
+  make_option(
     c("-v", "--verbose"), action="store_true", default=FALSE, 
     help="Print progress messages"
   )
@@ -24,7 +27,7 @@ opt = parse_args(
 )
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout'), options=list(verbose=T))
+# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout'), options=list(verbose=T, singletable='test.out.tsv'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -87,5 +90,16 @@ accmap = accmap %>% distinct()
 
 # Calculate best scoring profile for each accession
 bestscoring = tblout %>% group_by(accno) %>% top_n(1, score)
+
+# Join bestscoring with accmap to get a one table output
+onetable = bestscoring %>% inner_join(accmap, by='accno')
+
+logmsg(sprintf("Writing single table %s", opt$options$singletable))
+write_tsv(
+  onetable %>% 
+    select(accno, profile, taxon, score, evalue) %>%
+    arrange(accno),
+  opt$options$singletable
+)
 
 logmsg("Done")
