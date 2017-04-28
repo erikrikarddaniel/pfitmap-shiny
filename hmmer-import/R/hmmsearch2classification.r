@@ -90,13 +90,23 @@ while ( length((accessions %>% filter(!is.na(all)))$accno) > 0) {
 accmap = accmap %>% distinct()
 
 # Infer databases from the structure of accession numbers
+accmap = accmap %>%
+  mutate(db = ifelse(grepl('^.._', accto), 'refseq', NA)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[0-9A-Z]{4,4}_[0-9A-Z]$', accto)), 'pdb', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^P[0-9]+\\.[0-9]+$', accto)), 'uniprot', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[A-NR-Z][0-9][A-Z][A-Z0-9][A-Z0-9][0-9][A-Z][A-Z0-9][A-Z0-9][0-9]\\.[0-9]+$', accto)), 'uniprot', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[O,P,Q][0-9][A-Z0-9][A-Z0-9][0-9]\\.[0-9]+$', accto)), 'uniprot', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[A-NR-Z][0-9][A-Z][A-Z0-9][A-Z0-9][0-9]\\.[0-9]+$', accto)), 'uniprot', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[ADEKOJMNP][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'genbank', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[C][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'embl', db)) %>%
+  mutate(db = ifelse((is.na(db) & grepl('^[BFGIL][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'dbj', db))
 
 # Calculate best scoring profile for each accession
 bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup()
 
 # Join bestscoring with accmap to get a single table output
 singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
-  transmute(accno=accto, profile, taxon, score, evalue)
+  transmute(db, accno=accto, profile, taxon, score, evalue)
 
 # If we have a profile hierarchy file name, read it and join
 if ( ! is.na(opt$options$profilehierarchies) ) {
