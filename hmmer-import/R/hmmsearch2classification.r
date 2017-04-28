@@ -36,11 +36,11 @@ logmsg = function(msg, llevel='INFO') {
 }
 logmsg("Starting classification")
 
-tblout = data.table(
+tblout = tibble(
   accno = character(), profile = character(),
   evalue = double(), score = double(), bias = double()
 )
-accessions = data.table(accno = character(), all = character())
+accessions = tibble(accno = character(), all = character())
 for ( tbloutfile in opt$args ) {
   logmsg(sprintf("Reading %s", tbloutfile))
   t =  read_fwf(
@@ -60,18 +60,32 @@ for ( tbloutfile in opt$args ) {
 }
 
 # Make the accessions table a long map
-accmap = data.table(accno=character(), accto=character())
+accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
 while ( length((accessions %>% filter(!is.na(all)))$accno) > 0) {
   a = accessions %>% 
     separate(all, c(paste('c', 0:9), 'all'), sep='\x01', extra='merge', fill='right') %>% 
     gather(c, accto, 2:11) %>% 
     filter(!is.na(accto)) %>% 
     select(-c)
-  accmap = union(accmap, a %>% select(-all))
+  accmap = union(
+    accmap, 
+    a %>% select(-all) %>% 
+      separate(accto, c('accto', 'desc'), sep=' ', extra='merge') %>%
+      mutate(taxon=ifelse(
+        grepl('\\[(.*)\\]', desc), 
+        sub('.*\\[(.*)\\].*', '\\1', desc),
+        'unknown')
+      ) 
+  )
   accessions = a %>% filter(!is.na(all)) %>% select(accno, all)
 }
 
 # For safety's sake: do a distinct on the accession map
 accmap = accmap %>% distinct()
+
+# Infer databases from the structure of accession numbers
+
+# Calculate best scoring profile for each accession
+bestscoring = tblout %>% group_by(accno) %>% top_n(1, score)
 
 logmsg("Done")
