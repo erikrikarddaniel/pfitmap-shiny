@@ -1,0 +1,3 @@
+*.pgdump*
+*.sql3dump*
+*.sqlite3
