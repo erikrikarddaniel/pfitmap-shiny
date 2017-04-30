@@ -1,4 +1,4 @@
-all_sql3dumps: taxon.data.sql3dump taxon_name.data.sql3dump
+all_sql3dumps: bioentry.data.sql3dump taxon.data.sql3dump taxon_name.data.sql3dump
 
 all_pgdumps: taxon.data.pgdump.gz taxon_name.data.pgdump.gz taxon.schema.pgdump.gz taxon_name.schema.pgdump.gz
 
