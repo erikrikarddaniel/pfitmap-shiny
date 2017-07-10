@@ -1,0 +1,4 @@
+ncbi_taxon_id	superkingdom	kingdom	phylum	class	order	family	genus	species	taxon	rank
+9604	Eukaryota	Metazoa	Chordata	Mammalia	Primates	Hominidae			Hominidae	family
+9605	Eukaryota	Metazoa	Chordata	Mammalia	Primates	Hominidae	Homo		Homo	genus
+9606	Eukaryota	Metazoa	Chordata	Mammalia	Primates	Hominidae	Homo	Homo sapiens	Homo sapiens	species

@@ -8,5 +8,5 @@ Nrd.test.tar.gz:
 	scp rnrdb:projects/profiles/profiles/Nrd.test.tar.gz .
 
 hmmsearch2classification.00:
-	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --singletable=$@.out $@.d/*.tblout
+	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --singletable=$@.out --taxflat=taxflat.tsv $@.d/*.tblout
 	@$(CHECK)

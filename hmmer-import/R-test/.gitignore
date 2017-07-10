@@ -1,3 +1,5 @@
 Nrd.test.tar.gz
 *.test.tblout
 *.test.domtblout
+test.out.tsv
+*.out

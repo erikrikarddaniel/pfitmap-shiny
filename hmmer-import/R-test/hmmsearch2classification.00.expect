@@ -10,9 +10,9 @@ pdb	3HNF_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
 pdb	4X3V_A	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
 pdb	4X3V_B	unknown	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
 genbank	AAH06498.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
-genbank	ABM83954.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	32630
-genbank	ABM87271.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	32630
-genbank	AIC55076.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	32630
+genbank	ABM83954.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA
+genbank	ABM87271.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA
+genbank	AIC55076.1	synthetic construct	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA
 embl	CAA42118.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
 embl	CAA42180.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606
 genbank	EAX02583.1	Homo sapiens	1272.8	0	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606

@@ -20,6 +20,9 @@ option_list = list(
     c('--singletable', default=NA, help='Write data in a single tsv format to this filename.')
   ),
   make_option(
+    c('--taxflat', default=NA, help='Name of NCBI taxon table in "taxflat" format (see https://github.com/erikrikarddaniel/taxdata2taxflat).')
+  ),
+  make_option(
     c("-v", "--verbose"), action="store_true", default=FALSE, 
     help="Print progress messages"
   )
@@ -30,7 +33,7 @@ opt = parse_args(
 )
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout'), options=list(verbose=T, singletable='test.out.tsv', profilerhierarchies='/tmp/hmmtest.tsv'))
+# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout'), options=list(verbose=T, singletable='test.out.tsv', profilerhierarchies='/tmp/hmmtest.tsv', taxflat='taxflat.tsv'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -47,6 +50,8 @@ tblout = tibble(
   evalue = double(), score = double(), bias = double()
 )
 accessions = tibble(accno = character(), all = character())
+
+# Read all the tblout files
 for ( tbloutfile in opt$args ) {
   logmsg(sprintf("Reading %s", tbloutfile))
   t =  read_fwf(
@@ -110,11 +115,23 @@ singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
 
 # If we have a profile hierarchy file name, read it and join
 if ( ! is.na(opt$options$profilehierarchies) ) {
+  logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
   singletable = singletable %>% left_join(
       read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
       by='profile'
     ) %>%
     select(-profile)
+}
+
+# If we have a taxflat NCBI taxonomy, read and join
+if ( ! is.na(opt$options$taxflat) ) {
+  logmsg(sprintf("Adding NCBI taxon ids from %s", opt$options$taxflat))
+  singletable = singletable %>% 
+    left_join(
+      read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
+        select(taxon, ncbi_taxon_id),
+      by='taxon'
+    )
 }
 
 logmsg(sprintf("Writing single table %s", opt$options$singletable))
