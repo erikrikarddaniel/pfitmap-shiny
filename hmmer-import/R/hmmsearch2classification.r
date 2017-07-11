@@ -33,7 +33,7 @@ opt = parse_args(
 )
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout'), options=list(verbose=T, singletable='test.out.tsv', profilerhierarchies='/tmp/hmmtest.tsv', taxflat='taxflat.tsv'))
+# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilerhierarchies='/tmp/hmmtest.tsv', taxflat='taxflat.tsv'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -52,7 +52,7 @@ tblout = tibble(
 accessions = tibble(accno = character(), all = character())
 
 # Read all the tblout files
-for ( tbloutfile in opt$args ) {
+for ( tbloutfile in grep('\\.tblout', opt$args, value=TRUE) ) {
   logmsg(sprintf("Reading %s", tbloutfile))
   t =  read_fwf(
     tbloutfile, fwf_cols(content = c(1, NA)), 
@@ -68,6 +68,42 @@ for ( tbloutfile in opt$args ) {
     )
   tblout = union(tblout, t %>% select(accno, profile, evalue, score, bias))
   accessions = union(accessions, t %>% transmute(accno, all=sprintf("%s %s", accno, rest)))
+}
+
+domtblout = tibble(
+  accno = character(), tlen = integer(), profile = character(), qlen = integer(), i = integer(), n = integer(), 
+  dom_c_evalue = double(), dom_i_evalue = double(), dom_score = double(), dom_bias = double(),
+  hmm_from = integer(), hmm_to = integer(), ali_from = integer(), ali_to = integer(), 
+  env_from = integer(), env_to = integer()
+)
+
+# Read all the domtblout files
+for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
+  logmsg(sprintf("Reading %s", domtbloutfile))
+  t = read_fwf(
+    domtbloutfile, fwf_cols(content = c(1, NA)), 
+    col_types = cols(content = col_character()), 
+    comment='#'
+  ) %>% 
+    separate(
+      content, 
+      c(
+        'accno', 't0', 'tlen', 'profile', 't1', 'qlen',  'evalue', 'score', 'bias', 'i', 'n', 
+        'dom_c_evalue', 'dom_i_evalue', 'dom_score', 'dom_bias', 
+        'hmm_from', 'hmm_to', 'ali_from', 'ali_to', 'env_from', 'env_to', 'acc', 'rest'
+      ),
+      '\\s+', 
+      extra='merge',
+      convert = T
+    )
+  
+  domtblout = union(
+    domtblout,
+    t %>% select(
+      accno, tlen, profile, qlen, i, n, dom_c_evalue, dom_i_evalue, dom_score, dom_bias,
+      hmm_from, hmm_to, ali_from, ali_to, env_from, env_to
+    )
+  )
 }
 
 # Make the accessions table a long map
