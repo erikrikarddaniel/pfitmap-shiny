@@ -106,6 +106,16 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
   )
 }
 
+# Calculate lengths by summing the ali_from and ali_to fields
+
+# First check if there are overlaps...
+overlaps = domtblout %>% filter(n > 1) %>%
+  select(accno, profile, ali_from, ali_to, i) %>%
+  inner_join(
+    domtblout %>% transmute(accno, profile, next_ali_from = ali_from, next_ali_to = ali_to, i = i - 1),
+    by = c('accno', 'profile', 'i')
+  ) %>% filter(next_ali_from <= ali_to)
+
 # Make the accessions table a long map
 accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
 while ( length((accessions %>% filter(!is.na(all)))$accno) > 0) {
