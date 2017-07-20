@@ -891,7 +891,7 @@ server <- function(input, output, session) {
   
   output$ssversion = renderText({
     sprintf(
-      "<a href='news.html'>%s</a>",
+      "<em>NOTE:</em> Revised NrdJ profiles have been mentioned in a manuscript, but have not yet been published here. We expect to finish this by August 2017.<br/><a href='news.html'>%s</a>",
       sv = paste(
         (classified_proteins %>% 
           transmute(ssversion = sprintf("Source database: %s %s %s.", ss_source, ss_name, ss_version)) %>% 
