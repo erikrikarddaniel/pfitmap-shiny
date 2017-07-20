@@ -70,6 +70,7 @@ DARK_PALETTE_768X = c(
 )
 
 # Reading data and transforming
+write(sprintf("LOG: %s: Reading data files", Sys.time()), stderr())
 
 # classified_proteins table
 if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
@@ -724,11 +725,14 @@ server <- function(input, output, session) {
       t = t %>% select_(sprintf("-`%s`", c))
     }
     
-    ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
+    ###write_tsv(t, '/tmp/chorddiag.t.tsv.gz')
+    ###write(sprintf("colnames(t): %s", paste(colnames(t), collapse = ', ')), stderr())
+    ###write(sprintf("row names: %s", paste(t[,1], collapse = ', ')), stderr())
     
     # The detour via a data frame below fixes a problem (issue #36) when there's only a
     # single column. Don't know why it's necessary.
-    d = data.frame(t[,2:length(colnames(t))], row.names=t[,1])
+    d = data.frame(t[, sapply(t, is.numeric)])
+    rownames(d) = t %>% pull(tsort)
     m = as.matrix(d)
     chorddiag(
       m, type = "bipartite",  groupnameFontsize =  14,
