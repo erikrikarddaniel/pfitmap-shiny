@@ -665,7 +665,7 @@ server <- function(input, output, session) {
       # This is to get the right column names, a bit involved perhaps...
       t = t %>% mutate_('Taxon'=input$taxonrank, `N. genomes`='n_genomes') %>%
         mutate(Taxon = sprintf("<span title='%s'>%s</span>", taxon_tooltip, Taxon))
-      c = colnames(t)
+      cnames = colnames(t)
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       
       # Colours for heatmap
@@ -673,12 +673,13 @@ server <- function(input, output, session) {
       clrs = round(seq(255, 40, length.out = length(brks) + 1), 0) %>% { paste0("rgb(255,", ., ",", ., ")") }
       
       # Hide some columns
-      invisible = c(0, grep('fraction', c) - 3)
+      invisible = c(c(0, 1, 2, 3), grep('fraction', cnames) - 0)
       ###write(sprintf("--> invisible: %s", paste(invisible, collapse=", ")), stderr())
+      ###write(sprintf("--> invisible names: %s", paste(cnames[invisible], collapse=", ")), stderr())
 
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       t = t %>%
-        select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
+        select(tcolour, c(length(cnames)-1,length(cnames),8:length(cnames)-2))
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
       dt = datatable(
@@ -697,12 +698,13 @@ server <- function(input, output, session) {
           )
         )
       
-      for (ff in c[grep('fraction', c)]) {
+      for (ff in grep('fraction', cnames, value = TRUE)) {
         dt = dt %>% formatStyle(
           sub('fraction', '', ff), ff,
           backgroundColor = styleInterval(brks, clrs)
         )
       }
+      ###write(sprintf("DEBUG: %s: \trenderDataTable done", Sys.time()), stderr())
       
       dt
     }
