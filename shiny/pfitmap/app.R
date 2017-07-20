@@ -20,7 +20,7 @@ library(feather)
 
 # Some constants
 PROFILES_VERSION = '0.7'
-UI_VERSION = '0.9'
+UI_VERSION = '0.9.1'
 
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
 TAXON_HIERARCHY = c( 'tdomain', 'tkingdom', 'tphylum', 'tclass', 'torder', 'tfamily', 'tgenus', 'tspecies', 'tstrain' )
