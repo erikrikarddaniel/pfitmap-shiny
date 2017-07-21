@@ -203,8 +203,8 @@ ui <- fluidPage(
         'protstattype', 'Type of protein statistic',
         list(
           'Individual proteins' = INDPROTEINS,
-          'Combinations of proteins' = COMBPROTEINS,
-          'Combinations of domains' = COMBDOMAINS
+          'Combinations of proteins' = COMBPROTEINS#,
+          #'Combinations of domains' = COMBDOMAINS
         ),
         selected = INDPROTEINS
       ),
