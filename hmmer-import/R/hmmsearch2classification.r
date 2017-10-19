@@ -109,12 +109,55 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
 # Calculate lengths by summing the ali_from and ali_to fields
 
 # First check if there are overlaps...
-overlaps = domtblout %>% filter(n > 1) %>%
-  select(accno, profile, ali_from, ali_to, i) %>%
-  inner_join(
-    domtblout %>% transmute(accno, profile, next_ali_from = ali_from, next_ali_to = ali_to, i = i - 1),
-    by = c('accno', 'profile', 'i')
-  ) %>% filter(next_ali_from <= ali_to)
+domtblout.no_overlaps = domtblout %>%
+  select(accno, profile, i, n, ali_from, ali_to)
+
+calc_overlaps = function(dt) {
+  o = dt %>% filter(n > 1) %>%
+    select(accno, profile, ali_from, ali_to, i, n) %>%
+    inner_join(
+      domtblout %>% transmute(accno, profile, next_ali_from = ali_from, next_ali_to = ali_to, next_i = i, i = i - 1),
+      by = c('accno', 'profile', 'i')
+    ) %>% filter(next_ali_from <= ali_to) %>%
+    mutate(new_ali_from = ali_from, new_ali_to = next_ali_to, new_n = n - 1)
+  return(o)
+}
+
+overlaps = calc_overlaps(domtblout.no_overlaps)
+
+while ( overlaps %>% nrow() > 0 ) {
+  logmsg(sprintf("Handling overlaps, %d rows remaning", overlaps %>% nrow()))
+
+  domtblout.no_overlaps = domtblout.no_overlaps %>% 
+    # 1. Join in overlaps and set new ali_from and ali_to for matching rows
+    left_join(
+      overlaps %>% select(accno, profile, i, new_ali_from, new_ali_to), 
+      by=c('accno', 'profile', 'i')
+    ) %>%
+    mutate(
+      ali_from = ifelse(! is.na(new_ali_from), new_ali_from, ali_from),
+      ali_to = ifelse(! is.na(new_ali_to), new_ali_to, ali_to)
+    ) %>%
+    # 2. Join in overlaps with i + 1 to get rid of the replaced row
+    left_join(
+      overlaps %>% transmute(accno, profile, i = next_i, new_n),
+      by=c('accno', 'profile', 'i')
+    ) %>%
+    filter(is.na(new_n)) %>% select(-new_ali_from, -new_ali_to, -new_n) %>%
+    # 3. Join in overlaps on only accno and profile to set new n for matching rows
+    left_join(
+      overlaps %>% select(accno, profile, new_n), by = c('accno', 'profile')
+    ) %>%
+    mutate(n = ifelse(!is.na(new_n), new_n, n)) %>% select(-new_n) %>%
+    distinct(accno, profile, n, ali_from, ali_to) %>%
+    # 4. Calculate new i
+    group_by(accno, profile) %>% mutate(i = rank(ali_from)) %>% ungroup() %>%
+    arrange(accno, profile, i)
+
+  overlaps = calc_overlaps(domtblout.no_overlaps)
+}
+
+logmsg("Overlaps done")
 
 # Make the accessions table a long map
 accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
