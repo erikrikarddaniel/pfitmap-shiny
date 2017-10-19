@@ -45,6 +45,7 @@ logmsg = function(msg, llevel='INFO') {
 }
 logmsg("Starting classification")
 
+# We will populate two tables, one with the full results, one with accessions
 tblout = tibble(
   accno = character(), profile = character(),
   evalue = double(), score = double(), bias = double()
