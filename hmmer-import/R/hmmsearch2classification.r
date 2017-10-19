@@ -33,7 +33,7 @@ opt = parse_args(
 )
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilerhierarchies='/tmp/hmmtest.tsv', taxflat='taxflat.tsv'))
+# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='taxflat.tsv'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -201,24 +201,30 @@ accmap = accmap %>%
   mutate(db = ifelse((is.na(db) & grepl('^[BFGIL][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'dbj', db))
 
 # Calculate best scoring profile for each accession
-bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup()
-
-# Join bestscoring with accmap and to get a single table output
-singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
-  transmute(db, accno=accto, profile, taxon, score, evalue)
+bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
+  select(accno, profile, score, evalue)
 
 # If we have a profile hierarchy file name, read it and join
 if ( ! is.na(opt$options$profilehierarchies) ) {
-  logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
-  singletable = singletable %>% left_join(
+  logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
+  bestscoring = bestscoring %>% left_join(
       read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
       by='profile'
     )
 }
 
+# Join in lengths
+logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", bestscoring %>% nrow()))
+bestscoring = bestscoring %>% inner_join(align_lengths, by = c('accno', 'profile'))
+
+# Join bestscoring with accmap and drop profile to get a single table output
+logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
+singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
+  mutate(accno = accto) %>% select(-profile)
+
 # If we have a taxflat NCBI taxonomy, read and join
 if ( ! is.na(opt$options$taxflat) ) {
-  logmsg(sprintf("Adding NCBI taxon ids from %s", opt$options$taxflat))
+  logmsg(sprintf("Adding NCBI taxon ids from %s, nrows before: %d", opt$options$taxflat, singletable %>% nrow()))
   singletable = singletable %>% 
     left_join(
       read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
@@ -227,16 +233,10 @@ if ( ! is.na(opt$options$taxflat) ) {
     )
 }
 
-# Join in lengths
-logmsg("Joining in lengths from domtblout")
-singletable = singletable %>% inner_join(align_lengths, by = c('accno', 'profile'))
-
-# Delete the "profile" column
-singletable = singletable %>% select(-profile)
-
-logmsg(sprintf("Writing single table %s", opt$options$singletable))
+logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
 write_tsv(
   singletable %>% 
+    select(db, accno, taxon, score, evalue, psuperfamily:pgroup, ncbi_taxon_id, tlen:alilen) %>%
     arrange(accno),
   opt$options$singletable
 )
