@@ -164,9 +164,12 @@ align_lengths = domtblout.no_overlaps %>%
   mutate(alilen = ali_to - ali_from + 1) %>%
   group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(alilen)) %>% ungroup()
 
+logmsg("Calculated lengths")
+
 # Make the accessions table a long map
 accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
-while ( length((accessions %>% filter(!is.na(all)))$accno) > 0) {
+while ( accessions %>% filter(!is.na(all)) %>% nrow() > 0) {
+  logmsg(sprintf("Separating accession numbers, nrows: %d", accessions %>% filter(!is.na(all)) %>% nrow()))
   a = accessions %>% 
     separate(all, c(paste('c', 0:9), 'all'), sep='\x01', extra='merge', fill='right') %>% 
     gather(c, accto, 2:11) %>% 
@@ -207,7 +210,8 @@ bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
 # If we have a profile hierarchy file name, read it and join
 if ( ! is.na(opt$options$profilehierarchies) ) {
   logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
-  bestscoring = bestscoring %>% left_join(
+  bestscoring = bestscoring %>% 
+    left_join(
       read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
       by='profile'
     )
