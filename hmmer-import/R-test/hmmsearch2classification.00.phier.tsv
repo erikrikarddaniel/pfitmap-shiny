@@ -1,4 +1,4 @@
-profile	superfamily	family	class	subclass	group
+profile	psuperfamily	pfamily	pclass	psubclass	pgroup
 NrdA	NrdGRE	NrdAJ	NrdA		
 NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	
 NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg	

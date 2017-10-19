@@ -110,7 +110,7 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
 
 # First check if there are overlaps...
 domtblout.no_overlaps = domtblout %>%
-  select(accno, profile, i, n, ali_from, ali_to)
+  select(accno, profile, tlen, qlen, i, n, ali_from, ali_to)
 
 calc_overlaps = function(dt) {
   o = dt %>% filter(n > 1) %>%
@@ -149,15 +149,20 @@ while ( overlaps %>% nrow() > 0 ) {
       overlaps %>% select(accno, profile, new_n), by = c('accno', 'profile')
     ) %>%
     mutate(n = ifelse(!is.na(new_n), new_n, n)) %>% select(-new_n) %>%
-    distinct(accno, profile, n, ali_from, ali_to) %>%
+    distinct(accno, profile, tlen, qlen, n, ali_from, ali_to) %>%
     # 4. Calculate new i
-    group_by(accno, profile) %>% mutate(i = rank(ali_from)) %>% ungroup() %>%
+    group_by(accno, profile, tlen, qlen) %>% mutate(i = rank(ali_from)) %>% ungroup() %>%
     arrange(accno, profile, i)
 
   overlaps = calc_overlaps(domtblout.no_overlaps)
 }
 
 logmsg("Overlaps done")
+
+# Now, we can calculate lengths
+align_lengths = domtblout.no_overlaps %>%
+  mutate(alilen = ali_to - ali_from + 1) %>%
+  group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(alilen)) %>% ungroup()
 
 # Make the accessions table a long map
 accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
@@ -198,7 +203,7 @@ accmap = accmap %>%
 # Calculate best scoring profile for each accession
 bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup()
 
-# Join bestscoring with accmap to get a single table output
+# Join bestscoring with accmap and to get a single table output
 singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
   transmute(db, accno=accto, profile, taxon, score, evalue)
 
@@ -208,8 +213,7 @@ if ( ! is.na(opt$options$profilehierarchies) ) {
   singletable = singletable %>% left_join(
       read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
       by='profile'
-    ) %>%
-    select(-profile)
+    )
 }
 
 # If we have a taxflat NCBI taxonomy, read and join
@@ -222,6 +226,13 @@ if ( ! is.na(opt$options$taxflat) ) {
       by='taxon'
     )
 }
+
+# Join in lengths
+logmsg("Joining in lengths from domtblout")
+singletable = singletable %>% inner_join(align_lengths, by = c('accno', 'profile'))
+
+# Delete the "profile" column
+singletable = singletable %>% select(-profile)
 
 logmsg(sprintf("Writing single table %s", opt$options$singletable))
 write_tsv(
