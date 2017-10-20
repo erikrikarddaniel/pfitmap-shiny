@@ -264,6 +264,14 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
     logmsg(sprintf("Adding NCBI taxon ids from %s", opt$options$taxflat))
     con %>% copy_to(
       read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
+        transmute(
+          ncbi_taxon_id,
+          psuperkingdom = superkingdom, pkingdom = kingdom,
+          pphylum       = phylum,       pclass   = class,
+          porder        = order,        pfamily  = family,
+          pgenus        = genus,        pspecies = species,
+          taxon, rank
+        ) %>%
         inner_join(accessions %>% distinct(taxon), by='taxon'),
       'taxa', temporary = FALSE, overwrite = TRUE
     )
