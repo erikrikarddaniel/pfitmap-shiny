@@ -3,3 +3,4 @@ Nrd.test.tar.gz
 *.test.domtblout
 test.out.tsv
 *.out
+*.sqlite3

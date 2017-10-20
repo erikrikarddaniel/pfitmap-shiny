@@ -40,7 +40,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
 }
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='taxflat.tsv'))
+# opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='taxflat.tsv', sqlitedb='testdb.sqlite3'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -240,6 +240,34 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
       arrange(accno),
     opt$options$singletable
   )
+}
+
+# If the user specified a filename for a SQLite database, write that here
+if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
+  logmsg(sprintf("Creating/opening SQLite database %s", opt$options$sqlitedb))
+  con = DBI::dbConnect(RSQLite::SQLite(), opt$options$sqlitedb, create = TRUE)
+  
+  con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
+  
+  con %>% copy_to(bestscoring, 'bestscoring', temporary = FALSE, overwrite = TRUE)
+
+  if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
+    logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
+    con %>% copy_to(
+      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
+      'hmm_profiles', temporary = FALSE, overwrite = TRUE
+    )
+  }
+
+  # If we have a taxflat NCBI taxonomy, read and join
+  if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
+    logmsg(sprintf("Adding NCBI taxon ids from %s", opt$options$taxflat))
+    con %>% copy_to(
+      read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
+        inner_join(accessions %>% distinct(taxon), by='taxon'),
+      'taxa', temporary = FALSE, overwrite = TRUE
+    )
+  }
 }
 
 logmsg("Done")

@@ -1,0 +1,39 @@
+NP_001024.1|NP_001024.1|Homo sapiens|refseq
+NP_001024.1|P23921.1|unknown|uniprot
+NP_001024.1|3HNC_A|unknown|pdb
+NP_001024.1|3HNC_B|unknown|pdb
+NP_001024.1|3HND_A|unknown|pdb
+NP_001024.1|3HND_B|unknown|pdb
+NP_001024.1|3HNE_A|unknown|pdb
+NP_001024.1|3HNE_B|unknown|pdb
+NP_001024.1|3HNF_A|unknown|pdb
+NP_001024.1|3HNF_B|unknown|pdb
+NP_001024.1|4X3V_A|unknown|pdb
+NP_001024.1|4X3V_B|unknown|pdb
+NP_001024.1|CAA42118.1|Homo sapiens|embl
+NP_001024.1|CAA42180.1|Homo sapiens|embl
+NP_001024.1|AAH06498.1|Homo sapiens|genbank
+NP_001024.1|EAX02583.1|Homo sapiens|genbank
+NP_001024.1|ABM83954.1|synthetic construct|genbank
+NP_001024.1|ABM87271.1|synthetic construct|genbank
+NP_001024.1|AIC55076.1|synthetic construct|genbank
+NP_001304993.1|NP_001304993.1|Homo sapiens|refseq
+NP_001304994.1|NP_001304994.1|Homo sapiens|refseq
+NP_001317122.1|NP_001317122.1|Homo sapiens|refseq
+NP_001024.1|NrdAe|1272.8|0.0|792|684|681.0
+NP_001304993.1|NrdAe|1267.4|0.0|695|684|677.0
+NP_001304994.1|NrdAe|801.5|3.9e-237|454|684|436.0
+NP_001317122.1|NrdAe|1056.5|0.0|570|684|552.0
+NrdA|NrdGRE|NrdAJ|NrdA||
+NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|
+NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|
+NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|
+NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|
+NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|
+NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|
+NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|
+NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
+9606|Eukaryota|Metazoa|Chordata|Mammalia|Primates|Hominidae|Homo|Homo sapiens|Homo sapiens|species
