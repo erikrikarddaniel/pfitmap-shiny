@@ -50,7 +50,7 @@ tblout = tibble(
   accno = character(), profile = character(),
   evalue = double(), score = double(), bias = double()
 )
-accessions = tibble(accno = character(), all = character())
+accessions = tibble(accno = character(), accto = character())
 
 # Read all the tblout files
 for ( tbloutfile in grep('\\.tblout', opt$args, value=TRUE) ) {
@@ -68,8 +68,19 @@ for ( tbloutfile in grep('\\.tblout', opt$args, value=TRUE) ) {
       convert = T
     )
   tblout = union(tblout, t %>% select(accno, profile, evalue, score, bias))
-  accessions = union(accessions, t %>% transmute(accno, all=sprintf("%s %s", accno, rest)))
+  accessions = union(accessions, t %>% transmute(accno, accto = sprintf("%s %s", accno, rest)))
 }
+
+# Split the accto field
+accessions = accessions %>% separate_rows(accto, sep = '\x01') %>% 
+  mutate(
+    taxon = ifelse(
+      grepl('\\[(.*)\\]', accto), 
+      sub('.*\\[(.*)\\].*', '\\1', accto),
+      'unknown'
+    ),
+    accto = sub(' .*', '', accto)
+  )
 
 domtblout = tibble(
   accno = character(), tlen = integer(), profile = character(), qlen = integer(), i = integer(), n = integer(), 
@@ -167,33 +178,8 @@ align_lengths = domtblout.no_overlaps %>%
 
 logmsg("Calculated lengths")
 
-# Make the accessions table a long map
-accmap = data.table(accno=character(), accto=character(), desc=character(), taxon=character())
-while ( accessions %>% filter(!is.na(all)) %>% nrow() > 0) {
-  logmsg(sprintf("Separating accession numbers, nrows: %d", accessions %>% filter(!is.na(all)) %>% nrow()))
-  a = accessions %>% 
-    separate(all, c(paste('c', 0:9), 'all'), sep='\x01', extra='merge', fill='right') %>% 
-    gather(c, accto, 2:11) %>% 
-    filter(!is.na(accto)) %>% 
-    select(-c)
-  accmap = union(
-    accmap, 
-    a %>% select(-all) %>% 
-      separate(accto, c('accto', 'desc'), sep=' ', extra='merge') %>%
-      mutate(taxon=ifelse(
-        grepl('\\[(.*)\\]', desc), 
-        sub('.*\\[(.*)\\].*', '\\1', desc),
-        'unknown')
-      ) 
-  )
-  accessions = a %>% filter(!is.na(all)) %>% select(accno, all)
-}
-
-# For safety's sake: do a distinct on the accession map
-accmap = accmap %>% distinct()
-
 # Infer databases from the structure of accession numbers
-accmap = accmap %>%
+accessions = accessions %>%
   mutate(db = ifelse(grepl('^.._', accto), 'refseq', NA)) %>%
   mutate(db = ifelse((is.na(db) & grepl('^[0-9A-Z]{4,4}_[0-9A-Z]$', accto)), 'pdb', db)) %>%
   mutate(db = ifelse((is.na(db) & grepl('^P[0-9]+\\.[0-9]+$', accto)), 'uniprot', db)) %>%
@@ -222,9 +208,9 @@ if ( ! is.na(opt$options$profilehierarchies) ) {
 logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", bestscoring %>% nrow()))
 bestscoring = bestscoring %>% inner_join(align_lengths, by = c('accno', 'profile'))
 
-# Join bestscoring with accmap and drop profile to get a single table output
+# Join bestscoring with accessions and drop profile to get a single table output
 logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
-singletable = bestscoring %>% inner_join(accmap, by='accno') %>%
+singletable = bestscoring %>% inner_join(accessions, by='accno') %>%
   mutate(accno = accto) %>% select(-profile)
 
 # If we have a taxflat NCBI taxonomy, read and join
