@@ -2,6 +2,8 @@ DIFF = grep -v "^[ ]*$$" $@.out | diff $@.expect -
 
 CHECK = if [ ` $(DIFF) | wc -l ` -eq 0 ]; then echo "*** $@ OK ***"; else echo "*** $@ FAILED ***"; echo "Here's a diff: "; $(DIFF); exit 1; fi
 
+SQLITE_SELECT = 
+
 all: hmmsearch2classification.00 hmmsearch2classification.01
 
 Nrd.test.tar.gz:
@@ -13,4 +15,9 @@ hmmsearch2classification.00:
 
 hmmsearch2classification.01:
 	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --singletable=$@.out --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
+	@$(CHECK)
+
+hmmsearch2classification.02:
+	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
+	$(SQLITE_SELECT)
 	@$(CHECK)

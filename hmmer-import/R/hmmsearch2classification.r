@@ -14,13 +14,16 @@ suppressPackageStartupMessages(library(tidyr))
 # Get arguments
 option_list = list(
   make_option(
-    c('--profilehierarchies', default=NA, help='tsv file with profile hiearchies')
+    c('--profilehierarchies', default='', help='tsv file with profile hiearchies')
   ),
   make_option(
-    c('--singletable', default=NA, help='Write data in a single tsv format to this filename.')
+    c('--singletable', default='', help='Write data in a single tsv format to this filename.')
   ),
   make_option(
-    c('--taxflat', default=NA, help='Name of NCBI taxon table in "taxflat" format (see https://github.com/erikrikarddaniel/taxdata2taxflat).')
+    c('--sqlitedb', default='', help='Write data in a SQLite database with this filename.')
+  ),
+  make_option(
+    c('--taxflat', default='', help='Name of NCBI taxon table in "taxflat" format (see https://github.com/erikrikarddaniel/taxdata2taxflat).')
   ),
   make_option(
     c("-v", "--verbose"), action="store_true", default=FALSE, 
@@ -31,6 +34,10 @@ opt = parse_args(
   OptionParser(option_list=option_list), 
   positional_arguments = TRUE
 )
+
+if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
+  suppressPackageStartupMessages(library(dbplyr))
+}
 
 # Args list for testing:
 # opt = list(args = c('hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='taxflat.tsv'))
@@ -195,7 +202,7 @@ bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
   select(accno, profile, score, evalue)
 
 # If we have a profile hierarchy file name, read it and join
-if ( ! is.na(opt$options$profilehierarchies) ) {
+if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
   logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
   bestscoring = bestscoring %>% 
     left_join(
@@ -214,7 +221,7 @@ singletable = bestscoring %>% inner_join(accessions, by='accno') %>%
   mutate(accno = accto) %>% select(-profile)
 
 # If we have a taxflat NCBI taxonomy, read and join
-if ( ! is.na(opt$options$taxflat) ) {
+if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
   logmsg(sprintf("Adding NCBI taxon ids from %s, nrows before: %d", opt$options$taxflat, singletable %>% nrow()))
   singletable = singletable %>% 
     left_join(
