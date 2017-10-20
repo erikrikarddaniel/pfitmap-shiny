@@ -4,7 +4,7 @@ CHECK = if [ ` $(DIFF) | wc -l ` -eq 0 ]; then echo "*** $@ OK ***"; else echo "
 
 SQLITE_SELECT = sqlite3 $@.sqlite3 "select * from accessions order by accno; select * from bestscoring order by accno, profile; select * from hmm_profiles order by profile; select * from taxa order by ncbi_taxon_id;" > $@.out
 
-all: hmmsearch2classification.00 hmmsearch2classification.01 hmmsearch2classification.02
+all: hmmsearch2classification.00 hmmsearch2classification.01 hmmsearch2classification.02 hmmsearch2classification.03
 
 Nrd.test.tar.gz:
 	scp rnrdb:projects/profiles/profiles/Nrd.test.tar.gz .
@@ -18,6 +18,11 @@ hmmsearch2classification.01:
 	@$(CHECK)
 
 hmmsearch2classification.02:
+	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
+	@$(SQLITE_SELECT)
+	@$(CHECK)
+
+hmmsearch2classification.03:
 	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
 	@$(SQLITE_SELECT)
 	@$(CHECK)
