@@ -201,42 +201,45 @@ accessions = accessions %>%
 bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
   select(accno, profile, score, evalue)
 
-# If we have a profile hierarchy file name, read it and join
-if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
-  logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
-  bestscoring = bestscoring %>% 
-    left_join(
-      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
-      by='profile'
-    )
-}
-
 # Join in lengths
 logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", bestscoring %>% nrow()))
 bestscoring = bestscoring %>% inner_join(align_lengths, by = c('accno', 'profile'))
 
-# Join bestscoring with accessions and drop profile to get a single table output
-logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
-singletable = bestscoring %>% inner_join(accessions, by='accno') %>%
-  mutate(accno = accto) %>% select(-profile)
+# If we were called with the singletable option, prepare data suitable for that
+if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
+  # If we have a profile hierarchy file name, read it and join
+  if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
+    logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
+    bestscoring = bestscoring %>% 
+      left_join(
+        read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
+        by='profile'
+      )
+  }
 
-# If we have a taxflat NCBI taxonomy, read and join
-if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
-  logmsg(sprintf("Adding NCBI taxon ids from %s, nrows before: %d", opt$options$taxflat, singletable %>% nrow()))
-  singletable = singletable %>% 
-    left_join(
-      read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
-        select(taxon, ncbi_taxon_id),
-      by='taxon'
-    )
+  # Join bestscoring with accessions and drop profile to get a single table output
+  logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
+  singletable = bestscoring %>% inner_join(accessions, by='accno') %>%
+    mutate(accno = accto) %>% select(-profile)
+
+  # If we have a taxflat NCBI taxonomy, read and join
+  if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
+    logmsg(sprintf("Adding NCBI taxon ids from %s, nrows before: %d", opt$options$taxflat, singletable %>% nrow()))
+    singletable = singletable %>% 
+      left_join(
+        read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
+          select(taxon, ncbi_taxon_id),
+        by='taxon'
+      )
+  }
+
+  logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
+  write_tsv(
+    singletable %>% 
+      select(db, accno, taxon, score, evalue, psuperfamily:pgroup, ncbi_taxon_id, tlen:alilen) %>%
+      arrange(accno),
+    opt$options$singletable
+  )
 }
-
-logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
-write_tsv(
-  singletable %>% 
-    select(db, accno, taxon, score, evalue, psuperfamily:pgroup, ncbi_taxon_id, tlen:alilen) %>%
-    arrange(accno),
-  opt$options$singletable
-)
 
 logmsg("Done")
