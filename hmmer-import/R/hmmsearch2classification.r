@@ -5,9 +5,9 @@
 # Author: daniel.lundin@dbb.su.se
 
 suppressPackageStartupMessages(library(optparse))
-suppressPackageStartupMessages(library(data.table))
+#suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(dtplyr))
+#suppressPackageStartupMessages(library(dtplyr))
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(tidyr))
 
