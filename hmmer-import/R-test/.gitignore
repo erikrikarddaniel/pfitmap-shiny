@@ -4,3 +4,5 @@ Nrd.test.tar.gz
 test.out.tsv
 *.out
 *.sqlite3
+hmmsearch2classification.large_tc.d
+hmmsearch2classification.large_tc.tar.gz
