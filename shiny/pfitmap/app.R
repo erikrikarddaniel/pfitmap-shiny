@@ -10,8 +10,6 @@
 library(shiny)
 library(readr)
 library(dplyr)
-library(data.table)
-library(dtplyr)
 library(tidyr)
 library(ggplot2)
 library(ggforce)
@@ -22,7 +20,7 @@ library(feather)
 
 # Some constants
 PROFILES_VERSION = '0.7'
-UI_VERSION = '0.9'
+UI_VERSION = '0.9.1'
 
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
 TAXON_HIERARCHY = c( 'tdomain', 'tkingdom', 'tphylum', 'tclass', 'torder', 'tfamily', 'tgenus', 'tspecies', 'tstrain' )
@@ -72,75 +70,64 @@ DARK_PALETTE_768X = c(
 )
 
 # Reading data and transforming
+write(sprintf("LOG: %s: Reading data files", Sys.time()), stderr())
 
 # classified_proteins table
 if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
   write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
-  classified_proteins = data.table(
-    read_tsv(
-      Sys.getenv('PFITMAP_DATA'),
-      col_types = cols(
-        .default = col_character(),     ncbi_taxon_id = col_integer(),
-        profile_length = col_integer(), align_length = col_integer(),
-        align_start = col_integer(),    align_end = col_integer(),
-        prop_matching = col_double(),   ss_version = col_integer(),
-        e_value = col_double(),         score = col_double()
-      )
+  classified_proteins = read_tsv(
+    Sys.getenv('PFITMAP_DATA'),
+    col_types = cols(
+      .default = col_character(),     ncbi_taxon_id = col_integer(),
+      profile_length = col_integer(), align_length = col_integer(),
+      align_start = col_integer(),    align_end = col_integer(),
+      prop_matching = col_double(),   ss_version = col_integer(),
+      e_value = col_double(),         score = col_double()
     )
   )
 } else if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
   write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
-  classified_proteins = data.table(
-    read_feather(Sys.getenv('PFITMAP_DATA'))
-  )
+  classified_proteins = read_feather(Sys.getenv('PFITMAP_DATA'))
 }
 
 # domain_hits table
 if ( grepl('\\.tsv$', Sys.getenv('DOMAIN_DATA')) ) {
   write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
-  domain_hits = data.table(
-    read_tsv(
-      Sys.getenv('DOMAIN_DATA'),
-      col_types = cols(
-        .default = col_character(),     ss_version = col_integer(),
-        profile_length = col_integer(), hmm_from = col_integer(),
-        hmm_to = col_integer(),         score = col_double(),
-        align_length = col_integer(),   prop_matching = col_double()
-      )
+  domain_hits = read_tsv(
+    Sys.getenv('DOMAIN_DATA'),
+    col_types = cols(
+      .default = col_character(),     ss_version = col_integer(),
+      profile_length = col_integer(), hmm_from = col_integer(),
+      hmm_to = col_integer(),         score = col_double(),
+      align_length = col_integer(),   prop_matching = col_double()
     )
   )
 } else if ( grepl('\\.feather$', Sys.getenv('DOMAIN_DATA')) ) {
   write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
-  domain_hits = data.table(
-    read_feather(Sys.getenv('DOMAIN_DATA'))
-  )
+  domain_hits = read_feather(Sys.getenv('DOMAIN_DATA'))
 }
 
 # protraits table
 if ( grepl('\\.scsv$', Sys.getenv('PROTRAITS_DATA')) ) {
   write(sprintf("LOG: %s: Reading semicolon separated data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
-  protraits = data.table(
-    read_delim(
-      Sys.getenv('PROTRAITS_DATA'), delim=';', 
-      col_types =cols(.default=col_character(), Tax_ID=col_integer())
-    ) %>% 
+  protraits = read_delim(
+    Sys.getenv('PROTRAITS_DATA'), delim=';', 
+    col_types =cols(.default=col_character(), Tax_ID=col_integer())
+  ) %>% 
     mutate(ncbi_taxon_id = Tax_ID) %>% select(-Tax_ID)
-  )
 } else if ( grepl('\\.feather$', Sys.getenv('PROTRAITS_DATA')) ) {
   write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
-  protraits = data.table(read_feather(Sys.getenv('PROTRAITS_DATA')))
+  protraits = read_feather(Sys.getenv('PROTRAITS_DATA'))
 }
 
 write(sprintf("LOG: %s: Filling in protein hierarchy", Sys.time()), stderr())
-classified_proteins = data.table(
-  classified_proteins %>%
-    mutate(
-      pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
-      pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
-      psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
-      pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
-    )
-)
+classified_proteins = classified_proteins %>%
+  mutate(
+    pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
+    pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
+    psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
+    pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
+  )
 
 # We have problematic organisms, where multiple sequences of the same kind are
 # assigned to the same taxon, a species or a genus. Trying to get rid of the
@@ -151,58 +138,51 @@ classified_proteins = data.table(
 write(sprintf("LOG: %s: Finding correct taxa", Sys.time()), stderr())
 
 # Step 1. Get all unique taxa
-taxa = data.table(
-  classified_proteins %>% 
-    select(db, ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
-    distinct() %>% 
-    filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
-    mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
-)
+taxa = classified_proteins %>% 
+  select(db, ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
+  distinct() %>% 
+  filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
+  mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
 
 # Step 2. Left join with a list of species that have strains, and then filter.
-taxa = data.table(
-  taxa %>%
-    left_join(
-      taxa %>% 
-        filter(tspecies != tstrain) %>% 
-        select(db,tdomain:tspecies) %>% distinct() %>% 
-        mutate(strains=T),
-      by = c("db", "tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
-    ) %>% 
-    replace_na(list('strains'=F)) %>%
-    filter( ! ( strains & tspecies == tstrain ) )
-)
+taxa = taxa %>%
+  left_join(
+    taxa %>% 
+      filter(tspecies != tstrain) %>% 
+      select(db,tdomain:tspecies) %>% distinct() %>% 
+      mutate(strains=T),
+    by = c("db", "tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
+  ) %>% 
+  replace_na(list('strains'=F)) %>%
+  filter( ! ( strains & tspecies == tstrain ) )
 
 # Fill in empty levels of the taxon hierarchy (can't be done before the steps
 # involving taxa above).
 write(sprintf("LOG: %s: Filling in empty taxa in classified_proteins table", Sys.time()), stderr())
-classified_proteins = data.table(
-  classified_proteins %>%
-    mutate(
-      tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-      tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-      tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-      torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-      tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-      tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-      tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-    )
-)
+classified_proteins = 
+classified_proteins %>%
+  mutate(
+    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
+    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
+    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
+    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
+    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
+    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
+    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
+  )
 
 # Do the same for taxa
 write(sprintf("LOG: %s: Filling in empty taxa in taxa table", Sys.time()), stderr())
-taxa = data.table(
-  taxa %>%
-    mutate(
-      tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-      tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-      tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-      torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-      tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-      tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-      tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-    )
-)
+taxa = taxa %>%
+  mutate(
+    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
+    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
+    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
+    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
+    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
+    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
+    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
+  )
 
 # We will need a vector of protein superfamilies
 psuperfamilies = (classified_proteins %>% select(psuperfamily) %>% distinct() %>% arrange(psuperfamily))$psuperfamily
@@ -223,8 +203,8 @@ ui <- fluidPage(
         'protstattype', 'Type of protein statistic',
         list(
           'Individual proteins' = INDPROTEINS,
-          'Combinations of proteins' = COMBPROTEINS,
-          'Combinations of domains' = COMBDOMAINS
+          'Combinations of proteins' = COMBPROTEINS#,
+          #'Combinations of domains' = COMBDOMAINS
         ),
         selected = INDPROTEINS
       ),
@@ -686,7 +666,7 @@ server <- function(input, output, session) {
       # This is to get the right column names, a bit involved perhaps...
       t = t %>% mutate_('Taxon'=input$taxonrank, `N. genomes`='n_genomes') %>%
         mutate(Taxon = sprintf("<span title='%s'>%s</span>", taxon_tooltip, Taxon))
-      c = colnames(t)
+      cnames = colnames(t)
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       
       # Colours for heatmap
@@ -694,12 +674,13 @@ server <- function(input, output, session) {
       clrs = round(seq(255, 40, length.out = length(brks) + 1), 0) %>% { paste0("rgb(255,", ., ",", ., ")") }
       
       # Hide some columns
-      invisible = c(0, grep('fraction', c) - 3)
+      invisible = c(c(0, 1, 2, 3), grep('fraction', cnames) - 0)
       ###write(sprintf("--> invisible: %s", paste(invisible, collapse=", ")), stderr())
+      ###write(sprintf("--> invisible names: %s", paste(cnames[invisible], collapse=", ")), stderr())
 
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       t = t %>%
-        select(tcolour, c(length(c)-1,length(c),8:length(c)-2))
+        select(tcolour, c(length(cnames)-1,length(cnames),8:length(cnames)-2))
       ###write(sprintf("DEBUG: %s: \tcolnames: %s", Sys.time(), paste(colnames(t), collapse=", ")), stderr())
       #write.csv(t, stderr(), row.names=F)
       dt = datatable(
@@ -718,12 +699,13 @@ server <- function(input, output, session) {
           )
         )
       
-      for (ff in c[grep('fraction', c)]) {
+      for (ff in grep('fraction', cnames, value = TRUE)) {
         dt = dt %>% formatStyle(
           sub('fraction', '', ff), ff,
           backgroundColor = styleInterval(brks, clrs)
         )
       }
+      ###write(sprintf("DEBUG: %s: \trenderDataTable done", Sys.time()), stderr())
       
       dt
     }
@@ -743,11 +725,14 @@ server <- function(input, output, session) {
       t = t %>% select_(sprintf("-`%s`", c))
     }
     
-    ###write(sprintf("colnames(t): %s", colnames(t)), stderr())
+    ###write_tsv(t, '/tmp/chorddiag.t.tsv.gz')
+    ###write(sprintf("colnames(t): %s", paste(colnames(t), collapse = ', ')), stderr())
+    ###write(sprintf("row names: %s", paste(t[,1], collapse = ', ')), stderr())
     
     # The detour via a data frame below fixes a problem (issue #36) when there's only a
     # single column. Don't know why it's necessary.
-    d = data.frame(t[,2:length(colnames(t))], row.names=t[,1])
+    d = data.frame(t[, sapply(t, is.numeric)])
+    rownames(d) = t %>% pull(tsort)
     m = as.matrix(d)
     chorddiag(
       m, type = "bipartite",  groupnameFontsize =  14,
