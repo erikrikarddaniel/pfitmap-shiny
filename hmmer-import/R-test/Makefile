@@ -31,3 +31,9 @@ hmmsearch2classification.large_tc:
 	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
 	@$(SQLITE_SELECT)
 	@$(CHECK)
+
+# Data for this tc available by request from daniel.lundin@dbb.su.se
+hmmsearch2classification.large_tc:
+	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
+	@$(SQLITE_SELECT)
+	@$(CHECK)
