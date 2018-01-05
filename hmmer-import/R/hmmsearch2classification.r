@@ -29,7 +29,10 @@ option_list = list(
   )
 )
 opt = parse_args(
-  OptionParser(option_list=option_list), 
+  OptionParser(
+    usage = "%prog [options] file0.tblout .. filen.tblout file0.domtblout .. filen.domtblout", 
+    option_list = option_list
+  ), 
   positional_arguments = TRUE
 )
 
