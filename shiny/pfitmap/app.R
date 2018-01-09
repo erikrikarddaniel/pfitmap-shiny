@@ -8,7 +8,6 @@
 #
 
 library(shiny)
-library(readr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -16,11 +15,10 @@ library(ggforce)
 library(stringr)
 library(DT)
 library(chorddiag)
-library(feather)
 
 # Some constants
 PROFILES_VERSION = '0.7'
-UI_VERSION = '0.9.1'
+UI_VERSION = '1.1.0'
 
 PROTEIN_HIERARCHY = c( 'psuperfamily', 'pfamily', 'pclass', 'psubclass', 'pgroup' )
 TAXON_HIERARCHY = c( 'tdomain', 'tkingdom', 'tphylum', 'tclass', 'torder', 'tfamily', 'tgenus', 'tspecies', 'tstrain' )
@@ -70,64 +68,9 @@ DARK_PALETTE_768X = c(
 )
 
 # Reading data and transforming
-write(sprintf("LOG: %s: Reading data files", Sys.time()), stderr())
-
-# classified_proteins table
-if ( grepl('\\.tsv$', Sys.getenv('PFITMAP_DATA')) ) {
-  write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
-  classified_proteins = read_tsv(
-    Sys.getenv('PFITMAP_DATA'),
-    col_types = cols(
-      .default = col_character(),     ncbi_taxon_id = col_integer(),
-      profile_length = col_integer(), align_length = col_integer(),
-      align_start = col_integer(),    align_end = col_integer(),
-      prop_matching = col_double(),   ss_version = col_integer(),
-      e_value = col_double(),         score = col_double()
-    )
-  )
-} else if ( grepl('\\.feather$', Sys.getenv('PFITMAP_DATA')) ) {
-  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PFITMAP_DATA')), stderr())
-  classified_proteins = read_feather(Sys.getenv('PFITMAP_DATA'))
-}
-
-# domain_hits table
-if ( grepl('\\.tsv$', Sys.getenv('DOMAIN_DATA')) ) {
-  write(sprintf("LOG: %s: Reading tsv data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
-  domain_hits = read_tsv(
-    Sys.getenv('DOMAIN_DATA'),
-    col_types = cols(
-      .default = col_character(),     ss_version = col_integer(),
-      profile_length = col_integer(), hmm_from = col_integer(),
-      hmm_to = col_integer(),         score = col_double(),
-      align_length = col_integer(),   prop_matching = col_double()
-    )
-  )
-} else if ( grepl('\\.feather$', Sys.getenv('DOMAIN_DATA')) ) {
-  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('DOMAIN_DATA')), stderr())
-  domain_hits = read_feather(Sys.getenv('DOMAIN_DATA'))
-}
-
-# protraits table
-if ( grepl('\\.scsv$', Sys.getenv('PROTRAITS_DATA')) ) {
-  write(sprintf("LOG: %s: Reading semicolon separated data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
-  protraits = read_delim(
-    Sys.getenv('PROTRAITS_DATA'), delim=';', 
-    col_types =cols(.default=col_character(), Tax_ID=col_integer())
-  ) %>% 
-    mutate(ncbi_taxon_id = Tax_ID) %>% select(-Tax_ID)
-} else if ( grepl('\\.feather$', Sys.getenv('PROTRAITS_DATA')) ) {
-  write(sprintf("LOG: %s: Reading feather data from %s", Sys.time(), Sys.getenv('PROTRAITS_DATA')), stderr())
-  protraits = read_feather(Sys.getenv('PROTRAITS_DATA'))
-}
-
-write(sprintf("LOG: %s: Filling in protein hierarchy", Sys.time()), stderr())
-classified_proteins = classified_proteins %>%
-  mutate(
-    pfamily = ifelse(is.na(pfamily), sprintf("%s, no family", psuperfamily), pfamily),
-    pclass = ifelse(is.na(pclass), sprintf("%s, no class", pfamily), pclass),
-    psubclass = ifelse(is.na(psubclass), sprintf("%s, no subclass", pclass), psubclass),
-    pgroup = ifelse(is.na(pgroup), sprintf("%s, no group", psubclass), pgroup)
-  )
+write(sprintf("LOG: %s: Opening the database %s", Sys.time(), Sys.getenv('PFITMAP_SQLITEDB')), stderr())
+db <- DBI::dbConnect(RSQLite::SQLite(), Sys.getenv('PFITMAP_SQLITEDB'))
+write(sprintf("LOG: %s: Database opened", Sys.time()), stderr())
 
 # We have problematic organisms, where multiple sequences of the same kind are
 # assigned to the same taxon, a species or a genus. Trying to get rid of the
