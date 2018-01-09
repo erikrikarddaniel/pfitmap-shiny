@@ -255,7 +255,13 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
     logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
     con %>% copy_to(
-      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
+      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())) %>%
+        mutate(
+          pfamily = ifelse(is.na(pfamily), sprintf("%s no family", psuperfamily), pfamily),
+          pclass = ifelse(is.na(pclass), sprintf("%s no class", pfamily), pclass),
+          psubclass = ifelse(is.na(psubclass), sprintf("%s no subclass", pclass), psubclass),
+          pgroup = ifelse(is.na(pgroup), sprintf("%s no group", psubclass), pgroup)
+        ),
       'hmm_profiles', temporary = FALSE, overwrite = TRUE
     )
   }

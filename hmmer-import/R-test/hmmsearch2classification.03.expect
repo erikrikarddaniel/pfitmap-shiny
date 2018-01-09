@@ -2162,16 +2162,16 @@ WP_075604347.1|NrdAq|227.8|1.3e-63|734|704|621.0
 WP_077144507.1|NrdAz3|1342.6|0.0|963|700|718.0
 WP_077150057.1|NrdAq|228.5|7.7e-64|734|704|621.0
 YP_851020.1|NrdAm|1091.0|0.0|742|722|739.0
-NrdA|NrdGRE|NrdAJ|NrdA||
-NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|
-NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|
-NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|
-NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|
-NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|
-NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|
-NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|
-NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|
-NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|
+NrdA|NrdGRE|NrdAJ|NrdA|NrdA no subclass|NrdA no subclass no group
+NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|NrdAe no group
+NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|NrdAg no group
+NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|NrdAh no group
+NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|NrdAi no group
+NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|NrdAk no group
+NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|NrdAm no group
+NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|NrdAn no group
+NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|NrdAq no group
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz no group
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 286|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas||Pseudomonas|genus

@@ -24,16 +24,16 @@ NP_001024.1|NrdAe|1272.8|0.0|792|684|681.0
 NP_001304993.1|NrdAe|1267.4|0.0|695|684|677.0
 NP_001304994.1|NrdAe|801.5|3.9e-237|454|684|436.0
 NP_001317122.1|NrdAe|1056.5|0.0|570|684|552.0
-NrdA|NrdGRE|NrdAJ|NrdA||
-NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|
-NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|
-NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|
-NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|
-NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|
-NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|
-NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|
-NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|
-NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|
+NrdA|NrdGRE|NrdAJ|NrdA|NrdA no subclass|NrdA no subclass no group
+NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|NrdAe no group
+NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|NrdAg no group
+NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|NrdAh no group
+NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|NrdAi no group
+NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|NrdAk no group
+NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|NrdAm no group
+NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|NrdAn no group
+NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|NrdAq no group
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz no group
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 9606|Eukaryota|Metazoa|Chordata|Mammalia|Primates|Hominidae|Homo|Homo sapiens|Homo sapiens|species

@@ -14,4 +14,5 @@ all_pgdumps: taxon.data.pgdump.gz taxon_name.data.pgdump.gz taxon.schema.pgdump.
 	echo "END;" >> $@
 
 %.sqlite3: %.sql3dump
+	rm -f $@
 	sqlite3 $@ < $<
