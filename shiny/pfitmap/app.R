@@ -72,43 +72,6 @@ write(sprintf("LOG: %s: Opening the database %s", Sys.time(), Sys.getenv('PFITMA
 db <- DBI::dbConnect(RSQLite::SQLite(), Sys.getenv('PFITMAP_SQLITEDB'))
 write(sprintf("LOG: %s: Database opened", Sys.time()), stderr())
 
-# Fill in empty levels of the taxon hierarchy (can't be done before the steps
-# involving taxa above).
-write(sprintf("LOG: %s: Filling in empty taxa in classified_proteins table", Sys.time()), stderr())
-classified_proteins = 
-classified_proteins %>%
-  mutate(
-    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-  )
-
-# Do the same for taxa
-write(sprintf("LOG: %s: Filling in empty taxa in taxa table", Sys.time()), stderr())
-taxa = taxa %>%
-  mutate(
-    tkingdom = ifelse(is.na(tkingdom), sprintf("%s, no kingdom", tdomain), tkingdom),
-    tphylum = ifelse(is.na(tphylum), sprintf("%s, no phylum", sub(', no kingdom', '', tkingdom)), tphylum),
-    tclass = ifelse(is.na(tclass), sprintf("%s, no class", sub(', no phylum', '', tphylum)), tclass),
-    torder = ifelse(is.na(torder), sprintf("%s, no order", sub(', no class', '', tclass)), torder),
-    tfamily = ifelse(is.na(tfamily), sprintf("%s, no family", sub(', no order', '', torder)), tfamily),
-    tgenus = ifelse(is.na(tgenus), sprintf("%s, no genus", sub(', no family', '', tfamily)), tgenus),
-    tspecies = ifelse(is.na(tspecies), sprintf("%s, no species", sub(', no genus', '', tgenus)), tspecies)
-  )
-
-# We will need a vector of protein superfamilies
-psuperfamilies = (classified_proteins %>% select(psuperfamily) %>% distinct() %>% arrange(psuperfamily))$psuperfamily
-tdomains = (taxa %>% select(tdomain) %>% distinct() %>% arrange(tdomain))$tdomain
-
-# We also need a vector of databases
-dbs = (classified_proteins %>% select(db) %>% distinct() %>% arrange(db))$db
-
-write(sprintf("LOG: %s: Data init done", Sys.time()), stderr())
-
 # Define UI
 ui <- fluidPage(
   titlePanel('pfitmap/RNRdb'),
