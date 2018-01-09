@@ -82,14 +82,14 @@ ui <- fluidPage(
         'protstattype', 'Type of protein statistic',
         list(
           'Individual proteins' = INDPROTEINS,
-          'Combinations of proteins' = COMBPROTEINS#,
-          #'Combinations of domains' = COMBDOMAINS
+          'Combinations of proteins' = COMBPROTEINS,
+          'Combinations of domains' = COMBDOMAINS
         ),
         selected = INDPROTEINS
-      ),
-      selectInput(
-        'db', 'Database',
-        dbs, selected = 'ref'
+###      ),
+###      selectInput(
+###        'db', 'Database',
+###        dbs, selected = 'ref'
       ),
       selectInput(
         'taxonrank', 'Taxon rank', 
@@ -107,27 +107,27 @@ ui <- fluidPage(
           'Group'       = 'pgroup'
         ),
         selected = c('pclass')
-      ),
-      wellPanel(
-        selectInput(
-          'psuperfamilies', 'Protein superfamilies',
-          c('', psuperfamilies), selected = c('NrdGRE'), 
-          multiple=T
-        ),
-        uiOutput('pfamilies'),
-        uiOutput('pclasses')
-      ),
-      wellPanel(
-        selectInput(
-          'tdomains', 'Taxonomic domains',
-          c('', tdomains), multiple = T
-        ),
-        uiOutput('tphyla'),
-        uiOutput('tclasses'),
-        uiOutput('torders'),
-        uiOutput('tfamilies'),
-        uiOutput('tgenera'),
-        uiOutput('tspecies')
+###      ),
+###      wellPanel(
+###        selectInput(
+###          'psuperfamilies', 'Protein superfamilies',
+###          c('', psuperfamilies), selected = c('NrdGRE'), 
+###          multiple=T
+###        ),
+###        uiOutput('pfamilies'),
+###        uiOutput('pclasses')
+###      ),
+###      wellPanel(
+###        selectInput(
+###          'tdomains', 'Taxonomic domains',
+###          c('', tdomains), multiple = T
+###        ),
+###        uiOutput('tphyla'),
+###        uiOutput('tclasses'),
+###        uiOutput('torders'),
+###        uiOutput('tfamilies'),
+###        uiOutput('tgenera'),
+###        uiOutput('tspecies')
       )
     ),
     mainPanel(
@@ -685,9 +685,7 @@ server <- function(input, output, session) {
     sprintf(
       "<a href='news.html'>%s</a>",
       sv = paste(
-        (classified_proteins %>% 
-          transmute(ssversion = sprintf("Source database: %s %s %s.", ss_source, ss_name, ss_version)) %>% 
-          distinct())$ssversion,
+        sprintf("Source database: %s.", db %>% tbl('dbsources') %>% collect() %>% unite(s, 1:3, sep = ' ')),
         sprintf("Profiles version %s.", PROFILES_VERSION),
         sprintf("UI version %s.", UI_VERSION)
       )

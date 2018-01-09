@@ -12,6 +12,9 @@ suppressPackageStartupMessages(library(tidyr))
 # Get arguments
 option_list = list(
   make_option(
+    c('--dbsource', default='', help='Database source, three fields separated by ":": source, name and version.')
+  ),
+  make_option(
     c('--profilehierarchies', default='', help='tsv file with profile hiearchies')
   ),
   make_option(
@@ -292,6 +295,12 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
       'taxa', temporary = FALSE, overwrite = TRUE
     )
   }
+
+  logmsg(sprintf("Creating dbsources table from %s", opt$options$dbsource))
+  con %>% copy_to(
+    tibble(s = opt$options$dbsource) %>% separate(s, c('source', 'name', 'version')),
+    'dbsources', temporary = FALSE, overwrite = TRUE
+  )
 }
 
 logmsg("Done")
