@@ -3,6 +3,7 @@ setenv ROOT $PWD
 setenv PFITMAP_DATA ../../data/test/classified_proteins.10000.tsv
 setenv DOMAIN_DATA ../../data/test/domain_hits.10000.tsv
 setenv PROTRAITS_DATA ../../data/test/protraits.precision_scores.scsv
+setenv PFITMAP_SQLITEDB ../../data/test/small_test_db.sqlite3
 chdir data
 screen -t data
 chdir $ROOT/shiny

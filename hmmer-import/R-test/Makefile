@@ -9,6 +9,9 @@ all: hmmsearch2classification.00 hmmsearch2classification.01 hmmsearch2classific
 Nrd.test.tar.gz:
 	scp rnrdb:projects/profiles/profiles/Nrd.test.tar.gz .
 
+%.sql3dump: %.sqlite3
+	sqlite3 $< '.dump' > $@
+
 hmmsearch2classification.00:
 	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --singletable=$@.out --taxflat=hmmsearch2classification.taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
 	@$(CHECK)
@@ -24,11 +27,6 @@ hmmsearch2classification.02:
 
 hmmsearch2classification.03:
 	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=hmmsearch2classification.taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
-	@$(SQLITE_SELECT)
-	@$(CHECK)
-
-hmmsearch2classification.large_tc:
-	../R/hmmsearch2classification.r --verbose --profilehierarchies=$@.phier.tsv --sqlitedb=$@.sqlite3 --taxflat=taxflat.tsv $@.d/*.tblout $@.d/*.domtblout
 	@$(SQLITE_SELECT)
 	@$(CHECK)
 
