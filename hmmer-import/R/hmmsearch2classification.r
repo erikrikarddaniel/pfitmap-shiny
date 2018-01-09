@@ -5,9 +5,7 @@
 # Author: daniel.lundin@dbb.su.se
 
 suppressPackageStartupMessages(library(optparse))
-#suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(dplyr))
-#suppressPackageStartupMessages(library(dtplyr))
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(tidyr))
 
@@ -31,7 +29,10 @@ option_list = list(
   )
 )
 opt = parse_args(
-  OptionParser(option_list=option_list), 
+  OptionParser(
+    usage = "%prog [options] file0.tblout .. filen.tblout file0.domtblout .. filen.domtblout", 
+    option_list = option_list
+  ), 
   positional_arguments = TRUE
 )
 
