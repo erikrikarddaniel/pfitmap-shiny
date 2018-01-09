@@ -273,11 +273,20 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
       read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
         transmute(
           ncbi_taxon_id,
-          psuperkingdom = superkingdom, pkingdom = kingdom,
-          pphylum       = phylum,       pclass   = class,
-          porder        = order,        pfamily  = family,
-          pgenus        = genus,        pspecies = species,
+          tsuperkingdom = superkingdom, tkingdom = kingdom,
+          tphylum       = phylum,       tclass   = class,
+          torder        = order,        tfamily  = family,
+          tgenus        = genus,        tspecies = species,
           taxon, rank
+        ) %>%
+        mutate(
+          tkingdom = ifelse(is.na(tkingdom), sprintf("%s no kingdom", tsuperkingdom), tkingdom),
+          tphylum  = ifelse(is.na(tphylum),  sprintf("%s no phylum",  tkingdom),      tphylum),
+          tclass   = ifelse(is.na(tclass),   sprintf("%s no class",   tphylum),       tclass),
+          torder   = ifelse(is.na(torder),   sprintf("%s no order",   tclass),        torder),
+          tfamily  = ifelse(is.na(tfamily),  sprintf("%s no family",  torder),        tfamily),
+          tgenus   = ifelse(is.na(tgenus),   sprintf("%s no genus",   tfamily),       tgenus),
+          tspecies = ifelse(is.na(tspecies), sprintf("%s no species", tgenus),        tspecies)
         ) %>%
         inner_join(accessions %>% distinct(taxon), by='taxon'),
       'taxa', temporary = FALSE, overwrite = TRUE
