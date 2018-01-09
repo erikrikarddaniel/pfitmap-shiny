@@ -161,48 +161,6 @@ ui <- fluidPage(
         tabPanel('sequences',
           downloadLink('fastaseq', 'Download sequences in fasta format'),
           htmlOutput('sequencelist')
-        ),
-        tabPanel('phenotypes',
-          fluidRow(
-            p(
-              HTML(
-                paste(
-                  'This is an experimental view of presence/absence of traits in Archaea and Bacteria.',
-                  'The data was downloaded from the ',
-                  a(href="http://protraits.irb.hr/", "ProTraits"),
-                  'database.',
-                  'The purpose is to allow analysis of what traits are associated or not with the selection of organisms implied by your current selection.',
-                  'To be useful in its current incarnation, you need to ', em('subset taxa and/or proteins sufficiently'), '.',
-                  'I will add a statistical test.'
-                )
-              )
-            ),
-            p(
-              HTML(
-                paste(
-                  em('Present/absent'), ' etc. allows you to look at either present or absent traits, or both (the default).',
-                  'The ', em('Min. stat. support in assignment'), ' controls significance (1-FDR) of ProTrait\'s assignment of traits. ',
-                  'The ', em('Frequency range'), ' slider controls the the window of "commoness" per genome for traits so that you can filter out very rare or very common traits.'
-                )
-              )
-            )
-          ),
-          fluidRow(
-            column(4,
-              selectInput(
-                'trait.present', 'Presence',
-                list(TRAIT_PRESENCE_BOTH, TRAIT_PRESENCE_ONLY_PRESENT, TRAIT_PRESENCE_ONLY_ABSENT),
-                TRAIT_PRESENCE_BOTH
-              )
-            ),
-            column(4,
-              sliderInput('trait.minsupport', 'Min. stat. support in assignment', 0, 1, 0.95)
-            ),
-            column(4,
-              sliderInput('trait.freqrange', 'Frequency range', 0, 1, c(0,1))
-            )
-          ),
-          plotOutput('traitplot', height=800)
         )
       )
     )
@@ -713,55 +671,6 @@ server <- function(input, output, session) {
       transmute(s = sprintf(">%s %s (%s)\n%s", taxon, protein, acclinks, seq))
 
     sprintf("<pre>%s</pre>", paste(d$s, sep="\n", collapse="\n"))
-  })
-
-  output$traitplot = renderPlot({
-    d = filtered_table() %>%
-      inner_join(protraits, by='ncbi_taxon_id') %>%
-      mutate(
-        present = ifelse(Minority == '-', T, F),
-        score = ifelse(Minority == '-', `Integrated_score_+`, `Integrated_score_-`)
-      ) %>%
-      filter(
-        score >= input$trait.minsupport
-      )
-
-    if ( input$trait.present == TRAIT_PRESENCE_ONLY_PRESENT ) {
-      d = d %>% filter(present)
-    } else if ( input$trait.present == TRAIT_PRESENCE_ONLY_ABSENT ) {
-      d = d %>% filter(! present)
-    }
-
-    ###write(sprintf("DEBUG: freqrange %f - %f", input$trait.freqrange[1], input$trait.freqrange[2]), stderr())
-
-    # Count the number of unique organisms, to use in freq calc
-    o = d %>% select(ncbi_taxon_id) %>% distinct() %>% summarise(n=n())
-
-    d = d %>% 
-      mutate_('wrap' = input$proteinrank) %>%
-      group_by(Phenotype, present, wrap) %>%
-      summarise(n=n()) %>%
-      ungroup() %>%
-      mutate(
-        freq = n/o$n,
-        present = ifelse(present, 'Present', 'Absent')
-      ) %>%
-      filter(
-        freq >= input$trait.freqrange[1],
-        freq <= input$trait.freqrange[2]
-      )
-
-    p = ggplot(d, aes(x=Phenotype, y=freq, colour=present)) +
-      geom_point() +
-      scale_y_log10() +
-      theme(
-        axis.text.x = element_text(angle=60, hjust=1, size=12)
-      ) +
-      ylab('Frequency in genomes') +
-      scale_colour_manual('Present/absent', values=c('Present' = 'darkgreen', 'Absent' = 'darkred')) +
-      facet_wrap(~wrap, ncol=1)
-
-    p
   })
   
   #output$debug = renderText({
