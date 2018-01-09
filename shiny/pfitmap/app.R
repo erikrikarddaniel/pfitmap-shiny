@@ -200,8 +200,14 @@ server <- function(input, output, session) {
   
   # Returns a table after applying all filters the user have called for
   filtered_table = reactive({
-    t = classified_proteins %>% 
+    ### WORK IN PROGRESS
+    t = db %>% tbl('accessions') %>% 
       filter(db == input$db) %>%
+      inner_join(db %>% tbl('bestscoring'), by = 'accno') %>%
+      inner_join(db %>% tbl('hmm_profiles'), by = 'profile') %>%
+      collect() %>%                    # Database does not support rank()
+      group_by(accno, taxon) %>% mutate(r = rank(accto)) %>% ungroup() %>% filter(r == 1) %>% # One count per db, taxon and real sequence
+      mutate(accno = accto) %>% select(-accno, -r) %>%   # accto is confusing comes from tblout processing
       inner_join(filtered_taxa() %>% select(db, ncbi_taxon_id), by=c('db', 'ncbi_taxon_id'))
     
     # Filters for protein hierarchy
