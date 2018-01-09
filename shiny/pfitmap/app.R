@@ -72,33 +72,6 @@ write(sprintf("LOG: %s: Opening the database %s", Sys.time(), Sys.getenv('PFITMA
 db <- DBI::dbConnect(RSQLite::SQLite(), Sys.getenv('PFITMAP_SQLITEDB'))
 write(sprintf("LOG: %s: Database opened", Sys.time()), stderr())
 
-# We have problematic organisms, where multiple sequences of the same kind are
-# assigned to the same taxon, a species or a genus. Trying to get rid of the
-# species cases by filtering non-strain taxa from species with at least one
-# strain. At the same time, delete all taxa with tgenus == tstrain and no
-# tspecies.
-
-write(sprintf("LOG: %s: Finding correct taxa", Sys.time()), stderr())
-
-# Step 1. Get all unique taxa
-taxa = classified_proteins %>% 
-  select(db, ncbi_taxon_id, tdomain, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, tstrain) %>% 
-  distinct() %>% 
-  filter( ! ( tgenus == tstrain & is.na(tspecies) ) ) %>%
-  mutate(tspecies = ifelse(is.na(tspecies) & ! is.na(tgenus), sprintf("%s sp.", tgenus), tspecies))
-
-# Step 2. Left join with a list of species that have strains, and then filter.
-taxa = taxa %>%
-  left_join(
-    taxa %>% 
-      filter(tspecies != tstrain) %>% 
-      select(db,tdomain:tspecies) %>% distinct() %>% 
-      mutate(strains=T),
-    by = c("db", "tdomain", "tkingdom", "tphylum", "tclass", "torder", "tfamily", "tgenus", "tspecies")
-  ) %>% 
-  replace_na(list('strains'=F)) %>%
-  filter( ! ( strains & tspecies == tstrain ) )
-
 # Fill in empty levels of the taxon hierarchy (can't be done before the steps
 # involving taxa above).
 write(sprintf("LOG: %s: Filling in empty taxa in classified_proteins table", Sys.time()), stderr())
