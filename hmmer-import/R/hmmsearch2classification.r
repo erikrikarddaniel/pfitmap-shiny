@@ -180,14 +180,14 @@ while ( overlaps %>% nrow() > 0 ) {
   overlaps = calc_overlaps(domtblout.no_overlaps)
 }
 
-logmsg("Overlaps done")
+logmsg("Overlaps done, calculating lengths")
 
 # Now, we can calculate lengths
 align_lengths = domtblout.no_overlaps %>%
   mutate(alilen = ali_to - ali_from + 1) %>%
   group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(alilen)) %>% ungroup()
 
-logmsg("Calculated lengths")
+logmsg("Calculated lengths, inferring source databases from accession numbers")
 
 # Infer databases from the structure of accession numbers
 accessions = accessions %>%
@@ -201,16 +201,24 @@ accessions = accessions %>%
   mutate(db = ifelse((is.na(db) & grepl('^[C][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'embl', db)) %>%
   mutate(db = ifelse((is.na(db) & grepl('^[BFGIL][A-Z][A-Z][0-9]+\\.[0-9]+$', accto)), 'dbj', db))
 
+logmsg("Inferred databases, calculating best scoring profile for each accession")
+
 # Calculate best scoring profile for each accession
 bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
   select(accno, profile, score, evalue)
+
+logmsg("Calculated best scoring profiles, joining in lengths")
 
 # Join in lengths
 logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", bestscoring %>% nrow()))
 bestscoring = bestscoring %>% inner_join(align_lengths, by = c('accno', 'profile'))
 
+logmsg("Joined in lengths, writing data")
+
 # If we were called with the singletable option, prepare data suitable for that
 if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
+  logmsg("Writing single table format")
+
   # If we have a profile hierarchy file name, read it and join
   if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
     logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
