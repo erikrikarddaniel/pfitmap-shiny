@@ -1,14 +1,14 @@
-profile	psuperfamily	pfamily	pclass	psubclass	pgroup	version
-NrdA	NrdGRE	NrdAJ	NrdA			0.1
-NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe		0.1
-NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg		0.1
-NrdAh	NrdGRE	NrdAJ	NrdA	NrdAh		0.1
-NrdAi	NrdGRE	NrdAJ	NrdA	NrdAi		0.1
-NrdAk	NrdGRE	NrdAJ	NrdA	NrdAk		0.1
-NrdAm	NrdGRE	NrdAJ	NrdA	NrdAm		0.1
-NrdAn	NrdGRE	NrdAJ	NrdA	NrdAn		0.1
-NrdAq	NrdGRE	NrdAJ	NrdA	NrdAq		0.1
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz		0.1
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3	0.1
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4	0.1
-Glutaredoxin						0.1
+profile	psuperfamily	pfamily	pclass	psubclass	pgroup	prank	version
+NrdA	NrdGRE	NrdAJ	NrdA			pclass	0.1
+NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe		psubclass	0.1
+NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg		psubclass	0.1
+NrdAh	NrdGRE	NrdAJ	NrdA	NrdAh		psubclass	0.1
+NrdAi	NrdGRE	NrdAJ	NrdA	NrdAi		psubclass	0.1
+NrdAk	NrdGRE	NrdAJ	NrdA	NrdAk		psubclass	0.1
+NrdAm	NrdGRE	NrdAJ	NrdA	NrdAm		psubclass	0.1
+NrdAn	NrdGRE	NrdAJ	NrdA	NrdAn		psubclass	0.1
+NrdAq	NrdGRE	NrdAJ	NrdA	NrdAq		psubclass	0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz		psubclass	0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3	pgroup	0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4	pgroup	0.1
+Glutaredoxin						domain	0.1
