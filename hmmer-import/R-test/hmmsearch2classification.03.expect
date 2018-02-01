@@ -2356,19 +2356,19 @@ XP_021876068.1|Glutaredoxin|77.1|6.7e-18|102|60|63.0
 XP_022142239.1|Glutaredoxin|194.7|1.4e-54|489|60|194.0
 XP_022925807.1|Glutaredoxin|197.0|2.6e-55|490|60|194.0
 YP_851020.1|NrdAm|1091.0|0.0|742|722|739.0
-Glutaredoxin|||||
-NrdA|NrdGRE|NrdAJ|NrdA||
-NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|
-NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|
-NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh|
-NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi|
-NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk|
-NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm|
-NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn|
-NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq|
-NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|
-NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3
-NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
+Glutaredoxin||||||0.1
+NrdA|NrdGRE|NrdAJ|NrdA|||0.1
+NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe||0.1
+NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg||0.1
+NrdAh|NrdGRE|NrdAJ|NrdA|NrdAh||0.1
+NrdAi|NrdGRE|NrdAJ|NrdA|NrdAi||0.1
+NrdAk|NrdGRE|NrdAJ|NrdA|NrdAk||0.1
+NrdAm|NrdGRE|NrdAJ|NrdA|NrdAm||0.1
+NrdAn|NrdGRE|NrdAJ|NrdA|NrdAn||0.1
+NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq||0.1
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz||0.1
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3|0.1
+NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4|0.1
 286|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas||Pseudomonas|genus
 287|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa|species
 303|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas putida|Pseudomonas putida|species

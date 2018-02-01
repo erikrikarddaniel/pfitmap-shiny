@@ -1,14 +1,14 @@
-profile	psuperfamily	pfamily	pclass	psubclass	pgroup
-NrdA	NrdGRE	NrdAJ	NrdA		
-NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	
-NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg	
-NrdAh	NrdGRE	NrdAJ	NrdA	NrdAh	
-NrdAi	NrdGRE	NrdAJ	NrdA	NrdAi	
-NrdAk	NrdGRE	NrdAJ	NrdA	NrdAk	
-NrdAm	NrdGRE	NrdAJ	NrdA	NrdAm	
-NrdAn	NrdGRE	NrdAJ	NrdA	NrdAn	
-NrdAq	NrdGRE	NrdAJ	NrdA	NrdAq	
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4
-Glutaredoxin					
+profile	psuperfamily	pfamily	pclass	psubclass	pgroup	version
+NrdA	NrdGRE	NrdAJ	NrdA			0.1
+NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe		0.1
+NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg		0.1
+NrdAh	NrdGRE	NrdAJ	NrdA	NrdAh		0.1
+NrdAi	NrdGRE	NrdAJ	NrdA	NrdAi		0.1
+NrdAk	NrdGRE	NrdAJ	NrdA	NrdAk		0.1
+NrdAm	NrdGRE	NrdAJ	NrdA	NrdAm		0.1
+NrdAn	NrdGRE	NrdAJ	NrdA	NrdAn		0.1
+NrdAq	NrdGRE	NrdAJ	NrdA	NrdAq		0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz		0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3	0.1
+NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4	0.1
+Glutaredoxin						0.1
