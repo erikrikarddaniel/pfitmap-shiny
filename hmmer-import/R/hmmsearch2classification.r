@@ -289,7 +289,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
     ungroup()
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
-  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "accessions.i00" ON "accessions"("db", "accno", taxon);')
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "accessions.i00" ON "accessions"("db", "accno", "taxon");')
   con %>% DBI::dbExecute('CREATE INDEX "accessions.i01" ON "accessions"("accno");')
   con %>% DBI::dbExecute('CREATE INDEX "accessions.i02" ON "accessions"("taxon");')
   
