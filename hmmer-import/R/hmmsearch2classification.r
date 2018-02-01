@@ -281,6 +281,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   # combination of accno, db and taxon to ensure organisms do not show up as
   # having more than one exactly identical sequence, which they do with the new
   # redundant RefSeq entries (WP_ accessions).
+  logmsg('Copying to "accessions", creating indices')
   accessions <- accessions %>%
     arrange(db, taxon, accno, accto) %>%
     group_by(db, taxon, accno) %>%
@@ -288,12 +289,23 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
     ungroup()
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "accessions.i00" ON "accessions"("db", "accno", taxon);')
+  con %>% DBI::dbExecute('CREATE INDEX "accessions.i01" ON "accessions"("accno");')
+  con %>% DBI::dbExecute('CREATE INDEX "accessions.i02" ON "accessions"("taxon");')
   
+  logmsg('Copying to "proteins", creating indices')
   con %>% copy_to(proteins, 'proteins', temporary = FALSE, overwrite = TRUE)
+  con %>% DBI::dbExecute('CREATE INDEX "proteins.i00" ON "proteins"("accno");')
+  con %>% DBI::dbExecute('CREATE INDEX "proteins.i01" ON "proteins"("profile");')
 
+  logmsg('Copying to "domains", creating indices')
   con %>% copy_to(domains, 'domains', temporary = FALSE, overwrite = TRUE)
+  con %>% DBI::dbExecute('CREATE INDEX "domains.i00" ON "domains"("accno");')
+  con %>% DBI::dbExecute('CREATE INDEX "domains.i01" ON "domains"("profile");')
 
+  logmsg('Copying to "hmm_profiles", creating indices')
   con %>% copy_to(hmm_profiles, 'hmm_profiles', temporary = FALSE, overwrite = TRUE)
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "hmm_profiles.i00" ON "hmm_profiles"("profile");')
 
   # If we have a taxflat NCBI taxonomy, read and join
   if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
@@ -312,6 +324,9 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
       'taxa', temporary = FALSE, overwrite = TRUE
     )
   }
+  logmsg('Creating indices on "taxa"')
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i00" ON "taxa"("taxon");')
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i01" ON "taxa"("ncbi_taxon_id");')
 }
 
 logmsg("Done")
