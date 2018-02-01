@@ -210,17 +210,22 @@ proteins <- tblout %>%
   group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
   select(accno, profile, score, evalue)
 
-# Create table of domains as those that match domains specified in hmm_profiles
-domains <- tblout %>%
-  semi_join(hmm_profiles %>% filter(prank == 'domain'), by = 'profile') %>%
-  select(accno, profile, score, evalue)
+logmsg("Calculated best scoring profiles, creating domains")
 
-logmsg("Calculated best scoring profiles, joining in lengths")
+# Create table of domains as those that match domains specified in hmm_profiles
+domains <- domtblout %>%
+  semi_join(hmm_profiles %>% filter(prank == 'domain'), by = 'profile') %>%
+  transmute(
+   accno, profile, i, n,
+   dom_c_evalue, dom_i_evalue, dom_score,
+   hmm_from, hmm_to,
+   ali_from, ali_to,
+   env_from, env_to
+)
 
 # Join in lengths
 logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", proteins %>% nrow()))
 proteins <- proteins %>% inner_join(align_lengths, by = c('accno', 'profile'))
-domains <- domains %>% inner_join(align_lengths, by = c('accno', 'profile'))
 
 logmsg("Joined in lengths, writing data")
 
@@ -231,7 +236,6 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
   # Join proteins with accessions and drop profile to get a single table output
   logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", proteins %>% nrow()))
   singletable <- proteins %>% 
-    union(domains) %>% 
     left_join(hmm_profiles, by='profile') %>%
     inner_join(accessions, by='accno') %>%
     mutate(accno = accto) 

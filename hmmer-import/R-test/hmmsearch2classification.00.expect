@@ -10,142 +10,14 @@ pdb	3HNF_B	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
 pdb	4X3V_A	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
 pdb	4X3V_B	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
 genbank	AAH06498.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681
-genbank	AAL91146.1	Arabidopsis thaliana	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	63
-genbank	AAM47884.1	Arabidopsis thaliana	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	63
-genbank	AAS77241.1	uncultured bacterium	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	110	60	65
-genbank	AAS77244.1	uncultured bacterium	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	110	60	65
 genbank	ABM83954.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
 genbank	ABM87271.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
-genbank	AED97688.1	Arabidopsis thaliana	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	63
-genbank	AGE95459.1	Encephalitozoon cuniculi	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	204	60	111
 genbank	AIC55076.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
-genbank	AKU44832.1	Klebsiella phage Miro	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	89	60	64
-genbank	ALA17276.1	Chelatococcus sp. CO-6	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	ALC18146.1	Desulfuromonas soudanensis	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	89	60	60
-genbank	AMV71055.1	Desulfuromonas sp. DDH964	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	60
-genbank	AOT07025.1	Pseudoalteromonas luteoviolacea	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	AOT11943.1	Pseudoalteromonas luteoviolacea	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	AOT16855.1	Pseudoalteromonas luteoviolacea	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	AQU76929.1	Bacillus megaterium	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	132	60	43
-dbj	BAV72424.1	Pseudomonas chlororaphis subsp. aurantiaca	77.2	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	86192	84	60	60
-dbj	BAZ43108.1	Chondrocystis sp. NIES-4102	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	264	60	59
 embl	CAA42118.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681
 embl	CAA42180.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681
-embl	CAQ91076.1	Escherichia fergusonii ATCC 35469	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	585054	83	60	60
-embl	CCA19224.1	Albugo laibachii Nc14	194.4	1.6e-54	Glutaredoxin	NA	NA	NA	NA	NA	NA	448	60	195
-embl	CCD71619.1	Caenorhabditis elegans	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	96	60	66
-embl	CCX58946.1	Blautia hydrogenotrophica CAG:147	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	118	60	45
-embl	CDS12966.1	Lichtheimia ramosa	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	624	60	49
-embl	CDY67051.1	Brassica napus	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	379	60	71
-embl	CEG37520.1	Plasmopara halstedii	193.4	3.3e-54	Glutaredoxin	NA	NA	NA	NA	NA	NA	447	60	195
-embl	CRM50022.1	Pseudomonas sp. 31 E 6	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	1844100	84	60	60
-embl	CRM69133.1	Pseudomonas sp. 31 E 5	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	1844099	84	60	60
-embl	CRM95591.1	Pseudomonas sp. 22 E 5	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	1844093	84	60	60
-embl	CUM75907.1	Blautia hydrogenotrophica	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	118	60	45
-embl	CUX45218.1	Agrobacterium genomosp. 3 str. CFBP 6623	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	60
 genbank	EAX02583.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681
-genbank	EDP98404.1	Kordia algicida OT-1	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	86	60	60
-genbank	EEV40101.1	Enterococcus casseliflavus EC20	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	31
-genbank	EGC05920.1	Escherichia fergusonii B253	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	550694	83	60	60
-genbank	EGC97018.1	Escherichia fergusonii ECD227	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	981367	83	60	60
-genbank	EIK68131.1	Pseudomonas synxantha BG33R	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	96901	84	60	60
-genbank	EKD41788.1	uncultured bacterium	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	60
-genbank	EMA52790.1	Halococcus salifodinae DSM 8989	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	80	60	56
-genbank	ENW30764.1	Acinetobacter lwoffii NIPH 478	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	1217668	260	60	52
-genbank	ETA52961.1	Rhodobacteraceae bacterium PD-2	77.2	6.6e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KDR75122.1	Galerina marginata CBS 339.88	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	219	60	65
-genbank	KGP70884.1	Pontibacillus yanchengensis Y32	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	131	60	41
-genbank	KID54992.1	Pseudoalteromonas luteoviolacea	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KJG90328.1	Yersinia pestis subsp. microtus bv. Ulegeica	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	385969	77	60	58
-genbank	KKE82566.1	Pseudoalteromonas luteoviolacea S4054	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KKX24419.1	Agrobacterium sp. LC34	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	60
-genbank	KMN17816.1	Pseudomonas weihenstephanensis	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	1608994	198	60	59
-genbank	KMT55969.1	Pseudomonas sp. KG01	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	1674920	84	60	60
-genbank	KPE01158.1	Yersinia pestis subsp. microtus bv. Ulegeica	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	385969	77	60	58
-genbank	KPE17137.1	Yersinia pestis subsp. microtus bv. Ulegeica	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	385969	77	60	58
-genbank	KPQ34288.1	Phormidesmis priestleyi Ana	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	107	60	65
-genbank	KQZ49482.1	Rhizobium sp. Root149	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KRA69028.1	Rhizobium sp. Root651	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	60
-genbank	KWV99425.1	Escherichia fergusonii	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	564	83	60	60
-genbank	KWW00685.1	Escherichia fergusonii	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	564	83	60	60
-genbank	KWW00729.1	Escherichia fergusonii	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	564	83	60	60
-genbank	KZN41375.1	Pseudoalteromonas luteoviolacea NCIMB 1942	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KZN65890.1	Pseudoalteromonas luteoviolacea CPMOR-1	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KZN69899.1	Pseudoalteromonas luteoviolacea S4047-1	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	KZX01145.1	Pseudoalteromonas luteoviolacea	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
 refseq	NP_001024.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681
-refseq	NP_001040892.1	Caenorhabditis elegans	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	96	60	66
 refseq	NP_001304993.1	Homo sapiens	1267.4	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	695	684	677
 refseq	NP_001304994.1	Homo sapiens	801.5	3.9e-237	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	454	684	436
 refseq	NP_001317122.1	Homo sapiens	1056.5	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	570	684	552
-refseq	NP_568962.1	Arabidopsis thaliana	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	63
-genbank	OAB82390.1	Wolbachia endosymbiont of Laodelphax striatella	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	123	60	57
-genbank	OCQ20992.1	Pseudoalteromonas luteoviolacea	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	OGP67976.1	Deltaproteobacteria bacterium RBG_16_44_11	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	159	60	59
-genbank	OGT35179.1	Gammaproteobacteria bacterium RBG_16_51_14	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	106	60	65
-genbank	OGT53645.1	Gammaproteobacteria bacterium RIFCSPHIGHO2_12_FULL_41_15	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	116	60	75
-genbank	OJU92547.1	Burkholderiales bacterium 66-5	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-genbank	OJV62051.1	Clostridiales bacterium 38-18	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	60
-genbank	OLZ60369.1	Amycolatopsis keratiniphila subsp. nogabecina	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	83	60	59
-genbank	ONF63786.1	Amycolatopsis keratiniphila subsp. keratiniphila	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	83	60	59
-genbank	OPB11118.1	Pseudomonas synxantha	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	47883	84	60	60
-genbank	ORZ00027.1	Lobosporangium transversale	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	102	60	63
-genbank	OUT66489.1	Cellvibrionales bacterium TMED21	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	82	60	35
-genbank	OUX69892.1	Oceanospirillales bacterium TMED91	77.2	6.6e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	89	60	60
 uniprot	P23921.1	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681
-genbank	PAA71096.1	Macrostomum lignano	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	426	60	38
-genbank	PDH38423.1	Halieaceae bacterium MED-G27	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	82	60	35
-genbank	PHQ49335.1	Streptomyces cinnamoneus	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	56
-genbank	PHQ55257.1	Porticoccus sp.	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	83	60	52
-genbank	PHS71537.1	Methylophaga sp.	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	59
-genbank	PIQ97238.1	Nitrospinae bacterium CG11_big_fil_rev_8_21_14_0_20_56_8	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	68	60	54
-NA	Q8L8T2.2	unknown	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	63
-NA	SBW78280.1	Pseudomonas veronii 1YdBTEX2	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	1295141	84	60	60
-NA	SCI33106.1	uncultured Blautia sp.	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	118	60	45
-NA	SDT66528.1	Pseudomonas chlororaphis	77.2	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	587753	84	60	60
-NA	SDU59146.1	Amycolatopsis keratiniphila	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	83	60	59
-NA	SIS98756.1	Kroppenstedtia eburnea	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	119	60	50
-refseq	WP_001273797.1	Escherichia fergusonii	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	564	83	60	60
-refseq	WP_005043099.1	Halococcus salifodinae	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	80	60	56
-refseq	WP_005107183.1	Acinetobacter lwoffii	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	28090	260	60	52
-refseq	WP_005783931.1	Pseudomonas synxantha	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	47883	84	60	60
-refseq	WP_007095417.1	Kordia algicida	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	86	60	60
-refseq	WP_015510438.1	Enterococcus casseliflavus	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	125	60	31
-refseq	WP_017529549.1	Pseudomonas	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	286	84	60	60
-refseq	WP_017849930.1	Pseudomonas	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	286	84	60	60
-refseq	WP_019402145.1	Chelatococcus	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_021845602.1	Blautia hydrogenotrophica	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	118	60	45
-refseq	WP_023848731.1	Rhodobacteraceae bacterium PD-2	77.2	6.6e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_024539350.1	Comamonas badia	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_027115138.1	Lachnospiraceae bacterium P6B14	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	117	60	43
-refseq	WP_036824496.1	Pontibacillus yanchengensis	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	131	60	41
-refseq	WP_039611886.1	Pseudoalteromonas luteoviolacea	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_040388356.1	Thermoactinomycetaceae	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	119	60	50
-refseq	WP_040714684.1	Novosphingobium tardaugens	77.2	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	107	60	65
-refseq	WP_045123803.1	Yersinia pestis	85	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	632	77	60	58
-refseq	WP_046357020.1	Pseudoalteromonas luteoviolacea	84.9	2.5e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_046801873.1	Rhizobium/Agrobacterium group	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	60
-refseq	WP_048401872.1	Pseudomonas weihenstephanensis	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	1608994	198	60	59
-refseq	WP_053552091.1	Desulfuromonas soudanensis	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	89	60	60
-refseq	WP_058882919.1	Oscillatoriales cyanobacterium MTP1	27.1	0.029	Glutaredoxin	NA	NA	NA	NA	NA	NA	465	60	55
-refseq	WP_062556275.1	Rhizobium sp. Root149	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_063277327.1	Amycolatopsis keratiniphila	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	83	60	59
-refseq	WP_063379257.1	Pseudoalteromonas luteoviolacea	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_063630546.1	Wolbachia endosymbiont of Laodelphax striatella	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	123	60	57
-refseq	WP_063875302.1	Pseudoalteromonas luteoviolacea	84.9	2.4e-20	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	61
-refseq	WP_066724171.1	Desulfuromonas sp. DDH964	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	60
-refseq	WP_072281281.1	Rappaport israeli	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	84	60	61
-refseq	WP_078082351.1	Bacillus megaterium	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	132	60	43
-refseq	WP_078820067.1	Pseudomonas synxantha	79.4	1.3e-18	Glutaredoxin	NA	NA	NA	NA	NA	47883	84	60	60
-refseq	WP_081362930.1	Pseudomonas chlororaphis	77.2	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	587753	84	60	60
-refseq	WP_096717201.1	Chondrocystis sp. NIES-4102	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	264	60	59
-refseq	WP_099201284.1	Streptomyces cinnamoneus	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	85	60	56
-refseq	XP_008486154.1	Diaphorina citri	234.6	4.6e-67	Glutaredoxin	NA	NA	NA	NA	NA	NA	980	60	255
-refseq	XP_008487196.1	Diaphorina citri	1547.5	0	Glutaredoxin	NA	NA	NA	NA	NA	NA	2825	60	1664
-refseq	XP_009080205.1	Acanthisitta chloris	75.5	2.2e-17	Glutaredoxin	NA	NA	NA	NA	NA	NA	119	60	63
-refseq	XP_017780289.1	Nicrophorus vespilloides	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	140	60	65
-refseq	XP_020183285.1	Aegilops tauschii subsp. tauschii	33.8	2.3e-4	Glutaredoxin	NA	NA	NA	NA	NA	NA	111	60	62
-refseq	XP_021470271.1	Oncorhynchus mykiss	43.2	2.6e-7	Glutaredoxin	NA	NA	NA	NA	NA	NA	87	60	39
-refseq	XP_021876068.1	Lobosporangium transversale	77.1	6.7e-18	Glutaredoxin	NA	NA	NA	NA	NA	NA	102	60	63
-refseq	XP_022142239.1	Momordica charantia	194.7	1.4e-54	Glutaredoxin	NA	NA	NA	NA	NA	NA	489	60	194
-refseq	XP_022925807.1	Cucurbita moschata	197	2.6e-55	Glutaredoxin	NA	NA	NA	NA	NA	NA	490	60	194
