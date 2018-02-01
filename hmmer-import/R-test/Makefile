@@ -2,7 +2,7 @@ DIFF = grep -v "^[ ]*$$" $@.out | diff $@.expect -
 
 CHECK = if [ ` $(DIFF) | wc -l ` -eq 0 ]; then echo "*** $@ OK ***"; else echo "*** $@ FAILED ***"; echo "Here's a diff: "; $(DIFF); exit 1; fi
 
-SQLITE_SELECT = sqlite3 $@.sqlite3 "select * from accessions order by accno; select * from bestscoring order by accno, profile; select * from hmm_profiles order by profile; select * from taxa order by ncbi_taxon_id;" > $@.out
+SQLITE_SELECT = sqlite3 $@.sqlite3 "select accno, accto, taxon, db from accessions order by accno; select accno, profile, score, evalue, tlen, qlen, alilen from bestscoring order by accno, profile; select profile, psuperfamily, pfamily, pclass, psubclass, pgroup from hmm_profiles order by profile; select ncbi_taxon_id, tsuperkingdom, tkingdom, tphylum, tclass, torder, tfamily, tgenus, tspecies, taxon, rank from taxa order by ncbi_taxon_id;" > $@.out
 
 all: hmmsearch2classification.00 hmmsearch2classification.01 hmmsearch2classification.02 hmmsearch2classification.03
 
