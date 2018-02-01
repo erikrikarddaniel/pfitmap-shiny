@@ -1,5 +1,4 @@
-AAS77241.1|AAS77241.1|uncultured bacterium|genbank
-AAS77241.1|AAS77244.1|uncultured bacterium|genbank
+AAS77241.1|AAS77241.1,AAS77244.1|uncultured bacterium|genbank
 AGE95459.1|AGE95459.1|Encephalitozoon cuniculi|genbank
 AKU44832.1|AKU44832.1|Klebsiella phage Miro|genbank
 CCA19224.1|CCA19224.1|Albugo laibachii Nc14|embl
@@ -9,35 +8,20 @@ CEG37520.1|CEG37520.1|Plasmopara halstedii|embl
 EKD41788.1|EKD41788.1|uncultured bacterium|genbank
 KDR75122.1|KDR75122.1|Galerina marginata CBS 339.88|genbank
 KPQ34288.1|KPQ34288.1|Phormidesmis priestleyi Ana|genbank
+NP_001024.1|3HNC_A,3HNC_B,3HND_A,3HND_B,3HNE_A,3HNE_B,3HNF_A,3HNF_B,4X3V_A,4X3V_B|unknown|pdb
+NP_001024.1|AAH06498.1,EAX02583.1|Homo sapiens|genbank
+NP_001024.1|ABM83954.1,ABM87271.1,AIC55076.1|synthetic construct|genbank
+NP_001024.1|CAA42118.1,CAA42180.1|Homo sapiens|embl
 NP_001024.1|NP_001024.1|Homo sapiens|refseq
 NP_001024.1|P23921.1|unknown|uniprot
-NP_001024.1|3HNC_A|unknown|pdb
-NP_001024.1|3HNC_B|unknown|pdb
-NP_001024.1|3HND_A|unknown|pdb
-NP_001024.1|3HND_B|unknown|pdb
-NP_001024.1|3HNE_A|unknown|pdb
-NP_001024.1|3HNE_B|unknown|pdb
-NP_001024.1|3HNF_A|unknown|pdb
-NP_001024.1|3HNF_B|unknown|pdb
-NP_001024.1|4X3V_A|unknown|pdb
-NP_001024.1|4X3V_B|unknown|pdb
-NP_001024.1|CAA42118.1|Homo sapiens|embl
-NP_001024.1|CAA42180.1|Homo sapiens|embl
-NP_001024.1|AAH06498.1|Homo sapiens|genbank
-NP_001024.1|EAX02583.1|Homo sapiens|genbank
-NP_001024.1|ABM83954.1|synthetic construct|genbank
-NP_001024.1|ABM87271.1|synthetic construct|genbank
-NP_001024.1|AIC55076.1|synthetic construct|genbank
-NP_001040892.1|NP_001040892.1|Caenorhabditis elegans|refseq
 NP_001040892.1|CCD71619.1|Caenorhabditis elegans|embl
+NP_001040892.1|NP_001040892.1|Caenorhabditis elegans|refseq
 NP_001304993.1|NP_001304993.1|Homo sapiens|refseq
 NP_001304994.1|NP_001304994.1|Homo sapiens|refseq
 NP_001317122.1|NP_001317122.1|Homo sapiens|refseq
+NP_568962.1|AAL91146.1,AAM47884.1,AED97688.1|Arabidopsis thaliana|genbank
 NP_568962.1|NP_568962.1|Arabidopsis thaliana|refseq
 NP_568962.1|Q8L8T2.2|unknown|
-NP_568962.1|AAL91146.1|Arabidopsis thaliana|genbank
-NP_568962.1|AAM47884.1|Arabidopsis thaliana|genbank
-NP_568962.1|AED97688.1|Arabidopsis thaliana|genbank
 OGP67976.1|OGP67976.1|Deltaproteobacteria bacterium RBG_16_44_11|genbank
 OGT35179.1|OGT35179.1|Gammaproteobacteria bacterium RBG_16_51_14|genbank
 OGT53645.1|OGT53645.1|Gammaproteobacteria bacterium RIFCSPHIGHO2_12_FULL_41_15|genbank
@@ -49,103 +33,97 @@ PAA71096.1|PAA71096.1|Macrostomum lignano|genbank
 PHQ55257.1|PHQ55257.1|Porticoccus sp.|genbank
 PHS71537.1|PHS71537.1|Methylophaga sp.|genbank
 PIQ97238.1|PIQ97238.1|Nitrospinae bacterium CG11_big_fil_rev_8_21_14_0_20_56_8|genbank
-WP_001273797.1|WP_001273797.1|Escherichia fergusonii|refseq
 WP_001273797.1|CAQ91076.1|Escherichia fergusonii ATCC 35469|embl
 WP_001273797.1|EGC05920.1|Escherichia fergusonii B253|genbank
 WP_001273797.1|EGC97018.1|Escherichia fergusonii ECD227|genbank
-WP_001273797.1|KWV99425.1|Escherichia fergusonii|genbank
-WP_001273797.1|KWW00685.1|Escherichia fergusonii|genbank
-WP_001273797.1|KWW00729.1|Escherichia fergusonii|genbank
-WP_005043099.1|WP_005043099.1|Halococcus salifodinae|refseq
+WP_001273797.1|KWV99425.1,KWW00685.1,KWW00729.1|Escherichia fergusonii|genbank
+WP_001273797.1|WP_001273797.1|Escherichia fergusonii|refseq
 WP_005043099.1|EMA52790.1|Halococcus salifodinae DSM 8989|genbank
-WP_005107183.1|WP_005107183.1|Acinetobacter lwoffii|refseq
+WP_005043099.1|WP_005043099.1|Halococcus salifodinae|refseq
 WP_005107183.1|ENW30764.1|Acinetobacter lwoffii NIPH 478|genbank
-WP_005783931.1|WP_005783931.1|Pseudomonas synxantha|refseq
+WP_005107183.1|WP_005107183.1|Acinetobacter lwoffii|refseq
 WP_005783931.1|EIK68131.1|Pseudomonas synxantha BG33R|genbank
-WP_007095417.1|WP_007095417.1|Kordia algicida|refseq
+WP_005783931.1|WP_005783931.1|Pseudomonas synxantha|refseq
 WP_007095417.1|EDP98404.1|Kordia algicida OT-1|genbank
-WP_015510438.1|WP_015510438.1|Enterococcus casseliflavus|refseq
+WP_007095417.1|WP_007095417.1|Kordia algicida|refseq
 WP_015510438.1|EEV40101.1|Enterococcus casseliflavus EC20|genbank
-WP_017529549.1|WP_017529549.1|Pseudomonas|refseq
-WP_017529549.1|CRM69133.1|Pseudomonas sp. 31 E 5|embl
+WP_015510438.1|WP_015510438.1|Enterococcus casseliflavus|refseq
 WP_017529549.1|CRM50022.1|Pseudomonas sp. 31 E 6|embl
+WP_017529549.1|CRM69133.1|Pseudomonas sp. 31 E 5|embl
 WP_017529549.1|CRM95591.1|Pseudomonas sp. 22 E 5|embl
-WP_017849930.1|WP_017849930.1|Pseudomonas|refseq
+WP_017529549.1|WP_017529549.1|Pseudomonas|refseq
 WP_017849930.1|KMT55969.1|Pseudomonas sp. KG01|genbank
 WP_017849930.1|SBW78280.1|Pseudomonas veronii 1YdBTEX2|
-WP_019402145.1|WP_019402145.1|Chelatococcus|refseq
+WP_017849930.1|WP_017849930.1|Pseudomonas|refseq
 WP_019402145.1|ALA17276.1|Chelatococcus sp. CO-6|genbank
-WP_021845602.1|WP_021845602.1|Blautia hydrogenotrophica|refseq
+WP_019402145.1|WP_019402145.1|Chelatococcus|refseq
 WP_021845602.1|CCX58946.1|Blautia hydrogenotrophica CAG:147|embl
 WP_021845602.1|CUM75907.1|Blautia hydrogenotrophica|embl
 WP_021845602.1|SCI33106.1|uncultured Blautia sp.|
-WP_023848731.1|WP_023848731.1|Rhodobacteraceae bacterium PD-2|refseq
+WP_021845602.1|WP_021845602.1|Blautia hydrogenotrophica|refseq
 WP_023848731.1|ETA52961.1|Rhodobacteraceae bacterium PD-2|genbank
-WP_024539350.1|WP_024539350.1|Comamonas badia|refseq
+WP_023848731.1|WP_023848731.1|Rhodobacteraceae bacterium PD-2|refseq
 WP_024539350.1|OJU92547.1|Burkholderiales bacterium 66-5|genbank
+WP_024539350.1|WP_024539350.1|Comamonas badia|refseq
 WP_027115138.1|WP_027115138.1|Lachnospiraceae bacterium P6B14|refseq
-WP_036824496.1|WP_036824496.1|Pontibacillus yanchengensis|refseq
 WP_036824496.1|KGP70884.1|Pontibacillus yanchengensis Y32|genbank
-WP_039611886.1|WP_039611886.1|Pseudoalteromonas luteoviolacea|refseq
+WP_036824496.1|WP_036824496.1|Pontibacillus yanchengensis|refseq
 WP_039611886.1|KID54992.1|Pseudoalteromonas luteoviolacea|genbank
 WP_039611886.1|KZN65890.1|Pseudoalteromonas luteoviolacea CPMOR-1|genbank
-WP_040388356.1|WP_040388356.1|Thermoactinomycetaceae|refseq
+WP_039611886.1|WP_039611886.1|Pseudoalteromonas luteoviolacea|refseq
 WP_040388356.1|SIS98756.1|Kroppenstedtia eburnea|
+WP_040388356.1|WP_040388356.1|Thermoactinomycetaceae|refseq
 WP_040714684.1|WP_040714684.1|Novosphingobium tardaugens|refseq
+WP_045123803.1|KJG90328.1,KPE01158.1,KPE17137.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
 WP_045123803.1|WP_045123803.1|Yersinia pestis|refseq
-WP_045123803.1|KJG90328.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
-WP_045123803.1|KPE01158.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
-WP_045123803.1|KPE17137.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
-WP_046357020.1|WP_046357020.1|Pseudoalteromonas luteoviolacea|refseq
+WP_046357020.1|AOT07025.1,AOT11943.1,AOT16855.1|Pseudoalteromonas luteoviolacea|genbank
 WP_046357020.1|KKE82566.1|Pseudoalteromonas luteoviolacea S4054|genbank
 WP_046357020.1|KZN69899.1|Pseudoalteromonas luteoviolacea S4047-1|genbank
-WP_046357020.1|AOT16855.1|Pseudoalteromonas luteoviolacea|genbank
-WP_046357020.1|AOT07025.1|Pseudoalteromonas luteoviolacea|genbank
-WP_046357020.1|AOT11943.1|Pseudoalteromonas luteoviolacea|genbank
-WP_046801873.1|WP_046801873.1|Rhizobium/Agrobacterium group|refseq
+WP_046357020.1|WP_046357020.1|Pseudoalteromonas luteoviolacea|refseq
+WP_046801873.1|CUX45218.1|Agrobacterium genomosp. 3 str. CFBP 6623|embl
 WP_046801873.1|KKX24419.1|Agrobacterium sp. LC34|genbank
 WP_046801873.1|KRA69028.1|Rhizobium sp. Root651|genbank
-WP_046801873.1|CUX45218.1|Agrobacterium genomosp. 3 str. CFBP 6623|embl
-WP_048401872.1|WP_048401872.1|Pseudomonas weihenstephanensis|refseq
+WP_046801873.1|WP_046801873.1|Rhizobium/Agrobacterium group|refseq
 WP_048401872.1|KMN17816.1|Pseudomonas weihenstephanensis|genbank
-WP_053552091.1|WP_053552091.1|Desulfuromonas soudanensis|refseq
+WP_048401872.1|WP_048401872.1|Pseudomonas weihenstephanensis|refseq
 WP_053552091.1|ALC18146.1|Desulfuromonas soudanensis|genbank
+WP_053552091.1|WP_053552091.1|Desulfuromonas soudanensis|refseq
 WP_058882919.1|WP_058882919.1|Oscillatoriales cyanobacterium MTP1|refseq
-WP_062556275.1|WP_062556275.1|Rhizobium sp. Root149|refseq
 WP_062556275.1|KQZ49482.1|Rhizobium sp. Root149|genbank
-WP_063277327.1|WP_063277327.1|Amycolatopsis keratiniphila|refseq
-WP_063277327.1|SDU59146.1|Amycolatopsis keratiniphila|
+WP_062556275.1|WP_062556275.1|Rhizobium sp. Root149|refseq
 WP_063277327.1|OLZ60369.1|Amycolatopsis keratiniphila subsp. nogabecina|genbank
 WP_063277327.1|ONF63786.1|Amycolatopsis keratiniphila subsp. keratiniphila|genbank
-WP_063379257.1|WP_063379257.1|Pseudoalteromonas luteoviolacea|refseq
+WP_063277327.1|SDU59146.1|Amycolatopsis keratiniphila|
+WP_063277327.1|WP_063277327.1|Amycolatopsis keratiniphila|refseq
 WP_063379257.1|KZN41375.1|Pseudoalteromonas luteoviolacea NCIMB 1942|genbank
 WP_063379257.1|OCQ20992.1|Pseudoalteromonas luteoviolacea|genbank
-WP_063630546.1|WP_063630546.1|Wolbachia endosymbiont of Laodelphax striatella|refseq
+WP_063379257.1|WP_063379257.1|Pseudoalteromonas luteoviolacea|refseq
 WP_063630546.1|OAB82390.1|Wolbachia endosymbiont of Laodelphax striatella|genbank
-WP_063875302.1|WP_063875302.1|Pseudoalteromonas luteoviolacea|refseq
+WP_063630546.1|WP_063630546.1|Wolbachia endosymbiont of Laodelphax striatella|refseq
 WP_063875302.1|KZX01145.1|Pseudoalteromonas luteoviolacea|genbank
-WP_066724171.1|WP_066724171.1|Desulfuromonas sp. DDH964|refseq
+WP_063875302.1|WP_063875302.1|Pseudoalteromonas luteoviolacea|refseq
 WP_066724171.1|AMV71055.1|Desulfuromonas sp. DDH964|genbank
+WP_066724171.1|WP_066724171.1|Desulfuromonas sp. DDH964|refseq
 WP_072281281.1|WP_072281281.1|Rappaport israeli|refseq
-WP_078082351.1|WP_078082351.1|Bacillus megaterium|refseq
 WP_078082351.1|AQU76929.1|Bacillus megaterium|genbank
-WP_078820067.1|WP_078820067.1|Pseudomonas synxantha|refseq
+WP_078082351.1|WP_078082351.1|Bacillus megaterium|refseq
 WP_078820067.1|OPB11118.1|Pseudomonas synxantha|genbank
-WP_081362930.1|WP_081362930.1|Pseudomonas chlororaphis|refseq
+WP_078820067.1|WP_078820067.1|Pseudomonas synxantha|refseq
 WP_081362930.1|BAV72424.1|Pseudomonas chlororaphis subsp. aurantiaca|dbj
 WP_081362930.1|SDT66528.1|Pseudomonas chlororaphis|
-WP_096717201.1|WP_096717201.1|Chondrocystis sp. NIES-4102|refseq
+WP_081362930.1|WP_081362930.1|Pseudomonas chlororaphis|refseq
 WP_096717201.1|BAZ43108.1|Chondrocystis sp. NIES-4102|dbj
-WP_099201284.1|WP_099201284.1|Streptomyces cinnamoneus|refseq
+WP_096717201.1|WP_096717201.1|Chondrocystis sp. NIES-4102|refseq
 WP_099201284.1|PHQ49335.1|Streptomyces cinnamoneus|genbank
+WP_099201284.1|WP_099201284.1|Streptomyces cinnamoneus|refseq
 XP_008486154.1|XP_008486154.1|Diaphorina citri|refseq
 XP_008487196.1|XP_008487196.1|Diaphorina citri|refseq
 XP_009080205.1|XP_009080205.1|Acanthisitta chloris|refseq
 XP_017780289.1|XP_017780289.1|Nicrophorus vespilloides|refseq
 XP_020183285.1|XP_020183285.1|Aegilops tauschii subsp. tauschii|refseq
 XP_021470271.1|XP_021470271.1|Oncorhynchus mykiss|refseq
-XP_021876068.1|XP_021876068.1|Lobosporangium transversale|refseq
 XP_021876068.1|ORZ00027.1|Lobosporangium transversale|genbank
+XP_021876068.1|XP_021876068.1|Lobosporangium transversale|refseq
 XP_022142239.1|XP_022142239.1|Momordica charantia|refseq
 XP_022925807.1|XP_022925807.1|Cucurbita moschata|refseq
 NP_001024.1|NrdAe|1272.8|0.0|792|684|681.0

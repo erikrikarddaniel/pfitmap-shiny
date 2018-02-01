@@ -274,6 +274,16 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
     tibble(source = dbsource[1], name = dbsource[2], version = dbsource[3]), 
     'dbsources', temporary = FALSE, overwrite = TRUE
   )
+
+  # The accto field in accession should be turned into a list for each
+  # combination of accno, db and taxon to ensure organisms do not show up as
+  # having more than one exactly identical sequence, which they do with the new
+  # redundant RefSeq entries (WP_ accessions).
+  accessions <- accessions %>%
+    arrange(db, taxon, accno, accto) %>%
+    group_by(db, taxon, accno) %>%
+    summarise(accto = paste(accto, collapse = ',')) %>%
+    ungroup()
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
   
