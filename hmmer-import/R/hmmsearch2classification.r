@@ -53,6 +53,9 @@ logmsg = function(msg, llevel='INFO') {
 }
 logmsg("Starting classification")
 
+logmsg(sprintf("Reading profile hierarchies from %s", opt$options$profilehierarchies))
+hmm_profiles <- read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character()))
+
 # We will populate two tables, one with the full results, one with accessions
 tblout = tibble(
   accno = character(), profile = character(),
@@ -216,15 +219,8 @@ logmsg("Joined in lengths, writing data")
 if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
   logmsg("Writing single table format")
 
-  # If we have a profile hierarchy file name, read it and join
-  if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
-    logmsg(sprintf("Adding profile hierarchies from %s, nrows before: %d", opt$options$profilehierarchies, bestscoring %>% nrow()))
-    bestscoring = bestscoring %>% 
-      left_join(
-        read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
-        by='profile'
-      )
-  }
+  # Add hmm_profiles
+  bestscoring = bestscoring %>% left_join(hmm_profiles, by='profile')
 
   # Join bestscoring with accessions and drop profile to get a single table output
   logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
@@ -260,13 +256,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   
   con %>% copy_to(bestscoring, 'proteins', temporary = FALSE, overwrite = TRUE)
 
-  if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
-    logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
-    con %>% copy_to(
-      read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character())),
-      'hmm_profiles', temporary = FALSE, overwrite = TRUE
-    )
-  }
+  con %>% copy_to(hmm_profiles, 'hmm_profiles', temporary = FALSE, overwrite = TRUE)
 
   # If we have a taxflat NCBI taxonomy, read and join
   if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
