@@ -12,6 +12,9 @@ suppressPackageStartupMessages(library(tidyr))
 # Get arguments
 option_list = list(
   make_option(
+    c('--dbsource', default='', help='dbsource:name:version')
+  ),
+  make_option(
     c('--profilehierarchies', default='', help='tsv file with profile hiearchies')
   ),
   make_option(
@@ -52,6 +55,8 @@ logmsg = function(msg, llevel='INFO') {
   }
 }
 logmsg("Starting classification")
+
+dbsource = strsplit(opt$options$dbsource, ':')[[1]]
 
 logmsg(sprintf("Reading profile hierarchies from %s", opt$options$profilehierarchies))
 hmm_profiles <- read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character()))
@@ -264,6 +269,11 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
 if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   logmsg(sprintf("Creating/opening SQLite database %s", opt$options$sqlitedb))
   con = DBI::dbConnect(RSQLite::SQLite(), opt$options$sqlitedb, create = TRUE)
+
+  con %>% copy_to(
+    tibble(source = dbsource[1], name = dbsource[2], version = dbsource[3]), 
+    'dbsources', temporary = FALSE, overwrite = TRUE
+  )
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
   
