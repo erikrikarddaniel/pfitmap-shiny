@@ -9,6 +9,6 @@ NrdAm	NrdGRE	NrdAJ	NrdA	NrdAm		psubclass	0.1	739
 NrdAn	NrdGRE	NrdAJ	NrdA	NrdAn		psubclass	0.1	682
 NrdAq	NrdGRE	NrdAJ	NrdA	NrdAq		psubclass	0.1	650
 NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz		psubclass	0.1	707
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3	pgroup	0.1	750
-NrdAz	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4	pgroup	0.1	750
+NrdAz3	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz3	pgroup	0.1	750
+NrdAz4	NrdGRE	NrdAJ	NrdA	NrdAz	NrdAz4	pgroup	0.1	750
 Glutaredoxin						domain	0.1	60
