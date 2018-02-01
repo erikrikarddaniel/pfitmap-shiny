@@ -1,3 +1,14 @@
+AAS77241.1|AAS77241.1|uncultured bacterium|genbank
+AAS77241.1|AAS77244.1|uncultured bacterium|genbank
+AGE95459.1|AGE95459.1|Encephalitozoon cuniculi|genbank
+AKU44832.1|AKU44832.1|Klebsiella phage Miro|genbank
+CCA19224.1|CCA19224.1|Albugo laibachii Nc14|embl
+CDS12966.1|CDS12966.1|Lichtheimia ramosa|embl
+CDY67051.1|CDY67051.1|Brassica napus|embl
+CEG37520.1|CEG37520.1|Plasmopara halstedii|embl
+EKD41788.1|EKD41788.1|uncultured bacterium|genbank
+KDR75122.1|KDR75122.1|Galerina marginata CBS 339.88|genbank
+KPQ34288.1|KPQ34288.1|Phormidesmis priestleyi Ana|genbank
 NP_001024.1|NP_001024.1|Homo sapiens|refseq
 NP_001024.1|P23921.1|unknown|uniprot
 NP_001024.1|3HNC_A|unknown|pdb
@@ -17,9 +28,34 @@ NP_001024.1|EAX02583.1|Homo sapiens|genbank
 NP_001024.1|ABM83954.1|synthetic construct|genbank
 NP_001024.1|ABM87271.1|synthetic construct|genbank
 NP_001024.1|AIC55076.1|synthetic construct|genbank
+NP_001040892.1|NP_001040892.1|Caenorhabditis elegans|refseq
+NP_001040892.1|CCD71619.1|Caenorhabditis elegans|embl
 NP_001304993.1|NP_001304993.1|Homo sapiens|refseq
 NP_001304994.1|NP_001304994.1|Homo sapiens|refseq
 NP_001317122.1|NP_001317122.1|Homo sapiens|refseq
+NP_568962.1|NP_568962.1|Arabidopsis thaliana|refseq
+NP_568962.1|Q8L8T2.2|unknown|
+NP_568962.1|AAL91146.1|Arabidopsis thaliana|genbank
+NP_568962.1|AAM47884.1|Arabidopsis thaliana|genbank
+NP_568962.1|AED97688.1|Arabidopsis thaliana|genbank
+OGP67976.1|OGP67976.1|Deltaproteobacteria bacterium RBG_16_44_11|genbank
+OGT35179.1|OGT35179.1|Gammaproteobacteria bacterium RBG_16_51_14|genbank
+OGT53645.1|OGT53645.1|Gammaproteobacteria bacterium RIFCSPHIGHO2_12_FULL_41_15|genbank
+OJV62051.1|OJV62051.1|Clostridiales bacterium 38-18|genbank
+OUT66489.1|OUT66489.1|Cellvibrionales bacterium TMED21|genbank
+OUT66489.1|PDH38423.1|Halieaceae bacterium MED-G27|genbank
+OUX69892.1|OUX69892.1|Oceanospirillales bacterium TMED91|genbank
+PAA71096.1|PAA71096.1|Macrostomum lignano|genbank
+PHQ55257.1|PHQ55257.1|Porticoccus sp.|genbank
+PHS71537.1|PHS71537.1|Methylophaga sp.|genbank
+PIQ97238.1|PIQ97238.1|Nitrospinae bacterium CG11_big_fil_rev_8_21_14_0_20_56_8|genbank
+WP_001273797.1|WP_001273797.1|Escherichia fergusonii|refseq
+WP_001273797.1|CAQ91076.1|Escherichia fergusonii ATCC 35469|embl
+WP_001273797.1|EGC05920.1|Escherichia fergusonii B253|genbank
+WP_001273797.1|EGC97018.1|Escherichia fergusonii ECD227|genbank
+WP_001273797.1|KWV99425.1|Escherichia fergusonii|genbank
+WP_001273797.1|KWW00685.1|Escherichia fergusonii|genbank
+WP_001273797.1|KWW00729.1|Escherichia fergusonii|genbank
 WP_002751870.1|WP_002751870.1|Microcystis aeruginosa|refseq
 WP_002751870.1|CCH95656.1|Microcystis aeruginosa PCC 9432|embl
 WP_002757163.1|WP_002757163.1|Microcystis aeruginosa|refseq
@@ -1425,6 +1461,14 @@ WP_004351871.1|EAZ60489.1|Pseudomonas aeruginosa 2192|genbank
 WP_004351871.1|EQM84324.1|Pseudomonas aeruginosa WC55|genbank
 WP_004351871.1|ERV72484.1|Pseudomonas aeruginosa BWHPSA028|genbank
 WP_004351871.1|EZO43317.1|Pseudomonas aeruginosa 3573|genbank
+WP_005043099.1|WP_005043099.1|Halococcus salifodinae|refseq
+WP_005043099.1|EMA52790.1|Halococcus salifodinae DSM 8989|genbank
+WP_005107183.1|WP_005107183.1|Acinetobacter lwoffii|refseq
+WP_005107183.1|ENW30764.1|Acinetobacter lwoffii NIPH 478|genbank
+WP_005783931.1|WP_005783931.1|Pseudomonas synxantha|refseq
+WP_005783931.1|EIK68131.1|Pseudomonas synxantha BG33R|genbank
+WP_007095417.1|WP_007095417.1|Kordia algicida|refseq
+WP_007095417.1|EDP98404.1|Kordia algicida OT-1|genbank
 WP_009316031.1|WP_009316031.1|Pseudomonas aeruginosa|refseq
 WP_009316031.1|EHF10797.1|Pseudomonas sp. 2_1_26|genbank
 WP_010895708.1|WP_010895708.1|Pseudomonas aeruginosa|refseq
@@ -1476,8 +1520,17 @@ WP_014604136.1|OKO02977.1|Pseudomonas aeruginosa|genbank
 WP_014604136.1|OKO12705.1|Pseudomonas aeruginosa|genbank
 WP_015468603.1|WP_015468603.1|Micavibrio aeruginosavorus|refseq
 WP_015468603.1|AGH99094.1|Micavibrio aeruginosavorus EPB|genbank
+WP_015510438.1|WP_015510438.1|Enterococcus casseliflavus|refseq
+WP_015510438.1|EEV40101.1|Enterococcus casseliflavus EC20|genbank
 WP_016515823.1|WP_016515823.1|Microcystis aeruginosa|refseq
 WP_016515823.1|EPF21589.1|Microcystis aeruginosa SPC777|genbank
+WP_017529549.1|WP_017529549.1|Pseudomonas|refseq
+WP_017529549.1|CRM69133.1|Pseudomonas sp. 31 E 5|embl
+WP_017529549.1|CRM50022.1|Pseudomonas sp. 31 E 6|embl
+WP_017529549.1|CRM95591.1|Pseudomonas sp. 22 E 5|embl
+WP_017849930.1|WP_017849930.1|Pseudomonas|refseq
+WP_017849930.1|KMT55969.1|Pseudomonas sp. KG01|genbank
+WP_017849930.1|SBW78280.1|Pseudomonas veronii 1YdBTEX2|
 WP_019372026.1|WP_019372026.1|Pseudomonas|refseq
 WP_019372026.1|ERU77279.1|Pseudomonas aeruginosa C23|genbank
 WP_019372026.1|ERU78980.1|Pseudomonas aeruginosa C20|genbank
@@ -1515,10 +1568,16 @@ WP_019372026.1|OFR09495.1|Pseudomonas sp. HMSC065H02|genbank
 WP_019372026.1|ONN03759.1|Pseudomonas aeruginosa|genbank
 WP_019372026.1|ONN07765.1|Pseudomonas aeruginosa|genbank
 WP_019396078.1|WP_019396078.1|Pseudomonas aeruginosa|refseq
+WP_019402145.1|WP_019402145.1|Chelatococcus|refseq
+WP_019402145.1|ALA17276.1|Chelatococcus sp. CO-6|genbank
 WP_020751064.1|WP_020751064.1|Pseudomonas aeruginosa|refseq
 WP_020751064.1|ERY57991.1|Pseudomonas aeruginosa BL03|genbank
 WP_020751064.1|ESQ64648.1|Pseudomonas aeruginosa HB15|genbank
 WP_020751064.1|KAJ11837.1|Pseudomonas aeruginosa ID4365|genbank
+WP_021845602.1|WP_021845602.1|Blautia hydrogenotrophica|refseq
+WP_021845602.1|CCX58946.1|Blautia hydrogenotrophica CAG:147|embl
+WP_021845602.1|CUM75907.1|Blautia hydrogenotrophica|embl
+WP_021845602.1|SCI33106.1|uncultured Blautia sp.|
 WP_023086849.1|WP_023086849.1|Pseudomonas aeruginosa|refseq
 WP_023086849.1|ERU60071.1|Pseudomonas aeruginosa C40|genbank
 WP_023086849.1|EZO28535.1|Pseudomonas aeruginosa 3574|genbank
@@ -1540,9 +1599,14 @@ WP_023130113.1|WP_023130113.1|Pseudomonas aeruginosa|refseq
 WP_023130113.1|ERZ24773.1|Pseudomonas aeruginosa CF5|genbank
 WP_023443171.1|WP_023443171.1|Pseudomonas aeruginosa|refseq
 WP_023443171.1|KFF33666.1|Pseudomonas aeruginosa VRFPA01|genbank
+WP_023848731.1|WP_023848731.1|Rhodobacteraceae bacterium PD-2|refseq
+WP_023848731.1|ETA52961.1|Rhodobacteraceae bacterium PD-2|genbank
+WP_024539350.1|WP_024539350.1|Comamonas badia|refseq
+WP_024539350.1|OJU92547.1|Burkholderiales bacterium 66-5|genbank
 WP_024915177.1|WP_024915177.1|Pseudomonas aeruginosa|refseq
 WP_024915177.1|KSD32090.1|Pseudomonas aeruginosa|genbank
 WP_024968826.1|WP_024968826.1|Microcystis aeruginosa|refseq
+WP_027115138.1|WP_027115138.1|Lachnospiraceae bacterium P6B14|refseq
 WP_031628058.1|WP_031628058.1|Pseudomonas|refseq
 WP_031628058.1|EVT83599.1|Pseudomonas aeruginosa VRFPA09|genbank
 WP_031628058.1|GAJ54891.1|Pseudomonas aeruginosa RB|dbj
@@ -1773,9 +1837,17 @@ WP_034079532.1|KSR46010.1|Pseudomonas aeruginosa|genbank
 WP_034080795.1|WP_034080795.1|Pseudomonas aeruginosa|refseq
 WP_036402729.1|WP_036402729.1|Microcystis aeruginosa|refseq
 WP_036402729.1|CAO91262.1|Microcystis aeruginosa PCC 7806|embl
+WP_036824496.1|WP_036824496.1|Pontibacillus yanchengensis|refseq
+WP_036824496.1|KGP70884.1|Pontibacillus yanchengensis Y32|genbank
 WP_039027060.1|WP_039027060.1|Pseudomonas aeruginosa|refseq
 WP_039027928.1|WP_039027928.1|Pseudomonas aeruginosa|refseq
+WP_039611886.1|WP_039611886.1|Pseudoalteromonas luteoviolacea|refseq
+WP_039611886.1|KID54992.1|Pseudoalteromonas luteoviolacea|genbank
+WP_039611886.1|KZN65890.1|Pseudoalteromonas luteoviolacea CPMOR-1|genbank
 WP_039700011.1|WP_039700011.1|Pseudomonas aeruginosa|refseq
+WP_040388356.1|WP_040388356.1|Thermoactinomycetaceae|refseq
+WP_040388356.1|SIS98756.1|Kroppenstedtia eburnea|
+WP_040714684.1|WP_040714684.1|Novosphingobium tardaugens|refseq
 WP_041025725.1|WP_041025725.1|Pseudomonas aeruginosa|refseq
 WP_042115378.1|WP_042115378.1|Pseudomonas aeruginosa|refseq
 WP_042857641.1|WP_042857641.1|Pseudomonas aeruginosa|refseq
@@ -1792,14 +1864,30 @@ WP_043510910.1|WP_043510910.1|Pseudomonas aeruginosa|refseq
 WP_043550613.1|WP_043550613.1|Pseudomonas aeruginosa|refseq
 WP_043550825.1|WP_043550825.1|Pseudomonas aeruginosa|refseq
 WP_043553210.1|WP_043553210.1|Pseudomonas aeruginosa|refseq
+WP_045123803.1|WP_045123803.1|Yersinia pestis|refseq
+WP_045123803.1|KJG90328.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
+WP_045123803.1|KPE01158.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
+WP_045123803.1|KPE17137.1|Yersinia pestis subsp. microtus bv. Ulegeica|genbank
 WP_045361327.1|WP_045361327.1|Microcystis aeruginosa|refseq
+WP_046357020.1|WP_046357020.1|Pseudoalteromonas luteoviolacea|refseq
+WP_046357020.1|KKE82566.1|Pseudoalteromonas luteoviolacea S4054|genbank
+WP_046357020.1|KZN69899.1|Pseudoalteromonas luteoviolacea S4047-1|genbank
+WP_046357020.1|AOT16855.1|Pseudoalteromonas luteoviolacea|genbank
+WP_046357020.1|AOT07025.1|Pseudoalteromonas luteoviolacea|genbank
+WP_046357020.1|AOT11943.1|Pseudoalteromonas luteoviolacea|genbank
 WP_046660842.1|WP_046660842.1|Microcystis aeruginosa|refseq
+WP_046801873.1|WP_046801873.1|Rhizobium/Agrobacterium group|refseq
+WP_046801873.1|KKX24419.1|Agrobacterium sp. LC34|genbank
+WP_046801873.1|KRA69028.1|Rhizobium sp. Root651|genbank
+WP_046801873.1|CUX45218.1|Agrobacterium genomosp. 3 str. CFBP 6623|embl
 WP_046879664.1|WP_046879664.1|Pseudomonas aeruginosa|refseq
 WP_047688485.1|WP_047688485.1|Pseudomonas aeruginosa|refseq
 WP_047688485.1|KGB89243.1|Pseudomonas aeruginosa|genbank
 WP_047688485.1|KSS38776.1|Pseudomonas aeruginosa|genbank
 WP_047704581.1|WP_047704581.1|Pseudomonas aeruginosa|refseq
 WP_048296521.1|WP_048296521.1|Pseudomonas aeruginosa|refseq
+WP_048401872.1|WP_048401872.1|Pseudomonas weihenstephanensis|refseq
+WP_048401872.1|KMN17816.1|Pseudomonas weihenstephanensis|genbank
 WP_049243754.1|WP_049243754.1|Pseudomonas aeruginosa|refseq
 WP_049288398.1|WP_049288398.1|Pseudomonas aeruginosa|refseq
 WP_049302082.1|WP_049302082.1|Pseudomonas aeruginosa|refseq
@@ -1807,6 +1895,8 @@ WP_049315497.1|WP_049315497.1|Pseudomonas aeruginosa|refseq
 WP_050397533.1|WP_050397533.1|Pseudomonas aeruginosa|refseq
 WP_050399216.1|WP_050399216.1|Pseudomonas aeruginosa|refseq
 WP_050410341.1|WP_050410341.1|Pseudomonas aeruginosa|refseq
+WP_053552091.1|WP_053552091.1|Desulfuromonas soudanensis|refseq
+WP_053552091.1|ALC18146.1|Desulfuromonas soudanensis|genbank
 WP_057390969.1|WP_057390969.1|Pseudomonas aeruginosa|refseq
 WP_058135132.1|WP_058135132.1|Pseudomonas aeruginosa|refseq
 WP_058135132.1|KSF07284.1|Pseudomonas aeruginosa|genbank
@@ -1851,6 +1941,7 @@ WP_058180439.1|WP_058180439.1|Pseudomonas|refseq
 WP_058180439.1|KSL26290.1|Pseudomonas aeruginosa|genbank
 WP_058180439.1|OHQ49270.1|Pseudomonas sp. HMSC070B12|genbank
 WP_058876623.1|WP_058876623.1|Pseudomonas aeruginosa|refseq
+WP_058882919.1|WP_058882919.1|Oscillatoriales cyanobacterium MTP1|refseq
 WP_060961679.1|WP_060961679.1|Pseudomonas aeruginosa|refseq
 WP_060961679.1|KXE91209.1|Pseudomonas aeruginosa|genbank
 WP_060961679.1|KXE91745.1|Pseudomonas aeruginosa|genbank
@@ -1889,8 +1980,23 @@ WP_061361661.1|WP_061361661.1|Pseudomonas aeruginosa|refseq
 WP_061361661.1|KXE85124.1|Pseudomonas aeruginosa|genbank
 WP_061432008.1|WP_061432008.1|Microcystis aeruginosa|refseq
 WP_061432008.1|KXS90877.1|Microcystis aeruginosa NIES-88|genbank
+WP_062556275.1|WP_062556275.1|Rhizobium sp. Root149|refseq
+WP_062556275.1|KQZ49482.1|Rhizobium sp. Root149|genbank
 WP_062842532.1|WP_062842532.1|Pseudomonas aeruginosa|refseq
+WP_063277327.1|WP_063277327.1|Amycolatopsis keratiniphila|refseq
+WP_063277327.1|SDU59146.1|Amycolatopsis keratiniphila|
+WP_063277327.1|OLZ60369.1|Amycolatopsis keratiniphila subsp. nogabecina|genbank
+WP_063277327.1|ONF63786.1|Amycolatopsis keratiniphila subsp. keratiniphila|genbank
+WP_063379257.1|WP_063379257.1|Pseudoalteromonas luteoviolacea|refseq
+WP_063379257.1|KZN41375.1|Pseudoalteromonas luteoviolacea NCIMB 1942|genbank
+WP_063379257.1|OCQ20992.1|Pseudoalteromonas luteoviolacea|genbank
+WP_063630546.1|WP_063630546.1|Wolbachia endosymbiont of Laodelphax striatella|refseq
+WP_063630546.1|OAB82390.1|Wolbachia endosymbiont of Laodelphax striatella|genbank
+WP_063875302.1|WP_063875302.1|Pseudoalteromonas luteoviolacea|refseq
+WP_063875302.1|KZX01145.1|Pseudoalteromonas luteoviolacea|genbank
 WP_066029497.1|WP_066029497.1|Microcystis aeruginosa|refseq
+WP_066724171.1|WP_066724171.1|Desulfuromonas sp. DDH964|refseq
+WP_066724171.1|AMV71055.1|Desulfuromonas sp. DDH964|genbank
 WP_069474892.1|WP_069474892.1|Microcystis aeruginosa|refseq
 WP_069953529.1|WP_069953529.1|Pseudomonas aeruginosa|refseq
 WP_069953529.1|OES47973.1|Pseudomonas aeruginosa|genbank
@@ -1907,6 +2013,7 @@ WP_070331775.1|WP_070331775.1|Pseudomonas aeruginosa|refseq
 WP_070338129.1|WP_070338129.1|Pseudomonas aeruginosa|refseq
 WP_071559959.1|WP_071559959.1|Pseudomonas aeruginosa|refseq
 WP_072018056.1|WP_072018056.1|Pseudomonas aeruginosa|refseq
+WP_072281281.1|WP_072281281.1|Rappaport israeli|refseq
 WP_072927231.1|WP_072927231.1|Microcystis aeruginosa|refseq
 WP_073648754.1|WP_073648754.1|Pseudomonas aeruginosa|refseq
 WP_073653040.1|WP_073653040.1|Pseudomonas aeruginosa|refseq
@@ -1942,16 +2049,60 @@ WP_077144507.1|WP_077144507.1|Pseudomonas aeruginosa|refseq
 WP_077144507.1|ONM80170.1|Pseudomonas aeruginosa|genbank
 WP_077150057.1|WP_077150057.1|Pseudomonas aeruginosa|refseq
 WP_077150057.1|ONN17409.1|Pseudomonas aeruginosa|genbank
+WP_078082351.1|WP_078082351.1|Bacillus megaterium|refseq
+WP_078082351.1|AQU76929.1|Bacillus megaterium|genbank
+WP_078820067.1|WP_078820067.1|Pseudomonas synxantha|refseq
+WP_078820067.1|OPB11118.1|Pseudomonas synxantha|genbank
+WP_081362930.1|WP_081362930.1|Pseudomonas chlororaphis|refseq
+WP_081362930.1|BAV72424.1|Pseudomonas chlororaphis subsp. aurantiaca|dbj
+WP_081362930.1|SDT66528.1|Pseudomonas chlororaphis|
+WP_096717201.1|WP_096717201.1|Chondrocystis sp. NIES-4102|refseq
+WP_096717201.1|BAZ43108.1|Chondrocystis sp. NIES-4102|dbj
+WP_099201284.1|WP_099201284.1|Streptomyces cinnamoneus|refseq
+WP_099201284.1|PHQ49335.1|Streptomyces cinnamoneus|genbank
+XP_008486154.1|XP_008486154.1|Diaphorina citri|refseq
+XP_008487196.1|XP_008487196.1|Diaphorina citri|refseq
+XP_009080205.1|XP_009080205.1|Acanthisitta chloris|refseq
+XP_017780289.1|XP_017780289.1|Nicrophorus vespilloides|refseq
+XP_020183285.1|XP_020183285.1|Aegilops tauschii subsp. tauschii|refseq
+XP_021470271.1|XP_021470271.1|Oncorhynchus mykiss|refseq
+XP_021876068.1|XP_021876068.1|Lobosporangium transversale|refseq
+XP_021876068.1|ORZ00027.1|Lobosporangium transversale|genbank
+XP_022142239.1|XP_022142239.1|Momordica charantia|refseq
+XP_022925807.1|XP_022925807.1|Cucurbita moschata|refseq
 YP_851020.1|YP_851020.1|Microcystis aeruginosa phage Ma-LMM01|refseq
 YP_851020.1|BAE79255.1|Microcystis aeruginosa phage Ma-LMM01|dbj
 YP_851020.1|BAF36097.1|Microcystis aeruginosa phage Ma-LMM01|dbj
 YP_851020.1|BAF45773.1|Cyanophage Ma-LMM02|dbj
 YP_851020.1|BAF45774.1|Cyanophage Ma-LMM03|dbj
 YP_851020.1|BAF45775.1|Cyanophage Ma-HPM05|dbj
+AAS77241.1|Glutaredoxin|77.1|6.7e-18|110|60|65.0
+AGE95459.1|Glutaredoxin|77.1|6.7e-18|204|60|111.0
+AKU44832.1|Glutaredoxin|33.8|0.00023|89|60|64.0
+CCA19224.1|Glutaredoxin|194.4|1.6e-54|448|60|195.0
+CDS12966.1|Glutaredoxin|27.1|0.029|624|60|49.0
+CDY67051.1|Glutaredoxin|43.2|2.6e-07|379|60|71.0
+CEG37520.1|Glutaredoxin|193.4|3.3e-54|447|60|195.0
+EKD41788.1|Glutaredoxin|85.0|2.4e-20|84|60|60.0
+KDR75122.1|Glutaredoxin|43.2|2.6e-07|219|60|65.0
+KPQ34288.1|Glutaredoxin|84.9|2.4e-20|107|60|65.0
 NP_001024.1|NrdAe|1272.8|0.0|792|684|681.0
+NP_001040892.1|Glutaredoxin|43.2|2.6e-07|96|60|66.0
 NP_001304993.1|NrdAe|1267.4|0.0|695|684|677.0
 NP_001304994.1|NrdAe|801.5|3.9e-237|454|684|436.0
 NP_001317122.1|NrdAe|1056.5|0.0|570|684|552.0
+NP_568962.1|Glutaredoxin|75.5|2.2e-17|125|60|63.0
+OGP67976.1|Glutaredoxin|43.2|2.6e-07|159|60|59.0
+OGT35179.1|Glutaredoxin|75.5|2.2e-17|106|60|65.0
+OGT53645.1|Glutaredoxin|27.1|0.029|116|60|75.0
+OJV62051.1|Glutaredoxin|77.1|6.7e-18|85|60|60.0
+OUT66489.1|Glutaredoxin|27.1|0.029|82|60|35.0
+OUX69892.1|Glutaredoxin|77.2|6.6e-18|89|60|60.0
+PAA71096.1|Glutaredoxin|27.1|0.029|426|60|38.0
+PHQ55257.1|Glutaredoxin|27.1|0.029|83|60|52.0
+PHS71537.1|Glutaredoxin|79.4|1.3e-18|85|60|59.0
+PIQ97238.1|Glutaredoxin|27.1|0.029|68|60|54.0
+WP_001273797.1|Glutaredoxin|85.0|2.4e-20|83|60|60.0
 WP_002751870.1|NrdAm|1215.9|0.0|770|722|736.0
 WP_002757163.1|NrdAm|1202.9|0.0|1119|722|760.0
 WP_002772076.1|NrdAm|1200.7|0.0|1119|722|760.0
@@ -1973,6 +2124,10 @@ WP_004162793.1|NrdAm|1217.7|0.0|770|722|736.0
 WP_004268872.1|NrdAm|1219.0|0.0|770|722|736.0
 WP_004348671.1|NrdAz3|1341.6|0.0|963|700|718.0
 WP_004351871.1|NrdAq|228.7|6.3e-64|734|704|621.0
+WP_005043099.1|Glutaredoxin|43.2|2.6e-07|80|60|56.0
+WP_005107183.1|Glutaredoxin|27.1|0.029|260|60|52.0
+WP_005783931.1|Glutaredoxin|79.4|1.3e-18|84|60|60.0
+WP_007095417.1|Glutaredoxin|33.8|0.00023|86|60|60.0
 WP_009316031.1|NrdAq|231.4|9.7e-65|734|704|621.0
 WP_010895708.1|NrdAq|228.8|6.2e-64|734|704|621.0
 WP_012076682.1|NrdAz3|1343.9|0.0|963|700|718.0
@@ -1982,10 +2137,15 @@ WP_013020768.1|NrdAn|1214.5|0.0|771|682|687.0
 WP_014103883.1|NrdAk|1100.1|0.0|610|578|566.0
 WP_014604136.1|NrdAq|224.1|1.7e-62|734|704|621.0
 WP_015468603.1|NrdAk|1100.5|0.0|610|578|566.0
+WP_015510438.1|Glutaredoxin|27.1|0.029|125|60|31.0
 WP_016515823.1|NrdAm|1213.9|0.0|770|722|736.0
+WP_017529549.1|Glutaredoxin|79.4|1.3e-18|84|60|60.0
+WP_017849930.1|Glutaredoxin|79.4|1.3e-18|84|60|60.0
 WP_019372026.1|NrdAz3|1343.8|0.0|963|700|718.0
 WP_019396078.1|NrdAz3|1345.1|0.0|755|700|718.0
+WP_019402145.1|Glutaredoxin|85.0|2.4e-20|85|60|61.0
 WP_020751064.1|NrdAq|230.3|2.1e-64|734|704|621.0
+WP_021845602.1|Glutaredoxin|33.8|0.00023|118|60|45.0
 WP_023086849.1|NrdAq|227.2|1.9e-63|734|704|621.0
 WP_023103349.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_023107465.1|NrdAq|228.1|1.0e-63|734|704|621.0
@@ -1993,8 +2153,11 @@ WP_023110280.1|NrdAz3|1342.8|0.0|963|700|718.0
 WP_023112238.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_023130113.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_023443171.1|NrdAq|228.5|7.3e-64|734|704|621.0
+WP_023848731.1|Glutaredoxin|77.2|6.6e-18|85|60|61.0
+WP_024539350.1|Glutaredoxin|85.0|2.4e-20|85|60|61.0
 WP_024915177.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_024968826.1|NrdAm|1214.6|0.0|770|722|736.0
+WP_027115138.1|Glutaredoxin|27.1|0.029|117|60|43.0
 WP_031628058.1|NrdAq|231.1|1.3e-64|714|704|621.0
 WP_031628973.1|NrdAq|228.9|5.6e-64|714|704|621.0
 WP_031630455.1|NrdAq|224.2|1.5e-62|714|704|621.0
@@ -2057,9 +2220,13 @@ WP_034077395.1|NrdAq|227.9|1.2e-63|714|704|621.0
 WP_034079532.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_034080795.1|NrdAq|230.4|2.0e-64|714|704|621.0
 WP_036402729.1|NrdAm|1215.7|0.0|770|722|736.0
+WP_036824496.1|Glutaredoxin|33.8|0.00023|131|60|41.0
 WP_039027060.1|NrdAq|229.4|4.0e-64|714|704|621.0
 WP_039027928.1|NrdAz3|1343.9|0.0|963|700|718.0
+WP_039611886.1|Glutaredoxin|85.0|2.4e-20|85|60|61.0
 WP_039700011.1|NrdAq|227.9|1.2e-63|714|704|621.0
+WP_040388356.1|Glutaredoxin|33.8|0.00023|119|60|50.0
+WP_040714684.1|Glutaredoxin|77.2|6.7e-18|107|60|65.0
 WP_041025725.1|NrdAq|231.3|1.1e-64|714|704|621.0
 WP_042115378.1|NrdAq|226.2|3.7e-63|714|704|621.0
 WP_042857641.1|NrdAq|229.5|3.6e-64|714|704|621.0
@@ -2075,12 +2242,16 @@ WP_043510910.1|NrdAz3|1340.6|0.0|936|700|684.0
 WP_043550613.1|NrdAq|165.2|1.1e-44|559|704|489.0
 WP_043550825.1|NrdAq|44.5|3.5e-08|200|704|137.0
 WP_043553210.1|NrdAq|226.2|3.7e-63|714|704|621.0
+WP_045123803.1|Glutaredoxin|85.0|2.4e-20|77|60|58.0
 WP_045361327.1|NrdAm|1214.9|0.0|770|722|736.0
+WP_046357020.1|Glutaredoxin|84.9|2.5e-20|85|60|61.0
 WP_046660842.1|NrdAm|1203.1|0.0|1119|722|760.0
+WP_046801873.1|Glutaredoxin|79.4|1.3e-18|84|60|60.0
 WP_046879664.1|NrdAq|165.3|1.0e-44|551|704|484.0
 WP_047688485.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_047704581.1|NrdAz3|1341.0|0.0|961|700|685.0
 WP_048296521.1|NrdAz3|1343.9|0.0|964|700|718.0
+WP_048401872.1|Glutaredoxin|27.1|0.029|198|60|59.0
 WP_049243754.1|NrdAz3|1343.0|0.0|963|700|718.0
 WP_049288398.1|NrdAz3|1304.7|0.0|907|700|662.0
 WP_049302082.1|NrdAz3|959.7|4.7e-285|723|700|478.0
@@ -2088,6 +2259,7 @@ WP_049315497.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_050397533.1|NrdAz3|1340.7|0.0|949|700|684.0
 WP_050399216.1|NrdAz3|1340.7|0.0|955|700|684.0
 WP_050410341.1|NrdAz3|1340.6|0.0|935|700|684.0
+WP_053552091.1|Glutaredoxin|75.5|2.2e-17|89|60|60.0
 WP_057390969.1|NrdAq|228.3|8.8e-64|714|704|621.0
 WP_058135132.1|NrdAz3|1340.9|0.0|963|700|718.0
 WP_058139452.1|NrdAz3|1343.9|0.0|962|700|718.0
@@ -2106,6 +2278,7 @@ WP_058177417.1|NrdAq|229.7|3.3e-64|714|704|621.0
 WP_058177701.1|NrdAz3|1343.8|0.0|963|700|718.0
 WP_058180439.1|NrdAq|229.0|5.5e-64|714|704|621.0
 WP_058876623.1|NrdAq|229.3|4.3e-64|714|704|621.0
+WP_058882919.1|Glutaredoxin|27.1|0.029|465|60|55.0
 WP_060961679.1|NrdAz3|1343.5|0.0|963|700|718.0
 WP_061115267.1|NrdAz3|1338.8|0.0|963|700|718.0
 WP_061180665.1|NrdAq|227.4|1.6e-63|714|704|621.0
@@ -2118,8 +2291,14 @@ WP_061197597.1|NrdAz3|1342.5|0.0|963|700|718.0
 WP_061361054.1|NrdAq|228.4|8.2e-64|714|704|621.0
 WP_061361661.1|NrdAz3|1341.5|0.0|963|700|718.0
 WP_061432008.1|NrdAm|1217.2|0.0|770|722|736.0
+WP_062556275.1|Glutaredoxin|75.5|2.2e-17|85|60|61.0
 WP_062842532.1|NrdAq|227.7|1.4e-63|714|704|621.0
+WP_063277327.1|Glutaredoxin|43.2|2.6e-07|83|60|59.0
+WP_063379257.1|Glutaredoxin|84.9|2.4e-20|85|60|61.0
+WP_063630546.1|Glutaredoxin|79.4|1.3e-18|123|60|57.0
+WP_063875302.1|Glutaredoxin|84.9|2.4e-20|85|60|61.0
 WP_066029497.1|NrdAm|1218.1|0.0|770|722|736.0
+WP_066724171.1|Glutaredoxin|75.5|2.2e-17|85|60|60.0
 WP_069474892.1|NrdAm|1215.8|0.0|770|722|736.0
 WP_069953529.1|NrdAz3|724.7|5.9e-214|599|700|354.0
 WP_069953530.1|NrdAz3|594.4|1.6e-174|367|700|365.0
@@ -2133,6 +2312,7 @@ WP_070331775.1|NrdAq|229.0|5.4e-64|714|704|620.0
 WP_070338129.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_071559959.1|NrdAq|227.7|1.3e-63|714|704|621.0
 WP_072018056.1|NrdAq|233.0|3.3e-65|814|704|620.0
+WP_072281281.1|Glutaredoxin|77.1|6.7e-18|84|60|61.0
 WP_072927231.1|NrdAm|1198.9|0.0|1119|722|760.0
 WP_073648754.1|NrdAq|229.3|4.4e-64|734|704|621.0
 WP_073653040.1|NrdAq|229.2|4.8e-64|734|704|621.0
@@ -2161,7 +2341,22 @@ WP_074253284.1|NrdAz3|1340.9|0.0|954|700|684.0
 WP_075604347.1|NrdAq|227.8|1.3e-63|734|704|621.0
 WP_077144507.1|NrdAz3|1342.6|0.0|963|700|718.0
 WP_077150057.1|NrdAq|228.5|7.7e-64|734|704|621.0
+WP_078082351.1|Glutaredoxin|33.8|0.00023|132|60|43.0
+WP_078820067.1|Glutaredoxin|79.4|1.3e-18|84|60|60.0
+WP_081362930.1|Glutaredoxin|77.2|6.7e-18|84|60|60.0
+WP_096717201.1|Glutaredoxin|33.8|0.00023|264|60|59.0
+WP_099201284.1|Glutaredoxin|43.2|2.6e-07|85|60|56.0
+XP_008486154.1|Glutaredoxin|234.6|4.6e-67|980|60|255.0
+XP_008487196.1|Glutaredoxin|1547.5|0.0|2825|60|1664.0
+XP_009080205.1|Glutaredoxin|75.5|2.2e-17|119|60|63.0
+XP_017780289.1|Glutaredoxin|77.1|6.7e-18|140|60|65.0
+XP_020183285.1|Glutaredoxin|33.8|0.00023|111|60|62.0
+XP_021470271.1|Glutaredoxin|43.2|2.6e-07|87|60|39.0
+XP_021876068.1|Glutaredoxin|77.1|6.7e-18|102|60|63.0
+XP_022142239.1|Glutaredoxin|194.7|1.4e-54|489|60|194.0
+XP_022925807.1|Glutaredoxin|197.0|2.6e-55|490|60|194.0
 YP_851020.1|NrdAm|1091.0|0.0|742|722|739.0
+Glutaredoxin|||||
 NrdA|NrdGRE|NrdAJ|NrdA||
 NrdAe|NrdGRE|NrdAJ|NrdA|NrdAe|
 NrdAg|NrdGRE|NrdAJ|NrdA|NrdAg|
@@ -2179,8 +2374,14 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 303|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas putida|Pseudomonas putida|species
 470|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Moraxellaceae|Acinetobacter|Acinetobacter baumannii|Acinetobacter baumannii|species
 550|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Enterobacter|Enterobacter cloacae|Enterobacter cloacae|species
+564|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii|species
+632|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Yersiniaceae|Yersinia|Yersinia pestis|Yersinia pestis|species
 1126|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa|species
 9606|Eukaryota|Metazoa|Chordata|Mammalia|Primates|Hominidae|Homo|Homo sapiens|Homo sapiens|species
+28090|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Moraxellaceae|Acinetobacter|Acinetobacter lwoffii|Acinetobacter lwoffii|species
+47883|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas synxantha|Pseudomonas synxantha|species
+86192|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas chlororaphis|Pseudomonas chlororaphis subsp. aurantiaca|subspecies
+96901|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas synxantha|Pseudomonas synxantha BG33R|no rank
 208963|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa UCBPP-PA14|no rank
 208964|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PAO1|no rank
 213618|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa PCC 7941|no rank
@@ -2195,17 +2396,22 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 381798|Viruses|dsDNA viruses, no RNA stage|||Caudovirales|Myoviridae||Cyanophage Ma|Cyanophage Ma-LMM02|no rank
 381799|Viruses|dsDNA viruses, no RNA stage|||Caudovirales|Myoviridae||Cyanophage Ma|Cyanophage Ma-LMM03|no rank
 381800|Viruses|dsDNA viruses, no RNA stage|||Caudovirales|Myoviridae||Cyanophage Ma|Cyanophage Ma-HPM05|no rank
+385969|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Yersiniaceae|Yersinia|Yersinia pestis|Yersinia pestis subsp. microtus bv. Ulegeica|no rank
 446470|Bacteria||Actinobacteria|Actinobacteria|Glycomycetales|Glycomycetaceae|Stackebrandtia|Stackebrandtia nassauensis|Stackebrandtia nassauensis DSM 44728|no rank
 449441|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa NIES-88|no rank
 449447|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa NIES-843|no rank
 482300|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa SPC777|no rank
+550694|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii B253|no rank
 557722|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa LESB58|no rank
+585054|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii ATCC 35469|no rank
+587753|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas chlororaphis|Pseudomonas chlororaphis|species
 652611|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PA14|no rank
 665948|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. 2_1_26|Pseudomonas sp. 2_1_26|species
 721123|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa PCC 9701|no rank
 798130|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa 39016|no rank
 856793|Bacteria||Proteobacteria|Alphaproteobacteria|||Micavibrio|Micavibrio aeruginosavorus|Micavibrio aeruginosavorus ARL-13|no rank
 941193|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa M18|no rank
+981367|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii ECD227|no rank
 983918|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa HB13|no rank
 983919|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa HB15|no rank
 1000561|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa AES-1R|no rank
@@ -2236,6 +2442,7 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 1163397|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa CIG1|no rank
 1191475|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PAO579|no rank
 1193501|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa SJTD-1|no rank
+1217668|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Moraxellaceae|Acinetobacter|Acinetobacter lwoffii|Acinetobacter lwoffii NIPH 478|no rank
 1262663|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa VRFPA01|no rank
 1279007|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PA1|no rank
 1279008|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PA1R|no rank
@@ -2243,6 +2450,7 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 1285581|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PA21_ST175|no rank
 1286151|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa 18A|no rank
 1295076|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa PA45|no rank
+1295141|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas veronii|Pseudomonas veronii 1YdBTEX2|no rank
 1306165|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa MH27|no rank
 1331059|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa MSH-10|no rank
 1333855|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa WC55|no rank
@@ -2422,6 +2630,8 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 1581085|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC11A05|Pseudomonas sp. HMSC11A05|species
 1581109|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC16B01|Pseudomonas sp. HMSC16B01|species
 1581118|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC05H02|Pseudomonas sp. HMSC05H02|species
+1608994|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas weihenstephanensis|Pseudomonas weihenstephanensis|species
+1674920|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. KG01|Pseudomonas sp. KG01|species
 1715014|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC060G01|Pseudomonas sp. HMSC060G01|species
 1715015|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC060F12|Pseudomonas sp. HMSC060F12|species
 1715060|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC057H01|Pseudomonas sp. HMSC057H01|species
@@ -2449,3 +2659,6 @@ NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4
 1739451|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC069G05|Pseudomonas sp. HMSC069G05|species
 1739490|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC073F05|Pseudomonas sp. HMSC073F05|species
 1739516|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. HMSC065H01|Pseudomonas sp. HMSC065H01|species
+1844093|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. 22 E 5|Pseudomonas sp. 22 E 5|species
+1844099|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. 31 E 5|Pseudomonas sp. 31 E 5|species
+1844100|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas sp. 31 E 6|Pseudomonas sp. 31 E 6|species
