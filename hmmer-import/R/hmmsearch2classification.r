@@ -41,7 +41,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
 }
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/GRX.ncbi_nr.test.domtblout', 'hmmsearch2classification.00.d/GRX.ncbi_nr.test.tblout', 'hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='taxflat.tsv', sqlitedb='testdb.sqlite3'))
+# opt = list(args = c('hmmsearch2classification.00.d/GRX.ncbi_nr.test.domtblout', 'hmmsearch2classification.00.d/GRX.ncbi_nr.test.tblout', 'hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='hmmsearch2classification.taxflat.tsv', sqlitedb='testdb.sqlite3'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -203,15 +203,24 @@ accessions = accessions %>%
 
 logmsg("Inferred databases, calculating best scoring profile for each accession")
 
+# Create proteins with entries from tblout not matching hmm_profile entries with rank == 'domain'.
 # Calculate best scoring profile for each accession
-bestscoring = tblout %>% group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
+proteins <- tblout %>% 
+  anti_join(hmm_profiles %>% filter(prank == 'domain'), by = 'profile') %>%
+  group_by(accno) %>% top_n(1, score) %>% ungroup() %>%
+  select(accno, profile, score, evalue)
+
+# Create table of domains as those that match domains specified in hmm_profiles
+domains <- tblout %>%
+  semi_join(hmm_profiles %>% filter(prank == 'domain'), by = 'profile') %>%
   select(accno, profile, score, evalue)
 
 logmsg("Calculated best scoring profiles, joining in lengths")
 
 # Join in lengths
-logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", bestscoring %>% nrow()))
-bestscoring = bestscoring %>% inner_join(align_lengths, by = c('accno', 'profile'))
+logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", proteins %>% nrow()))
+proteins <- proteins %>% inner_join(align_lengths, by = c('accno', 'profile'))
+domains <- domains %>% inner_join(align_lengths, by = c('accno', 'profile'))
 
 logmsg("Joined in lengths, writing data")
 
@@ -219,12 +228,12 @@ logmsg("Joined in lengths, writing data")
 if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
   logmsg("Writing single table format")
 
-  # Add hmm_profiles
-  bestscoring = bestscoring %>% left_join(hmm_profiles, by='profile')
-
-  # Join bestscoring with accessions and drop profile to get a single table output
-  logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", bestscoring %>% nrow()))
-  singletable = bestscoring %>% inner_join(accessions, by='accno') %>%
+  # Join proteins with accessions and drop profile to get a single table output
+  logmsg(sprintf("Joining in all accession numbers and dropping profile column, nrows before: %d", proteins %>% nrow()))
+  singletable <- proteins %>% 
+    union(domains) %>% 
+    left_join(hmm_profiles, by='profile') %>%
+    inner_join(accessions, by='accno') %>%
     mutate(accno = accto) 
 
   # If we have a taxflat NCBI taxonomy, read and join
@@ -254,7 +263,9 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
   
-  con %>% copy_to(bestscoring, 'proteins', temporary = FALSE, overwrite = TRUE)
+  con %>% copy_to(proteins, 'proteins', temporary = FALSE, overwrite = TRUE)
+
+  con %>% copy_to(domains, 'domains', temporary = FALSE, overwrite = TRUE)
 
   con %>% copy_to(hmm_profiles, 'hmm_profiles', temporary = FALSE, overwrite = TRUE)
 
