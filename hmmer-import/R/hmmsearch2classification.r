@@ -9,6 +9,8 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(tidyr))
 
+SCRIPT_VERSION = "1.0"
+
 # Get arguments
 option_list = list(
   make_option(
@@ -54,7 +56,7 @@ logmsg = function(msg, llevel='INFO') {
     )
   }
 }
-logmsg("Starting classification")
+logmsg(sprintf("hmmsearch2classification.r version %s: Starting classification", SCRIPT_VERSION))
 
 dbsource = strsplit(opt$options$dbsource, ':')[[1]]
 
