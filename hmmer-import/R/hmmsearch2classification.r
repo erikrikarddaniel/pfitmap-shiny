@@ -258,7 +258,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   
   con %>% copy_to(accessions, 'accessions', temporary = FALSE, overwrite = TRUE)
   
-  con %>% copy_to(bestscoring, 'bestscoring', temporary = FALSE, overwrite = TRUE)
+  con %>% copy_to(bestscoring, 'proteins', temporary = FALSE, overwrite = TRUE)
 
   if ( length(grep('profilehierarchies', names(opt$options), value = TRUE)) > 0 ) {
     logmsg(sprintf("Adding profile hierarchies from %s", opt$options$profilehierarchies))
