@@ -26,3 +26,8 @@ p.monas <- taxa %>% filter(taxon == 'Pseudomonas aeruginosa') %>%
   arrange(profile, desc(alilen), desc(score)) %>%
   collect()
 ```
+
+```{r}
+con %>% DBI::dbDisconnect()
+```
+
