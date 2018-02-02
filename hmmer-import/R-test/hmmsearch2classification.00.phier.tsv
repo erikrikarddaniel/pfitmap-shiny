@@ -1,4 +1,4 @@
-profile	psuperfamily	pfamily	pclass	psubclass	pgroup	prank	version	length
+profile	psuperfamily	pfamily	pclass	psubclass	pgroup	prank	version	plen
 NrdA	NrdGRE	NrdAJ	NrdA			pclass	0.1	467
 NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe		psubclass	0.1	684
 NrdAg	NrdGRE	NrdAJ	NrdA	NrdAg		psubclass	0.1	652
