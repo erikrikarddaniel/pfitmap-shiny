@@ -111,8 +111,8 @@ for ( tbloutfile in grep('\\.tblout', opt$args, value=TRUE) ) {
 accessions = accessions %>% separate_rows(accto, sep = '\x01') %>% 
   mutate(
     taxon = ifelse(
-      grepl('\\[(.*)\\]', accto), 
-      sub('.*\\[(.*)\\].*', '\\1', accto),
+      grepl('[^[]\\[(.*)\\]', accto), 
+      sub('.*[^[]\\[(.*)\\].*', '\\1', accto),
       'unknown'
     ),
     accto = sub(' .*', '', accto)
