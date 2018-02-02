@@ -143,9 +143,12 @@ NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq||psubclass|0.1|650
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz||psubclass|0.1|707
 NrdAz3|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3|pgroup|0.1|750
 NrdAz4|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4|pgroup|0.1|750
+NrdB|Ferritin-like|NrdBR2lox|NrdB|||pclass|0.1|261
+NrdF|Ferritin-like|NrdBR2lox|NrdB|NrdF||psubclass|0.1|303
 286|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas||Pseudomonas|genus
 564|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii|species
 632|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Yersiniaceae|Yersinia|Yersinia pestis|Yersinia pestis|species
+1404|Bacteria||Firmicutes|Bacilli|Bacillales|Bacillaceae|Bacillus|Bacillus megaterium|Bacillus megaterium|species
 9606|Eukaryota|Metazoa|Chordata|Mammalia|Primates|Hominidae|Homo|Homo sapiens|Homo sapiens|species
 28090|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Moraxellaceae|Acinetobacter|Acinetobacter lwoffii|Acinetobacter lwoffii|species
 47883|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas synxantha|Pseudomonas synxantha|species

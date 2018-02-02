@@ -33,6 +33,10 @@ PAA71096.1|PAA71096.1|Macrostomum lignano|genbank
 PHQ55257.1|PHQ55257.1|Porticoccus sp.|genbank
 PHS71537.1|PHS71537.1|Methylophaga sp.|genbank
 PIQ97238.1|PIQ97238.1|Nitrospinae bacterium CG11_big_fil_rev_8_21_14_0_20_56_8|genbank
+WP_000626116.1|WP_000626116.1|Bacillus|refseq
+WP_000864955.1|WP_000864955.1|Bacillus|refseq
+WP_000864956.1|WP_000864956.1|Bacillus|refseq
+WP_000864958.1|WP_000864958.1|Bacillus|refseq
 WP_001273797.1|CAQ91076.1|Escherichia fergusonii ATCC 35469|embl
 WP_001273797.1|EGC05920.1|Escherichia fergusonii B253|genbank
 WP_001273797.1|EGC97018.1|Escherichia fergusonii ECD227|genbank
@@ -526,6 +530,7 @@ WP_013019775.1|ADD44204.1|Stackebrandtia nassauensis DSM 44728|genbank
 WP_013019775.1|WP_013019775.1|Stackebrandtia nassauensis|refseq
 WP_013020768.1|ADD45197.1|Stackebrandtia nassauensis DSM 44728|genbank
 WP_013020768.1|WP_013020768.1|Stackebrandtia nassauensis|refseq
+WP_013171274.1|WP_013171274.1|Bacillus] selenitireducens|refseq
 WP_014103883.1|AEP10660.1|Micavibrio aeruginosavorus ARL-13|genbank
 WP_014103883.1|WP_014103883.1|Micavibrio aeruginosavorus|refseq
 WP_014604136.1|BAK93080.1|Pseudomonas aeruginosa NCGM2.S1|dbj
@@ -835,6 +840,7 @@ WP_063630546.1|WP_063630546.1|Wolbachia endosymbiont of Laodelphax striatella|re
 WP_063875302.1|KZX01145.1|Pseudoalteromonas luteoviolacea|genbank
 WP_063875302.1|WP_063875302.1|Pseudoalteromonas luteoviolacea|refseq
 WP_066029497.1|WP_066029497.1|Microcystis aeruginosa|refseq
+WP_066166540.1|WP_066166540.1|Bacillus] sp. KCTC 13219|refseq
 WP_066724171.1|AMV71055.1|Desulfuromonas sp. DDH964|genbank
 WP_066724171.1|WP_066724171.1|Desulfuromonas sp. DDH964|refseq
 WP_069474892.1|WP_069474892.1|Microcystis aeruginosa|refseq
@@ -919,6 +925,10 @@ NP_001024.1|NrdAe|1272.8|0.0|792|684|681.0
 NP_001304993.1|NrdAe|1267.4|0.0|695|684|677.0
 NP_001304994.1|NrdAe|801.5|3.9e-237|454|684|436.0
 NP_001317122.1|NrdAe|1056.5|0.0|570|684|552.0
+WP_000626116.1|NrdF|416.0|6.3e-121|342|303|319.0
+WP_000864955.1|NrdF|161.9|1.5e-43|133|303|127.0
+WP_000864956.1|NrdF|162.5|1.0e-43|133|303|127.0
+WP_000864958.1|NrdF|160.9|3.0e-43|133|303|127.0
 WP_002751870.1|NrdAm|1215.9|0.0|770|722|736.0
 WP_002757163.1|NrdAm|1202.9|0.0|1119|722|760.0
 WP_002772076.1|NrdAm|1200.7|0.0|1119|722|760.0
@@ -946,6 +956,7 @@ WP_012076682.1|NrdAz3|1343.9|0.0|963|700|718.0
 WP_012078060.1|NrdAq|228.5|7.6e-64|714|704|621.0
 WP_013019775.1|NrdA|218.9|5.7e-61|946|467|496.0
 WP_013020768.1|NrdAn|1214.5|0.0|771|682|687.0
+WP_013171274.1|NrdB|192.5|4.9e-53|347|261|304.0
 WP_014103883.1|NrdAk|1100.1|0.0|610|578|566.0
 WP_014604136.1|NrdAq|224.1|1.7e-62|734|704|621.0
 WP_015468603.1|NrdAk|1100.5|0.0|610|578|566.0
@@ -1087,6 +1098,7 @@ WP_061361661.1|NrdAz3|1341.5|0.0|963|700|718.0
 WP_061432008.1|NrdAm|1217.2|0.0|770|722|736.0
 WP_062842532.1|NrdAq|227.7|1.4e-63|714|704|621.0
 WP_066029497.1|NrdAm|1218.1|0.0|770|722|736.0
+WP_066166540.1|NrdF|396.7|4.8e-115|326|303|311.0
 WP_069474892.1|NrdAm|1215.8|0.0|770|722|736.0
 WP_069953529.1|NrdAz3|724.7|5.9e-214|599|700|354.0
 WP_069953530.1|NrdAz3|594.4|1.6e-174|367|700|365.0
@@ -1142,6 +1154,8 @@ NrdAq|NrdGRE|NrdAJ|NrdA|NrdAq||psubclass|0.1|650
 NrdAz|NrdGRE|NrdAJ|NrdA|NrdAz||psubclass|0.1|707
 NrdAz3|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz3|pgroup|0.1|750
 NrdAz4|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4|pgroup|0.1|750
+NrdB|Ferritin-like|NrdBR2lox|NrdB|||pclass|0.1|261
+NrdF|Ferritin-like|NrdBR2lox|NrdB|NrdF||psubclass|0.1|303
 286|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas||Pseudomonas|genus
 287|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas aeruginosa|Pseudomonas aeruginosa|species
 303|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas putida|Pseudomonas putida|species
@@ -1150,6 +1164,8 @@ NrdAz4|NrdGRE|NrdAJ|NrdA|NrdAz|NrdAz4|pgroup|0.1|750
 564|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae|Escherichia|Escherichia fergusonii|Escherichia fergusonii|species
 632|Bacteria||Proteobacteria|Gammaproteobacteria|Enterobacterales|Yersiniaceae|Yersinia|Yersinia pestis|Yersinia pestis|species
 1126|Bacteria||Cyanobacteria||Chroococcales|Microcystaceae|Microcystis|Microcystis aeruginosa|Microcystis aeruginosa|species
+1386|Bacteria||Firmicutes|Bacilli|Bacillales|Bacillaceae|Bacillus||Bacillus|genus
+1404|Bacteria||Firmicutes|Bacilli|Bacillales|Bacillaceae|Bacillus|Bacillus megaterium|Bacillus megaterium|species
 9606|Eukaryota|Metazoa|Chordata|Mammalia|Primates|Hominidae|Homo|Homo sapiens|Homo sapiens|species
 28090|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Moraxellaceae|Acinetobacter|Acinetobacter lwoffii|Acinetobacter lwoffii|species
 47883|Bacteria||Proteobacteria|Gammaproteobacteria|Pseudomonadales|Pseudomonadaceae|Pseudomonas|Pseudomonas synxantha|Pseudomonas synxantha|species

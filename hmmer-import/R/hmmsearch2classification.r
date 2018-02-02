@@ -63,6 +63,24 @@ dbsource = strsplit(opt$options$dbsource, ':')[[1]]
 logmsg(sprintf("Reading profile hierarchies from %s", opt$options$profilehierarchies))
 hmm_profiles <- read_tsv(opt$options$profilehierarchies, col_types=cols(.default=col_character()))
 
+logmsg(sprintf("Reading taxflat from %s", opt$options$taxflat))
+taxflat <- read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
+  transmute(
+    ncbi_taxon_id, taxon, trank = rank,
+    tdomain       = superkingdom, tkingdom = kingdom,
+    tphylum       = phylum,       tclass   = class,
+    torder        = order,        tfamily  = family,
+    tgenus        = genus,        tspecies = species
+  )
+
+# Delete duplicate taxon, rank combinations belonging in Eukaryota
+taxflat <- taxflat %>%
+  anti_join(
+    taxflat %>% group_by(taxon, trank) %>% summarise(n = n()) %>% ungroup() %>% filter(n > 1) %>%
+      inner_join(taxflat %>% filter(tdomain == 'Eukaryota'), by = c('taxon', 'trank')),
+    by = c('ncbi_taxon_id')
+  )
+
 # We will populate two tables, one with the full results, one with accessions
 tblout = tibble(
   accno = character(), profile = character(),
@@ -248,15 +266,12 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
     mutate(accno = accto) 
 
   # If we have a taxflat NCBI taxonomy, read and join
-  if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
-    logmsg(sprintf("Adding NCBI taxon ids from %s, nrows before: %d", opt$options$taxflat, singletable %>% nrow()))
-    singletable = singletable %>% 
-      left_join(
-        read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
-          select(taxon, ncbi_taxon_id),
-        by='taxon'
-      )
-  }
+  logmsg(sprintf("Adding NCBI taxon ids from taxflat, nrows before: %d", singletable %>% nrow()))
+  singletable = singletable %>% 
+    left_join(
+      taxflat %>% select(taxon, ncbi_taxon_id),
+      by='taxon'
+    )
 
   logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
   write_tsv(
@@ -308,24 +323,14 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   con %>% DBI::dbExecute('CREATE UNIQUE INDEX "hmm_profiles.i00" ON "hmm_profiles"("profile");')
 
   # If we have a taxflat NCBI taxonomy, read and join
-  if ( length(grep('taxflat', names(opt$options), value = TRUE)) > 0 ) {
-    logmsg(sprintf("Adding NCBI taxon ids from %s", opt$options$taxflat))
-    con %>% copy_to(
-      read_tsv(opt$options$taxflat, col_types=cols(.default=col_character(), ncbi_taxon_id=col_integer())) %>%
-        transmute(
-          ncbi_taxon_id,
-          tdomain       = superkingdom, tkingdom = kingdom,
-          tphylum       = phylum,       tclass   = class,
-          torder        = order,        tfamily  = family,
-          tgenus        = genus,        tspecies = species,
-          taxon, rank
-        ) %>%
-        inner_join(accessions %>% distinct(taxon), by='taxon'),
-      'taxa', temporary = FALSE, overwrite = TRUE
-    )
-  }
+  logmsg(sprintf("Adding NCBI taxon ids from taxflat"))
+  con %>% copy_to(
+    taxflat %>% inner_join(accessions %>% distinct(taxon), by='taxon'),
+    'taxa', temporary = FALSE, overwrite = TRUE
+  )
+
   logmsg('Creating indices on "taxa"')
-  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i00" ON "taxa"("taxon", "rank");')
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i00" ON "taxa"("taxon", "trank");')
   con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i01" ON "taxa"("ncbi_taxon_id");')
 }
 
