@@ -27,6 +27,15 @@ p.monas <- taxa %>% filter(taxon == 'Pseudomonas aeruginosa') %>%
   collect()
 ```
 
+Testing:
+
+```{r}
+d03 <- DBI::dbConnect(RSQLite::SQLite(), 'hmmsearch2classification.03.sqlite3')
+m03 <- d03 %>% tbl('proteins') %>% inner_join(d03 %>% tbl('domtblout') %>% filter(n > 1), by = c('accno', 'profile')) %>% collect()
+View(d03 %>% tbl('tblout') %>% filter(accno == 'WP_013019775.1') %>% collect())
+View(d03 %>% tbl('domtblout') %>% filter(accno == 'WP_013019775.1') %>% collect())
+```
+
 ```{r}
 con %>% DBI::dbDisconnect()
 ```
