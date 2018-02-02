@@ -325,7 +325,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
     )
   }
   logmsg('Creating indices on "taxa"')
-  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i00" ON "taxa"("taxon");')
+  con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i00" ON "taxa"("taxon", "rank");')
   con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i01" ON "taxa"("ncbi_taxon_id");')
 }
 
