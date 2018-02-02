@@ -334,8 +334,8 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
   con %>% DBI::dbExecute('CREATE UNIQUE INDEX "taxa.i01" ON "taxa"("ncbi_taxon_id");')
 
   logmsg('Saving tblout and domtblout to database')
-  con %>% copy_to(tblout, 'tblout', temporary = FALSE, overwrite = TRUE)
-  con %>% copy_to(domtblout, 'domtblout', temporary = FALSE, overwrite = TRUE)
+  con %>% copy_to(tblout    %>% arrange(accno),    'tblout',    temporary = FALSE, overwrite = TRUE)
+  con %>% copy_to(domtblout %>% arrange(accno, i), 'domtblout', temporary = FALSE, overwrite = TRUE)
 }
 
 logmsg("Done")
