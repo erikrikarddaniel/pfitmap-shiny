@@ -155,62 +155,69 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
 }
 
 # Calculate lengths by summing the ali_from and ali_to fields
+#align_lengths = domtblout %>% distinct(accno, profile, tlen, qlen)
 
-# First check if there are overlaps...
-domtblout.no_overlaps = domtblout %>%
-  select(accno, profile, tlen, qlen, i, n, ali_from, ali_to)
-
-calc_overlaps = function(dt) {
+calc_overlaps = function(dt, fromfield, tofield) {
   o = dt %>% filter(n > 1) %>%
-    select(accno, profile, ali_from, ali_to, i, n) %>%
+    select("accno", "profile", "ali_from", "ali_to", "i", "n") %>%
     inner_join(
-      domtblout %>% transmute(accno, profile, next_ali_from = ali_from, next_ali_to = ali_to, next_i = i, i = i - 1),
+      domtblout %>% transmute(accno, profile, 'next_from' = fromfield, 'next_to' = tofield, next_i = i, i = i - 1),
       by = c('accno', 'profile', 'i')
-    ) %>% filter(next_ali_from <= ali_to) %>%
-    mutate(new_ali_from = ali_from, new_ali_to = next_ali_to, new_n = n - 1)
+    ) %>% filter(next_from <= ali_to) %>%
+    mutate(new_from = ali_from, new_to = next_to, new_n = n - 1)
   return(o)
 }
 
-overlaps = calc_overlaps(domtblout.no_overlaps)
+for ( fs in list(c('ali_from', 'ali_to', 'alilen')) ) {
+  logmsg(sprintf("Handling overlaps for %s", fs[3]))
 
-while ( overlaps %>% nrow() > 0 ) {
-  logmsg(sprintf("Handling overlaps, %d rows remaning", overlaps %>% nrow()))
+  # First check if there are overlaps...
+  domtblout.no_overlaps = domtblout %>%
+    select(accno, profile, tlen, qlen, i, n, ali_from, ali_to)
 
-  domtblout.no_overlaps = domtblout.no_overlaps %>% 
-    # 1. Join in overlaps and set new ali_from and ali_to for matching rows
-    left_join(
-      overlaps %>% select(accno, profile, i, new_ali_from, new_ali_to), 
-      by=c('accno', 'profile', 'i')
-    ) %>%
-    mutate(
-      ali_from = ifelse(! is.na(new_ali_from), new_ali_from, ali_from),
-      ali_to = ifelse(! is.na(new_ali_to), new_ali_to, ali_to)
-    ) %>%
-    # 2. Join in overlaps with i + 1 to get rid of the replaced row
-    left_join(
-      overlaps %>% transmute(accno, profile, i = next_i, new_n),
-      by=c('accno', 'profile', 'i')
-    ) %>%
-    filter(is.na(new_n)) %>% select(-new_ali_from, -new_ali_to, -new_n) %>%
-    # 3. Join in overlaps on only accno and profile to set new n for matching rows
-    left_join(
-      overlaps %>% select(accno, profile, new_n), by = c('accno', 'profile')
-    ) %>%
-    mutate(n = ifelse(!is.na(new_n), new_n, n)) %>% select(-new_n) %>%
-    distinct(accno, profile, tlen, qlen, n, ali_from, ali_to) %>%
-    # 4. Calculate new i
-    group_by(accno, profile, tlen, qlen) %>% mutate(i = rank(ali_from)) %>% ungroup() %>%
-    arrange(accno, profile, i)
+  overlaps = calc_overlaps(domtblout.no_overlaps, fs[1], fs[2])
 
-  overlaps = calc_overlaps(domtblout.no_overlaps)
+  field = fs[1]
+
+  while ( overlaps %>% nrow() > 0 ) {
+    logmsg(sprintf("\t%d rows remaning", overlaps %>% nrow()))
+
+    domtblout.no_overlaps = domtblout.no_overlaps %>% 
+      # 1. Join in overlaps and set new fs[1] and fs[2] for matching rows
+      left_join(
+        overlaps %>% select(accno, profile, i, new_from, new_to), 
+        by=c('accno', 'profile', 'i')
+      ) %>%
+      mutate(
+        !!fs[1] := ifelse(! is.na(new_from), new_from, fs[1]),
+        !!fs[2] := ifelse(! is.na(new_to), new_to, fs[2])
+      ) %>%
+      # 2. Join in overlaps with i + 1 to get rid of the replaced row
+      left_join(
+        overlaps %>% transmute(accno, profile, i = next_i, new_n),
+        by=c('accno', 'profile', 'i')
+      ) %>%
+      filter(is.na(new_n)) %>% select(-new_from, -new_to, -new_n) %>%
+      # 3. Join in overlaps on only accno and profile to set new n for matching rows
+      left_join(
+        overlaps %>% select(accno, profile, new_n), by = c('accno', 'profile')
+      ) %>%
+      mutate(n = ifelse(!is.na(new_n), new_n, n)) %>% select(-new_n) %>%
+      distinct(accno, profile, tlen, qlen, n, fs[1], fs[2]) %>%
+      # 4. Calculate new i
+      group_by(accno, profile, tlen, qlen) %>% mutate(i = rank(fs[1])) %>% ungroup() %>%
+      arrange(accno, profile, i)
+
+    overlaps = calc_overlaps(domtblout.no_overlaps, fs[1], fs[2])
+  }
+
+  logmsg("\tOverlaps done, calculating lengths")
+
+  # Now, we can calculate lengths
+  align_lengths = domtblout.no_overlaps %>%
+    mutate(!!fs[3] := .data[[fs[2]]] - .data[[fs[1]]] + 1) %>%
+    group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(.data[[fs[3]]])) %>% ungroup()
 }
-
-logmsg("Overlaps done, calculating lengths")
-
-# Now, we can calculate lengths
-align_lengths = domtblout.no_overlaps %>%
-  mutate(alilen = ali_to - ali_from + 1) %>%
-  group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(alilen)) %>% ungroup()
 
 logmsg("Calculated lengths, inferring source databases from accession numbers")
 
