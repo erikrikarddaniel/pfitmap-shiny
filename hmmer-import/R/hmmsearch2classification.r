@@ -46,7 +46,7 @@ if ( length(grep('sqlitedb', names(opt$options), value = TRUE)) > 0 ) {
 }
 
 # Args list for testing:
-# opt = list(args = c('hmmsearch2classification.00.d/GRX.ncbi_nr.test.domtblout', 'hmmsearch2classification.00.d/GRX.ncbi_nr.test.tblout', 'hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='hmmsearch2classification.taxflat.tsv', sqlitedb='testdb.sqlite3'))
+# opt = list(args = c('hmmsearch2classification.00.d/GRX.ncbi_nr.test.domtblout', 'hmmsearch2classification.00.d/GRX.ncbi_nr.test.tblout', 'hmmsearch2classification.00.d/NrdAe.tblout','hmmsearch2classification.00.d/NrdAg.tblout','hmmsearch2classification.00.d/NrdAh.tblout','hmmsearch2classification.00.d/NrdAi.tblout','hmmsearch2classification.00.d/NrdAk.tblout','hmmsearch2classification.00.d/NrdAm.tblout','hmmsearch2classification.00.d/NrdAn.tblout','hmmsearch2classification.00.d/NrdAq.tblout','hmmsearch2classification.00.d/NrdA.tblout','hmmsearch2classification.00.d/NrdAz3.tblout','hmmsearch2classification.00.d/NrdAz4.tblout','hmmsearch2classification.00.d/NrdAz.tblout','hmmsearch2classification.00.d/NrdAe.domtblout','hmmsearch2classification.00.d/NrdAg.domtblout','hmmsearch2classification.00.d/NrdAh.domtblout','hmmsearch2classification.00.d/NrdAi.domtblout','hmmsearch2classification.00.d/NrdAk.domtblout','hmmsearch2classification.00.d/NrdAm.domtblout','hmmsearch2classification.00.d/NrdAn.domtblout','hmmsearch2classification.00.d/NrdAq.domtblout','hmmsearch2classification.00.d/NrdA.domtblout','hmmsearch2classification.00.d/NrdAz3.domtblout','hmmsearch2classification.00.d/NrdAz4.domtblout','hmmsearch2classification.00.d/NrdAz.domtblout'), options=list(verbose=T, singletable='test.out.tsv', profilehierarchies='hmmsearch2classification.00.phier.tsv', taxflat='hmmsearch2classification.taxflat.tsv', sqlitedb='testdb.sqlite3', dbsource='NCBI:NR:20180212'))
 
 logmsg = function(msg, llevel='INFO') {
   if ( opt$options$verbose ) {
@@ -155,25 +155,29 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
 }
 
 # Calculate lengths by summing the ali_from and ali_to fields
-#align_lengths = domtblout %>% distinct(accno, profile, tlen, qlen)
+align_lengths = domtblout %>% distinct(accno, profile, tlen, qlen)
 
 calc_overlaps = function(dt, fromfield, tofield) {
   o = dt %>% filter(n > 1) %>%
-    select("accno", "profile", "ali_from", "ali_to", "i", "n") %>%
+    select("accno", "profile", fromfield, tofield, "i", "n") %>%
     inner_join(
       domtblout %>% transmute(accno, profile, 'next_from' = fromfield, 'next_to' = tofield, next_i = i, i = i - 1),
       by = c('accno', 'profile', 'i')
-    ) %>% filter(next_from <= ali_to) %>%
-    mutate(new_from = ali_from, new_to = next_to, new_n = n - 1)
+    ) %>% filter(next_from <= .data[[tofield]]) %>%
+    mutate(new_from = .data[[fromfield]], new_to = next_to, new_n = n - 1)
   return(o)
 }
 
-for ( fs in list(c('ali_from', 'ali_to', 'alilen')) ) {
+for ( fs in list(
+                 c('ali_from', 'ali_to', 'alilen'),
+                 c('hmm_from', 'hmm_to', 'hmmlen'),
+                 c('env_from', 'env_to', 'envlen')
+                 ) ) {
   logmsg(sprintf("Handling overlaps for %s", fs[3]))
 
   # First check if there are overlaps...
   domtblout.no_overlaps = domtblout %>%
-    select(accno, profile, tlen, qlen, i, n, ali_from, ali_to)
+    select(accno, profile, tlen, qlen, i, n, fs[1], fs[2])
 
   overlaps = calc_overlaps(domtblout.no_overlaps, fs[1], fs[2])
 
@@ -214,9 +218,13 @@ for ( fs in list(c('ali_from', 'ali_to', 'alilen')) ) {
   logmsg("\tOverlaps done, calculating lengths")
 
   # Now, we can calculate lengths
-  align_lengths = domtblout.no_overlaps %>%
-    mutate(!!fs[3] := .data[[fs[2]]] - .data[[fs[1]]] + 1) %>%
-    group_by(accno, profile, tlen, qlen) %>% summarise(alilen = sum(.data[[fs[3]]])) %>% ungroup()
+  align_lengths <- align_lengths %>% 
+    inner_join(
+      domtblout.no_overlaps %>%
+        mutate(!!fs[3] := .data[[fs[2]]] - .data[[fs[1]]] + 1) %>%
+        group_by(accno, profile) %>% summarise(!!fs[3] := sum(.data[[fs[3]]])) %>% ungroup(),
+      by = c('accno', 'profile')
+    )
 }
 
 logmsg("Calculated lengths, inferring source databases from accession numbers")
@@ -283,7 +291,7 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
   logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
   write_tsv(
     singletable %>% 
-      select(db, accno, taxon, score, evalue, profile, psuperfamily:pgroup, ncbi_taxon_id, tlen:alilen) %>%
+      select(db, accno, taxon, score, evalue, profile, psuperfamily:pgroup, ncbi_taxon_id, tlen:envlen) %>%
       arrange(accno, profile),
     opt$options$singletable
   )
