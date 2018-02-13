@@ -164,8 +164,9 @@ lengths <- tibble(
   accno = character(), profile = character(), lentype = character(), len = integer()
 )
 
-# Function that joins all with n > 1 with the next row
-do_nextjoin <- function(dt) {
+# Function that joins all with n > 1 with the next row and not occurring in the second
+# table in the call.
+do_nextjoin <- function(dt, no) {
   dt %>% 
     filter(n > 1) %>%
     left_join(
@@ -189,32 +190,57 @@ for ( fs in list(
     distinct() %>% arrange(accno, profile, from, to) %>%
     group_by(accno, profile) %>% mutate(i = row_number(from), n = n()) %>% ungroup()
 
-  # 2. Move rows with n == 1 to nooverlaps
-  nooverlaps <- domt %>% filter(n == 1) %>% select(accno, profile, from, to)
+  # This is where non-overlapping rows will be stored
+  nooverlaps <- tibble(
+    accno = character(), profile = character(),
+    from = integer(), to = integer()
+  )
 
-  while ( domt %>% filter(n > 1) %>% nrow() > 0 ) {
+  while ( domt %>% nrow() > 0 ) {
     logmsg(sprintf("Working on overlaps, nrow: %d", domt %>% nrow()))
     
-    nextjoin <- do_nextjoin(domt)
-
-    # 4. Move non-overlapping to nooverlaps
+    # 2. Move rows with n == 1 to nooverlaps
     nooverlaps <- nooverlaps %>%
-      union(
-        nextjoin %>%
-          filter(next_from > to) %>%
-          transmute(accno, profile, from = next_from, to = next_to)
+      union(domt %>% filter(n == 1) %>% select(accno, profile, from, to))
+    domt <- domt %>% filter(n > 1)
+    
+    nextjoin <- do_nextjoin(domt, nooverlaps)
+  
+    # 3. Move rows that do not overlap with the next row
+    nooverlaps <- nooverlaps %>%
+      union(nextjoin %>% filter(to < next_from) %>% select(accno, profile, from, to))
+    nextjoin <- nextjoin %>%
+      anti_join(
+        nextjoin %>% filter(to < next_from) %>% select(accno, profile, from, to),
+        by = c('accno', 'profile', 'from', 'to')
+      )
+    
+    # 4. Delete rows which are contained in the earlier row
+    nextjoin <- nextjoin %>%
+      anti_join(
+        nextjoin %>% filter(from < next_from, to > next_to) %>%
+          transmute(accno, profile, from = next_from, to = next_to),
+        by = c('accno', 'profile', 'from', 'to')
+      )
+    
+    # 5. Set a new "to" for those that overlap with the next row
+    nextjoin <- nextjoin %>%
+      mutate(to = ifelse(! is.na(next_from) & to >= next_from, next_to, to))
+    
+    # 6. Delete rows that are the last in their group of overlaps, they now have
+    #   the same "to" as the previous row.
+    nextjoin <- nextjoin %>%
+      anti_join(
+        nextjoin %>% select(accno, profile, from, to) %>% 
+          inner_join(nextjoin %>% select(accno, profile, from, to), by = c('accno', 'profile', 'to')) %>% 
+          filter(from.x != from.y) %>% 
+          group_by(accno, profile, to) %>% summarise(from = max(from.x)) %>% ungroup(),
+        by = c('accno', 'profile', 'from', 'to')
       )
 
-    # 5. Calculate a new domt by selecting the overlapping and moving the content from next_to to to
-    domt <- nextjoin %>%
-      filter(next_from <= to) %>%
-      transmute(accno, profile, from, to = ifelse(next_to > to, next_to, to)) %>%
+    # 5. Calculate a new domt from nextjoin
+    domt <- nextjoin %>% distinct(accno, profile, from, to) %>%
       group_by(accno, profile) %>% mutate(i = rank(from), n = n()) %>% ungroup()
-    
-    if ( domt %>% nrow() > 0 ) {
-      nooverlaps <- nooverlaps %>%
-        union(domt %>% filter(n == 1) %>% select(accno, profile, from, to))
-    }
   }
   
   lengths <- lengths %>%
@@ -230,7 +256,6 @@ for ( fs in list(
 # Join in the above results with tlen and qlen from domtblout
 align_lengths = domtblout %>% distinct(accno, profile, tlen, qlen) %>%
   inner_join(lengths %>% spread(lentype, len, fill = 0), by = c('accno', 'profile'))
-logmsg(sprintf("align_lengths.columns: %s", paste(colnames(align_lengths), collapse=',')), 'DEBUG')
 
 logmsg("Calculated lengths, inferring source databases from accession numbers")
 
@@ -271,7 +296,6 @@ domains <- domtblout %>%
 # Join in lengths
 logmsg(sprintf("Joining in lengths from domtblout, nrows before: %d", proteins %>% nrow()))
 proteins <- proteins %>% inner_join(align_lengths, by = c('accno', 'profile'))
-logmsg(sprintf("proteins.columns: %s", paste(colnames(proteins), collapse=',')), 'DEBUG')
 
 logmsg("Joined in lengths, writing data")
 
@@ -295,10 +319,9 @@ if ( length(grep('singletable', names(opt$options), value = TRUE)) > 0 ) {
     )
 
   logmsg(sprintf("Writing single table %s, nrows: %d", opt$options$singletable, singletable %>% nrow()))
-  logmsg(sprintf("singletable.columns: %s", paste(colnames(singletable), collapse=',')), 'DEBUG')
   write_tsv(
     singletable %>% 
-      select(db, accno, taxon, score, evalue, profile, psuperfamily:pgroup, ncbi_taxon_id, tlen:envlen) %>%
+      select(db, accno, taxon, score, evalue, profile, psuperfamily:pgroup, ncbi_taxon_id, tlen, qlen, alilen, hmmlen,envlen) %>%
       arrange(accno, profile),
     opt$options$singletable
   )
