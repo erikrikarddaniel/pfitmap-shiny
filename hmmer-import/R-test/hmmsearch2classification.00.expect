@@ -12,6 +12,7 @@ pdb	4X3V_B	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681	678	
 genbank	AAH06498.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681	678	700
 genbank	ABM83954.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681	678	700
 genbank	ABM87271.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681	678	700
+genbank	ADD44204.1	Stackebrandtia nassauensis DSM 44728	218.9	5.7e-61	NrdA	NrdGRE	NrdAJ	NrdA	NA	NA	446470	946	467	496	447	552
 genbank	AIC55076.1	synthetic construct	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681	678	700
 embl	CAA42118.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681	678	700
 embl	CAA42180.1	Homo sapiens	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	792	684	681	678	700
@@ -21,3 +22,4 @@ refseq	NP_001304993.1	Homo sapiens	1267.4	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	960
 refseq	NP_001304994.1	Homo sapiens	801.5	3.9e-237	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	454	684	436	433	454
 refseq	NP_001317122.1	Homo sapiens	1056.5	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	9606	570	684	552	549	570
 uniprot	P23921.1	unknown	1272.8	0	NrdAe	NrdGRE	NrdAJ	NrdA	NrdAe	NA	NA	792	684	681	678	700
+refseq	WP_013019775.1	Stackebrandtia nassauensis	218.9	5.7e-61	NrdA	NrdGRE	NrdAJ	NrdA	NA	NA	283811	946	467	496	447	552
