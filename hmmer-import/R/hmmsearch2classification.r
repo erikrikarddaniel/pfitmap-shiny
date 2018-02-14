@@ -205,6 +205,10 @@ for ( fs in list(
     domt <- domt %>% filter(n > 1)
     
     nextjoin <- do_nextjoin(domt, nooverlaps)
+
+    # As a debug aid, save the domt and nextjoin data sets
+    write_tsv(domt, 'domt.tsv.gz')
+    write_tsv(nextjoin, 'nextjoin.tsv.gz')
   
     # 3. Move rows that do not overlap with the next row
     nooverlaps <- nooverlaps %>%
