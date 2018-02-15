@@ -10,3 +10,5 @@ taxflat.tsv
 hmmsearch2classification.large_tc.tar.gz
 err
 *.nb.html
+domt.tsv.gz
+nextjoin.tsv.gz
