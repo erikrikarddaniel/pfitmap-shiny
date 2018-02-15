@@ -9,7 +9,7 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(tidyr))
 
-SCRIPT_VERSION = "1.1.0"
+SCRIPT_VERSION = "1.1.1"
 
 # Get arguments
 option_list = list(
@@ -185,9 +185,15 @@ for ( fs in list(
 )) {
   logmsg(sprintf("Calculating %s", fs[3]))
 
-  # 1. Set from and to to current pair, and calculate i (rownumber) and n (total domains) for each combination of accno and profile
-  domt <- domtblout %>% transmute(accno, profile, from = .data[[fs[1]]], to = .data[[fs[2]]]) %>% 
-    distinct() %>% arrange(accno, profile, from, to) %>%
+  # 1. Set from and to to current pair, delete shorter rows with the same start and 
+  # calculate i (rownumber) and n (total domains) for each combination of accno and profile
+  domt <- domtblout %>% transmute(accno, profile, from = .data[[fs[1]]], to = .data[[fs[2]]]) 
+  domt <- domt %>% distinct() %>%
+    semi_join(
+      domt %>% group_by(accno, profile, from) %>% filter(to == max(to)) %>% ungroup,
+      by = c('accno', 'profile', 'from', 'to')
+    ) %>% 
+    arrange(accno, profile, from, to) %>%
     group_by(accno, profile) %>% mutate(i = row_number(from), n = n()) %>% ungroup()
 
   # This is where non-overlapping rows will be stored
@@ -229,7 +235,7 @@ for ( fs in list(
     
     # 5. Set a new "to" for those that overlap with the next row
     nextjoin <- nextjoin %>%
-      mutate(to = ifelse(! is.na(next_from) & to >= next_from, next_to, to))
+      mutate(to = ifelse(! is.na(next_from) & to >= next_from & next_to > to, next_to, to))
     
     # 6. Delete rows that are the last in their group of overlaps, they now have
     #   the same "to" as the previous row.

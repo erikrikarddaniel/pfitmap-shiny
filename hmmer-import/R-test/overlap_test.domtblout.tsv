@@ -1,4 +1,7 @@
 accno	profile	hmm_from	hmm_to	ali_from	ali_to	env_from	env_to
+AAA39907.1	Thioredoxin	2	102	57	158	56	160
+AAA39907.1	Thioredoxin	3	102	173	273	171	275
+AAA39907.1	Thioredoxin	2	104	520	627	519	627
 NP_001024.1	NrdAe	2	679	94	774	93	792
 NP_001025.1	NrdAe	2	679	94	770	93	791
 NP_001025.1	NrdAe	30	600	95	774	95	792
