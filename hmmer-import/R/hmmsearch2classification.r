@@ -159,9 +159,10 @@ for ( domtbloutfile in grep('\\.domtblout', opt$args, value=TRUE) ) {
 # have to be calculated separately after getting rid of overlapping rows in
 # domtblout.
 
-# Define a temporary table that will be filled with lengths
+# Define a temporary table that will be filled with lengths, minimum from and maximum
+# to values.
 lengths <- tibble(
-  accno = character(), profile = character(), lentype = character(), len = integer()
+  accno = character(), profile = character(), type = character(), val = integer()
 )
 
 # Function that joins all with n > 1 with the next row and not occurring in the second
@@ -256,16 +257,21 @@ for ( fs in list(
   lengths <- lengths %>%
     union(
       nooverlaps %>% mutate(len = to - from + 1) %>%
-        group_by(accno, profile) %>% summarise(len = sum(len)) %>% ungroup() %>%
-        mutate(lentype = fs[3])
+        group_by(accno, profile) %>% summarise(len = sum(len), from = min(from), to = max(to)) %>% ungroup() %>%
+        gather(type, val, len, from, to) %>%
+        mutate(
+          type = case_when(
+            type == 'len' ~ fs[3],
+            type == 'from' ~ fs[1],
+            type == 'to'   ~ fs[2]
+          )
+        )
     )
-
-  logmsg(sprintf("%d rows in lengths for %s", lengths %>% filter(lentype == fs[3]) %>% nrow(), fs[1]), 'DEBUG')
 }
 
 # Join in the above results with tlen and qlen from domtblout
 align_lengths = domtblout %>% distinct(accno, profile, tlen, qlen) %>%
-  inner_join(lengths %>% spread(lentype, len, fill = 0), by = c('accno', 'profile'))
+  inner_join(lengths %>% spread(type, val, fill = 0), by = c('accno', 'profile'))
 
 logmsg("Calculated lengths, inferring source databases from accession numbers")
 
