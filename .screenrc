@@ -9,10 +9,6 @@ chdir $ROOT/shiny
 screen -t shiny
 chdir pfitmap
 screen -t pfitmap
-chdir $ROOT/hmmer-import/R
-screen -t R
-chdir ../R-test
-screen -t R-test
 chdir $ROOT/doc
 screen -t doc
 chdir $ROOT
