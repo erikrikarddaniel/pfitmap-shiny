@@ -9,6 +9,8 @@ chdir $ROOT/shiny
 screen -t shiny
 chdir pfitmap
 screen -t pfitmap
+chdir ../pfitmap2
+screen -t pfitmap2
 chdir $ROOT/doc
 screen -t doc
 chdir $ROOT
