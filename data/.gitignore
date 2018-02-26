@@ -1,2 +1,3 @@
 classified_proteins.tsv
 *.feather
+hmmsearch2classification.sqlite3
