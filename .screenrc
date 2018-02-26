@@ -1,6 +1,6 @@
 sessionname pfitmap-shiny
 setenv ROOT $PWD
-setenv PFITMAP2_SQLITE ../../data/test/full_rnrdb.sqlite3
+setenv PFITMAP2_SQLITE ../../data/test/testdata.sqlite3
 setenv PFITMAP_DATA ../../data/test/classified_proteins.10000.tsv
 setenv DOMAIN_DATA ../../data/test/domain_hits.10000.tsv
 setenv PROTRAITS_DATA ../../data/test/protraits.precision_scores.scsv

@@ -12,3 +12,6 @@ all_pgdumps: taxon.data.pgdump.gz taxon_name.data.pgdump.gz taxon.schema.pgdump.
 	echo "BEGIN;" > $@
 	gunzip -c $< | sed '/^SET/d' | sed '/SELECT pg_catalog.setval/d' | sed "s/true/'t'/g" | sed "s/false/'f'/g" >> $@
 	echo "END;" >> $@
+
+%.sqlite3dump: %.sqlite3
+	sqlite3 -line $< '.dump' > $@
