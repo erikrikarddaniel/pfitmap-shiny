@@ -31,8 +31,12 @@ hmm_profiles     <- dbpool %>% tbl('hmm_profiles')
 dupfree_proteins <- dbpool %>% tbl('dupfree_proteins')
 
 # Defining short cut data
-dbs            <- accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
-psuperfamilies <- hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
+dbs              <- accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
+psuperfamilies   <- hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
+
+proteins_by_db   <- dupfree_proteins %>%
+  inner_join(hmm_profiles, by = 'profile') %>%
+  inner_join(accessions, by = 'accno')
 
 # Define UI for application 
 ui <- fluidPage(
@@ -73,7 +77,38 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
-      htmlOutput('ssversion')
+      htmlOutput('ssversion'),
+      textOutput('debug'),
+      tabsetPanel(type = 'tabs', 
+        tabPanel('table', 
+          fluidRow(
+            column(4, checkboxInput('taxonomysort', 'Taxonomic sort', value=T)),
+            column(4, 
+              selectInput(
+                'trank4colour', 'Colour by taxon', 
+                list('Domain' = 'tdomain'), selected='tdomain'
+              )
+            )
+          ),
+          dataTableOutput('mainmatrix')
+        ),
+        tabPanel('chord graph',
+          chorddiagOutput('chordgraph', height=800)
+        ),
+        tabPanel('distributions',
+          selectInput(
+            'sinastat', 'Statistic',
+            list(
+              'HMM score' = 'score', 'Sequence length' = 'seqlen', 'Alignment length' = 'align_length'
+            )
+          ),
+          plotOutput('distgraph', height=600)
+        ),
+        tabPanel('sequences',
+          downloadLink('fastaseq', 'Download sequences in fasta format'),
+          htmlOutput('sequencelist')
+        )
+      )
     )
   )
 )
@@ -88,6 +123,21 @@ server <- function(input, output) {
       dbsources %>% pull(version),
       UI_VERSION
     )
+  })
+
+
+  # Returns a table after applying all filters the user have called for
+  filtered_table = reactive({
+    t <- proteins_by_db %>% filter(db == input$db) %>%
+      collect()
+
+    return(t)
+  })
+
+  output$mainmatrix = renderDataTable({
+    ft <- filtered_table()
+
+    dt <- datatable(ft)
   })
 
   output$pfamilies = renderUI({
