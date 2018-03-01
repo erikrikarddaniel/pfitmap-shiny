@@ -29,6 +29,7 @@ accessions       <- dbpool %>% tbl('accessions')
 dbsources        <- dbpool %>% tbl('dbsources')
 hmm_profiles     <- dbpool %>% tbl('hmm_profiles')
 dupfree_proteins <- dbpool %>% tbl('dupfree_proteins')
+taxa             <- dbpool %>% tbl('taxa')
 
 # Defining short cut data
 dbs              <- accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
@@ -36,7 +37,8 @@ psuperfamilies   <- hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(ps
 
 proteins_by_db   <- dupfree_proteins %>%
   inner_join(hmm_profiles, by = 'profile') %>%
-  inner_join(accessions, by = 'accno')
+  inner_join(accessions, by = 'accno') %>%
+  inner_join(taxa, by = 'taxon')
 
 # Define UI for application 
 ui <- fluidPage(
@@ -128,14 +130,19 @@ server <- function(input, output) {
 
   # Returns a table after applying all filters the user have called for
   filtered_table = reactive({
-    t <- proteins_by_db %>% filter(db == input$db) %>%
-      collect()
+    t <- proteins_by_db %>% filter(db == input$db)
+    
+    # Filters for protein hierarchy
+    if ( length(input$psuperfamilies) > 0 ) t <- t %>% filter(psuperfamily %in% input$psuperfamilies)
+    if ( length(input$pfamilies) > 0 )      t <- t %>% filter(pfamily %in% input$pfamilies)
+    if ( length(input$pclasses) > 0 )       t <- t %>% filter(pclass %in% input$pclasses)
+    if ( length(input$psubclasses) > 0 )    t <- t %>% filter(psubclass %in% input$psubclasses)
 
     return(t)
   })
 
   output$mainmatrix = renderDataTable({
-    ft <- filtered_table()
+    ft <- filtered_table() %>% collect()
 
     dt <- datatable(ft)
   })
