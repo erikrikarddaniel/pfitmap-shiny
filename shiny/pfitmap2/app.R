@@ -149,43 +149,46 @@ server <- function(input, output) {
 
   output$pfamilies = renderUI({
     if ( length(input$psuperfamilies) > 0 ) {
-      pf <- hmm_profiles %>% filter(psuperfamily %in% input$psuperfamilies) %>%
-        distinct(pfamily) %>% pull(pfamily)
+      p <- hmm_profiles %>% filter(psuperfamily %in% input$psuperfamilies) %>%
+        filter(!is.na(pfamily))
     } else {
-      pf <- hmm_profiles %>% distinct(pfamily) %>% pull(pfamily)
+      p <- hmm_profiles %>% distinct(pfamily) %>% 
+        filter(!is.na(pfamily))
     }
     
     selectInput(
       'pfamilies', 'Families',
-      pf, multiple = T
+      p %>% distinct(pfamily) %>% pull(pfamily), multiple = T
     )
   })
 
   output$pclasses = renderUI({
     if ( length(input$pfamilies) > 0 ) {
-      pc <- hmm_profiles %>% filter(pfamily %in% input$pfamilies) %>%
-        distinct(pclass) %>% pull(pclass)
+      p <- hmm_profiles %>% filter(pfamily %in% input$pfamilies) %>%
+        filter(!is.na(pclass))
     } else {
-      pc <- hmm_profiles %>% distinct(pclass) %>% pull(pclass)
+      p <- hmm_profiles %>% distinct(pclass) %>% 
+        filter(!is.na(pclass))
     }
     
     selectInput(
       'pclasses', 'Classes',
-      pc, multiple = T
+      p %>% distinct(pclass) %>% pull(pclass), multiple = T
     )
   })
 
   output$psubclasses = renderUI({
     if ( length(input$pclasses) > 0 ) {
-      pc <- hmm_profiles %>% filter(pclass %in% input$pclasses) %>%
-        distinct(psubclass) %>% pull(psubclass)
+      p <- hmm_profiles %>% filter(pclass %in% input$pclasses) %>%
+        filter(!is.na(psubclass))
     } else {
-      pc <- hmm_profiles %>% distinct(psubclass) %>% pull(psubclass)
+      p <- hmm_profiles %>% distinct(psubclass) %>% 
+        filter(!is.na(psubclass))
     }
     
     selectInput(
       'psubclasses', 'Subclasses',
-      pc, multiple = T
+      p %>% distinct(psubclass) %>% pull(psubclass), multiple = T
     )
   })
 }
