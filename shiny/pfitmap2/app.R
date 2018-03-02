@@ -116,17 +116,15 @@ ui <- fluidPage(
 )
 
 # Define server logic 
+# For console testing:
+# input <- list(psuperfamilies = 'NrdGRE', db = 'refseq', taxonrank = 'tphylum', proteinrank = 'pclass')
 server <- function(input, output) {
   output$ssversion <- renderText({
     sprintf(
       "<a href='news.html'>Source database: %s %s %s, user interface version: %s</a>", 
-      dbsources %>% pull(source),
-      dbsources %>% pull(name),
-      dbsources %>% pull(version),
-      UI_VERSION
+      dbsources %>% pull(source), dbsources %>% pull(name), dbsources %>% pull(version), UI_VERSION
     )
   })
-
 
   # Returns a table after applying all filters the user have called for
   filtered_table = reactive({
@@ -142,7 +140,10 @@ server <- function(input, output) {
   })
 
   output$mainmatrix = renderDataTable({
-    ft <- filtered_table() %>% collect()
+    ft <- filtered_table() %>% 
+      group_by(rlang::sym(input$taxonrank), rlang::sym(input$proteinrank)) %>%
+      summarise(n = n()) %>% ungroup() %>%
+      collect()
 
     dt <- datatable(ft)
   })
