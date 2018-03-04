@@ -17,4 +17,8 @@ screen -t doc
 chdir $ROOT
 screen -t man
 screen -t rstudio
+setenv PFITMAP2_SQLITE.old $PFITMAP2_SQLITE
+setenv PFITMAP2_SQLITE ../../data/hmmsearch2classification.sqlite3
+screen -t fullsize
+setenv PFITMAP2_SQLITE $PFITMAP2_SQLITE.old
 screen -t root
