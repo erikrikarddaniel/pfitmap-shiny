@@ -11,6 +11,7 @@ library(shiny)
 library(pool)
 library(dplyr)
 library(dbplyr)
+library(tidyr)
 library(DT)
 library(chorddiag)
 
@@ -168,7 +169,8 @@ server <- function(input, output) {
     ft <- filtered_table() %>% 
       group_by(rlang::sym(input$taxonrank), rlang::sym(input$proteinrank)) %>%
       summarise(n = n()) %>% ungroup() %>%
-      collect()
+      collect() %>%
+      spread(!!input$proteinrank, n, fill=0)
 
     dt <- datatable(ft)
   })
