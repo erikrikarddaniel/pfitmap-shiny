@@ -169,6 +169,11 @@ server <- function(input, output) {
     ft <- filtered_table() %>% 
       group_by(rlang::sym(input$taxonrank), rlang::sym(input$proteinrank)) %>%
       summarise(n = n()) %>% ungroup() %>%
+      inner_join(
+        taxa %>% group_by(rlang::sym(input$taxonrank)) %>%
+          summarise(n_taxa = n()) %>% ungroup(),
+        by = input$taxonrank
+      ) %>%
       collect() %>%
       spread(!!input$proteinrank, n, fill=0)
 
