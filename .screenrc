@@ -14,6 +14,8 @@ chdir ../pfitmap2
 screen -t pfitmap2
 chdir $ROOT/doc
 screen -t doc
+chdir $ROOT/performance_tests
+screen -t performance_tests
 chdir $ROOT
 screen -t man
 screen -t rstudio

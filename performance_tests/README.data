@@ -1,0 +1,5 @@
+# Copy data for tests in this directory
+
+$ rsync -avhP --size-only rnrdb:projects/profiles/profiles/hmmsearch2classification.sqlite3  ./.
+
+# Export to feather format
