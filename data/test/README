@@ -2,3 +2,7 @@ To get the testdata.sqlite3 file: Run tests in pfitmap-db repo and copy the
 hmmsearch2classification.03.sqlite3 file to testdata.sqlite3 here.
 
 $ cp ~/dev/pfitmap-db/src/R-test/hmmsearch2classification.03.sqlite3 testdata.sqlite3
+
+Or, the feather files:
+
+$ for f in ~/dev/pfitmap-db/src/R-test/pf-db2feather.00.*.feather; do cp $f ${f/pf-db2feather./}; done
