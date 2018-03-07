@@ -18,30 +18,19 @@ library(chorddiag)
 UI_VERSION = '1.8.0'
 
 write(sprintf("Reading feather files matching %s", Sys.getenv('PFITMAP2_FEATHER_GLOB')), stderr())
-
-Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% walk(
-  function(fn) {
-    write(sprintf("\t%s", fn), stderr())
-  }
-)
-
-# Setting up variables to connect to some tables
-accessions       <- dbpool %>% tbl('accessions')
-dbsources        <- dbpool %>% tbl('dbsources')
-hmm_profiles     <- dbpool %>% tbl('hmm_profiles')
-dupfree_proteins <- dbpool %>% tbl('dupfree_proteins')
-taxa             <- dbpool %>% tbl('taxa')
+data        <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(read_feather)
+names(data) <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(~sub('.*\\.([^.]*)\\.feather', '\\1', .))
 
 # Defining short cut data
-dbs              <- accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
-psuperfamilies   <- hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
-acc_taxa         <- taxa %>% inner_join(accessions, by = 'taxon')
-tdomains         <- taxa %>% distinct(tdomain) %>% pull(tdomain)
+dbs              <- data$accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
+psuperfamilies   <- data$hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
+acc_taxa         <- data$taxa %>% inner_join(data$accessions, by = 'taxon')
+tdomains         <- data$taxa %>% distinct(tdomain) %>% pull(tdomain)
 
-proteins_by_db   <- dupfree_proteins %>%
-  inner_join(hmm_profiles, by = 'profile') %>%
-  inner_join(accessions, by = 'accno') %>%
-  inner_join(taxa, by = 'taxon')
+proteins_by_db   <- data$dupfree_proteins %>%
+  inner_join(data$hmm_profiles, by = 'profile') %>%
+  inner_join(data$accessions, by = 'accno') %>%
+  inner_join(data$taxa, by = 'taxon')
 
 # Define UI for application 
 ui <- fluidPage(
@@ -137,7 +126,7 @@ server <- function(input, output) {
   output$ssversion <- renderText({
     sprintf(
       "<a href='news.html'>Source database: %s %s %s, user interface version: %s</a>", 
-      dbsources %>% pull(source), dbsources %>% pull(name), dbsources %>% pull(version), UI_VERSION
+      data$dbsources %>% pull(source), data$dbsources %>% pull(name), data$dbsources %>% pull(version), UI_VERSION
     )
   })
 
@@ -165,11 +154,11 @@ server <- function(input, output) {
 
   output$mainmatrix <- renderDataTable({
     ft <- filtered_table() %>% 
-      group_by(rlang::sym(input$taxonrank), rlang::sym(input$proteinrank)) %>%
+      group_by(!!input$taxonrank, !!input$proteinrank) %>%
       summarise(n = n()) %>% ungroup() %>%
       inner_join(
-        taxa %>% semi_join(accessions %>% filter(db == input$db), by = 'taxon') %>%
-          group_by(rlang::sym(input$taxonrank)) %>%
+        data$taxa %>% semi_join(data$accessions %>% filter(db == input$db), by = 'taxon') %>%
+          group_by(!!input$taxonrank) %>%
           summarise(n_taxa = n()) %>% ungroup(),
         by = input$taxonrank
       ) %>%
@@ -181,10 +170,10 @@ server <- function(input, output) {
 
   output$pfamilies <- renderUI({
     if ( length(input$psuperfamilies) > 0 ) {
-      p <- hmm_profiles %>% filter(psuperfamily %in% input$psuperfamilies) %>%
+      p <- data$hmm_profiles %>% filter(psuperfamily %in% input$psuperfamilies) %>%
         filter(!is.na(pfamily))
     } else {
-      p <- hmm_profiles %>% distinct(pfamily) %>% 
+      p <- data$hmm_profiles %>% distinct(pfamily) %>% 
         filter(!is.na(pfamily))
     }
     
@@ -196,10 +185,10 @@ server <- function(input, output) {
 
   output$pclasses <- renderUI({
     if ( length(input$pfamilies) > 0 ) {
-      p <- hmm_profiles %>% filter(pfamily %in% input$pfamilies) %>%
+      p <- data$hmm_profiles %>% filter(pfamily %in% input$pfamilies) %>%
         filter(!is.na(pclass))
     } else {
-      p <- hmm_profiles %>% distinct(pclass) %>% 
+      p <- data$hmm_profiles %>% distinct(pclass) %>% 
         filter(!is.na(pclass))
     }
     
@@ -211,10 +200,10 @@ server <- function(input, output) {
 
   output$psubclasses <- renderUI({
     if ( length(input$pclasses) > 0 ) {
-      p <- hmm_profiles %>% filter(pclass %in% input$pclasses) %>%
+      p <- data$hmm_profiles %>% filter(pclass %in% input$pclasses) %>%
         filter(!is.na(psubclass))
     } else {
-      p <- hmm_profiles %>% distinct(psubclass) %>% 
+      p <- data$hmm_profiles %>% distinct(psubclass) %>% 
         filter(!is.na(psubclass))
     }
     
