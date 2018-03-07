@@ -8,24 +8,22 @@
 #
 
 library(shiny)
-library(pool)
+library(feather)
+library(purrr)
 library(dplyr)
-library(dbplyr)
 library(tidyr)
 library(DT)
 library(chorddiag)
 
 UI_VERSION = '1.8.0'
 
-write(sprintf("Connecting to %s", Sys.getenv('PFITMAP2_SQLITE')), stderr())
-dbpool <- dbPool(
-  drv = RSQLite::SQLite(),
-  dbname = Sys.getenv('PFITMAP2_SQLITE')
-)
+write(sprintf("Reading feather files matching %s", Sys.getenv('PFITMAP2_FEATHER_GLOB')), stderr())
 
-onStop(function() {
-  poolClose(dbpool)
-})
+Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% walk(
+  function(fn) {
+    write(sprintf("\t%s", fn), stderr())
+  }
+)
 
 # Setting up variables to connect to some tables
 accessions       <- dbpool %>% tbl('accessions')
