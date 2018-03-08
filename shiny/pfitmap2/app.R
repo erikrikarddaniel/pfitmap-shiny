@@ -17,11 +17,12 @@ library(chorddiag)
 
 UI_VERSION = '1.8.0'
 
-write(sprintf("Reading feather files matching %s", Sys.getenv('PFITMAP2_FEATHER_GLOB')), stderr())
+write(paste0(Sys.time(), ": Reading feather files matching ", Sys.getenv('PFITMAP2_FEATHER_GLOB')), stderr())
 data        <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(read_feather)
 names(data) <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(~sub('.*\\.([^.]*)\\.feather', '\\1', .))
 
 # Defining short cut data
+write(paste0(Sys.time(), ": Done reading data, setting up global defines"), stderr())
 dbs              <- data$accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
 psuperfamilies   <- data$hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
 acc_taxa         <- data$taxa %>% inner_join(data$accessions, by = 'taxon')
@@ -31,6 +32,8 @@ proteins_by_db   <- data$dupfree_proteins %>%
   inner_join(data$hmm_profiles, by = 'profile') %>%
   inner_join(data$accessions, by = 'accno') %>%
   inner_join(data$taxa, by = 'taxon')
+
+write(paste0(Sys.time(), ": Done defining data"), stderr())
 
 # Define UI for application 
 ui <- fluidPage(
