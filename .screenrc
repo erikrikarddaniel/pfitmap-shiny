@@ -22,6 +22,8 @@ screen -t man
 screen -t rstudio
 setenv PFITMAP2_SQLITE.old $PFITMAP2_SQLITE
 setenv PFITMAP2_SQLITE ../../data/hmmsearch2classification.sqlite3
+setenv PFITMAP2_FEATHER_GLOB ../../data/test/pfitmap.*.feather
 screen -t fullsize
+setenv PFITMAP2_FEATHER_GLOB ../../data/test/testdata.*.feather
 setenv PFITMAP2_SQLITE $PFITMAP2_SQLITE.old
 screen -t root

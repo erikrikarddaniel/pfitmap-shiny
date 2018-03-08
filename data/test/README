@@ -6,3 +6,7 @@ $ cp ~/dev/pfitmap-db/src/R-test/hmmsearch2classification.03.sqlite3 testdata.sq
 Or, the feather files:
 
 $ for f in ~/dev/pfitmap-db/src/R-test/pf-db2feather.00.*.feather; do cp $f ${f/pf-db2feather./}; done
+
+Full size feather files:
+
+$ rsync -avhP --size-only rnrdb:projects/profiles/profiles/pfitmap.*.feather ./.
