@@ -154,15 +154,14 @@ server <- function(input, output) {
 
   output$mainmatrix <- renderDataTable({
     ft <- filtered_table() %>% 
-      group_by(!!input$taxonrank, !!input$proteinrank) %>%
+      group_by(!!rlang::sym(input$taxonrank), !!rlang::sym(input$proteinrank)) %>%
       summarise(n = n()) %>% ungroup() %>%
       inner_join(
         data$taxa %>% semi_join(data$accessions %>% filter(db == input$db), by = 'taxon') %>%
-          group_by(!!input$taxonrank) %>%
+          group_by(!!rlang::sym(input$taxonrank)) %>%
           summarise(n_taxa = n()) %>% ungroup(),
         by = input$taxonrank
       ) %>%
-      collect() %>%
       spread(!!input$proteinrank, n, fill=0)
 
     dt <- datatable(ft)
