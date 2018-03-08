@@ -3,9 +3,9 @@ hmmsearch2classification.03.sqlite3 file to testdata.sqlite3 here.
 
 $ cp ~/dev/pfitmap-db/src/R-test/hmmsearch2classification.03.sqlite3 testdata.sqlite3
 
-Or, the feather files:
+Or, the feather files (run test test cases in pfitmap-db first):
 
-$ for f in ~/dev/pfitmap-db/src/R-test/pf-db2feather.00.*.feather; do cp $f ${f/pf-db2feather./}; done
+$ for f in ~/dev/pfitmap-db/src/R-test/pf-db2feather.01.*.feather; do cp $f $(basename $f | sed 's/pf-db2feather.01./testdata./'); done
 
 Full size feather files:
 
