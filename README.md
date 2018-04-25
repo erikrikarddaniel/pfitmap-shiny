@@ -1,7 +1,7 @@
 # pfitmap-shiny
 
 This Shiny application presents data about hierarchically organized protein
-families.
+families. It can be found online at http://rnrdb.dbb.su.se/.
 
 Currently, major changes to accomodate a new format of the input database are
 being performed. See [pfitmap-db](https://github.com/erikrikarddaniel/pfitmap-db)
