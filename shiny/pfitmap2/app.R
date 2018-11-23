@@ -17,11 +17,12 @@ library(chorddiag)
 
 UI_VERSION = '1.8.0'
 
+# Read all feather files into a common list object.
 write(paste0(Sys.time(), ": Reading feather files matching ", Sys.getenv('PFITMAP2_FEATHER_GLOB')), stderr())
 data        <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(read_feather)
 names(data) <- Sys.glob(Sys.getenv('PFITMAP2_FEATHER_GLOB')) %>% map(~sub('.*\\.([^.]*)\\.feather', '\\1', .))
 
-# Defining short cut data
+# Defining shortcut data for easy access to the various parts of the data object
 write(paste0(Sys.time(), ": Done reading data, setting up global defines"), stderr())
 dbs              <- data$accessions %>% distinct(db) %>% filter(!is.na(db)) %>% arrange(db) %>% pull(db)
 psuperfamilies   <- data$hmm_profiles %>% distinct(psuperfamily) %>% filter(!is.na(psuperfamily)) %>% pull(psuperfamily)
