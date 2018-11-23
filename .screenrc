@@ -13,6 +13,8 @@ chdir pfitmap
 screen -t pfitmap
 chdir ../pfitmap2
 screen -t pfitmap2
+chdir ../pfitmap-shiny-test
+screen -t pfitmap-shiny-test
 chdir $ROOT/doc
 screen -t doc
 chdir $ROOT/performance_tests
