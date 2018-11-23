@@ -1,0 +1,312 @@
+{
+  "input": {
+    "db": "refseq",
+    "db-selectized": "",
+    "mainmatrix_cell_clicked": {
+
+    },
+    "mainmatrix_rows_all": null,
+    "mainmatrix_rows_current": null,
+    "mainmatrix_rows_selected": null,
+    "mainmatrix_search": "",
+    "mainmatrix_state": null,
+    "pclasses": null,
+    "pclasses-selectized": "",
+    "pfamilies": null,
+    "pfamilies-selectized": "",
+    "proteinrank": "pclass",
+    "proteinrank-selectized": "",
+    "psubclasses": null,
+    "psubclasses-selectized": "",
+    "psuperfamilies": "NrdGRE",
+    "psuperfamilies-selectized": "",
+    "sinastat": "score",
+    "sinastat-selectized": "",
+    "taxonomysort": true,
+    "taxonrank": "tdomain",
+    "taxonrank-selectized": "",
+    "tclasses": null,
+    "tclasses-selectized": "",
+    "tdomains": null,
+    "tdomains-selectized": "",
+    "tfamilies": null,
+    "tfamilies-selectized": "",
+    "tgenera": null,
+    "tgenera-selectized": "",
+    "torders": null,
+    "torders-selectized": "",
+    "tphyla": null,
+    "tphyla-selectized": "",
+    "trank4colour": "tdomain",
+    "trank4colour-selectized": "",
+    "tspecies": null,
+    "tspecies-selectized": ""
+  },
+  "output": {
+    "mainmatrix": {
+      "x": {
+        "filter": "none",
+        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>tdomain<\/th>\n      <th>n_taxa<\/th>\n      <th>NrdA<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "options": {
+          "columnDefs": [
+            {
+              "className": "dt-right",
+              "targets": [
+                2,
+                3
+              ]
+            },
+            {
+              "orderable": false,
+              "targets": 0
+            }
+          ],
+          "order": [
+
+          ],
+          "autoWidth": false,
+          "orderClasses": false,
+          "ajax": {
+            "type": "POST",
+            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
+          },
+          "serverSide": true,
+          "processing": true
+        },
+        "selection": {
+          "mode": "multiple",
+          "selected": null,
+          "target": "row"
+        }
+      },
+      "evals": [
+        "options.ajax.data"
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "dt-core",
+          "version": "1.10.16",
+          "src": {
+            "href": "dt-core-1.10.16"
+          },
+          "meta": null,
+          "script": "js/jquery.dataTables.min.js",
+          "stylesheet": [
+            "css/jquery.dataTables.min.css",
+            "css/jquery.dataTables.extra.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "1.11.3",
+          "src": {
+            "href": "jquery-1.11.3"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.0.0",
+          "src": {
+            "href": "crosstalk-1.0.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "pclasses": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"pclasses\">Classes<\/label>\n  <div>\n    <select id=\"pclasses\" multiple=\"multiple\"><option value=\"NrdA\">NrdA<\/option>\n<option value=\"NrdB\">NrdB<\/option><\/select>\n    <script type=\"application/json\" data-for=\"pclasses\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "pfamilies": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"pfamilies\">Families<\/label>\n  <div>\n    <select id=\"pfamilies\" multiple=\"multiple\"><option value=\"NrdAJ\">NrdAJ<\/option><\/select>\n    <script type=\"application/json\" data-for=\"pfamilies\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "psubclasses": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"psubclasses\">Subclasses<\/label>\n  <div>\n    <select id=\"psubclasses\" multiple=\"multiple\"><option value=\"NrdAe\">NrdAe<\/option>\n<option value=\"NrdAg\">NrdAg<\/option>\n<option value=\"NrdAh\">NrdAh<\/option>\n<option value=\"NrdAi\">NrdAi<\/option>\n<option value=\"NrdAk\">NrdAk<\/option>\n<option value=\"NrdAm\">NrdAm<\/option>\n<option value=\"NrdAn\">NrdAn<\/option>\n<option value=\"NrdAq\">NrdAq<\/option>\n<option value=\"NrdAz\">NrdAz<\/option>\n<option value=\"NrdF\">NrdF<\/option><\/select>\n    <script type=\"application/json\" data-for=\"psubclasses\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "ssversion": "<a href='news.html'>Source database: NCBI NR 20180109, user interface version: 1.8.0<\/a>",
+    "tclasses": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"tclasses\">Classes<\/label>\n  <div>\n    <select id=\"tclasses\" multiple=\"multiple\"><option value=\"Actinobacteria\">Actinobacteria<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"Bacilli\">Bacilli<\/option>\n<option value=\"Alphaproteobacteria\">Alphaproteobacteria<\/option>\n<option value=\"Gammaproteobacteria\">Gammaproteobacteria<\/option>\n<option value=\"Mammalia\">Mammalia<\/option>\n<option value=\"NA\">NA<\/option><\/select>\n    <script type=\"application/json\" data-for=\"tclasses\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "tfamilies": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"tfamilies\">Families<\/label>\n  <div>\n    <select id=\"tfamilies\" multiple=\"multiple\"><option value=\"Glycomycetaceae\">Glycomycetaceae<\/option>\n<option value=\"Microcystaceae\">Microcystaceae<\/option>\n<option value=\"Bacillaceae\">Bacillaceae<\/option>\n<option value=\"Sporolactobacillaceae\">Sporolactobacillaceae<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"Enterobacteriaceae\">Enterobacteriaceae<\/option>\n<option value=\"Yersiniaceae\">Yersiniaceae<\/option>\n<option value=\"Moraxellaceae\">Moraxellaceae<\/option>\n<option value=\"Pseudomonadaceae\">Pseudomonadaceae<\/option>\n<option value=\"Hominidae\">Hominidae<\/option>\n<option value=\"Myoviridae\">Myoviridae<\/option><\/select>\n    <script type=\"application/json\" data-for=\"tfamilies\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "tgenera": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"tgenera\">Genera<\/label>\n  <div>\n    <select id=\"tgenera\" multiple=\"multiple\"><option value=\"Stackebrandtia\">Stackebrandtia<\/option>\n<option value=\"Microcystis\">Microcystis<\/option>\n<option value=\"Bacillus\">Bacillus<\/option>\n<option value=\"Lysinibacillus\">Lysinibacillus<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"Micavibrio\">Micavibrio<\/option>\n<option value=\"Escherichia\">Escherichia<\/option>\n<option value=\"Yersinia\">Yersinia<\/option>\n<option value=\"Acinetobacter\">Acinetobacter<\/option>\n<option value=\"Pseudomonas\">Pseudomonas<\/option>\n<option value=\"Homo\">Homo<\/option>\n<option value=\"NA\">NA<\/option><\/select>\n    <script type=\"application/json\" data-for=\"tgenera\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "torders": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"torders\">Orders<\/label>\n  <div>\n    <select id=\"torders\" multiple=\"multiple\"><option value=\"Glycomycetales\">Glycomycetales<\/option>\n<option value=\"Chroococcales\">Chroococcales<\/option>\n<option value=\"Bacillales\">Bacillales<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"Enterobacterales\">Enterobacterales<\/option>\n<option value=\"Pseudomonadales\">Pseudomonadales<\/option>\n<option value=\"Primates\">Primates<\/option>\n<option value=\"Caudovirales\">Caudovirales<\/option><\/select>\n    <script type=\"application/json\" data-for=\"torders\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "tphyla": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"tphyla\">Phyla<\/label>\n  <div>\n    <select id=\"tphyla\" multiple=\"multiple\"><option value=\"Actinobacteria\">Actinobacteria<\/option>\n<option value=\"Cyanobacteria\">Cyanobacteria<\/option>\n<option value=\"Firmicutes\">Firmicutes<\/option>\n<option value=\"Proteobacteria\">Proteobacteria<\/option>\n<option value=\"Chordata\">Chordata<\/option>\n<option value=\"NA\">NA<\/option><\/select>\n    <script type=\"application/json\" data-for=\"tphyla\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "tspecies": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" for=\"tspecies\">Species<\/label>\n  <div>\n    <select id=\"tspecies\" multiple=\"multiple\"><option value=\"Stackebrandtia nassauensis\">Stackebrandtia nassauensis<\/option>\n<option value=\"Microcystis aeruginosa\">Microcystis aeruginosa<\/option>\n<option value=\"Bacillus megaterium\">Bacillus megaterium<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"[Bacillus] sp. KCTC 13219\">[Bacillus] sp. KCTC 13219<\/option>\n<option value=\"[Bacillus] selenitireducens\">[Bacillus] selenitireducens<\/option>\n<option value=\"Micavibrio aeruginosavorus\">Micavibrio aeruginosavorus<\/option>\n<option value=\"Escherichia fergusonii\">Escherichia fergusonii<\/option>\n<option value=\"Yersinia pestis\">Yersinia pestis<\/option>\n<option value=\"Acinetobacter lwoffii\">Acinetobacter lwoffii<\/option>\n<option value=\"Pseudomonas aeruginosa\">Pseudomonas aeruginosa<\/option>\n<option value=\"Pseudomonas chlororaphis\">Pseudomonas chlororaphis<\/option>\n<option value=\"Pseudomonas synxantha\">Pseudomonas synxantha<\/option>\n<option value=\"Pseudomonas weihenstephanensis\">Pseudomonas weihenstephanensis<\/option>\n<option value=\"NA\">NA<\/option>\n<option value=\"Homo sapiens\">Homo sapiens<\/option>\n<option value=\"Microcystis aeruginosa phage Ma-LMM01\">Microcystis aeruginosa phage Ma-LMM01<\/option><\/select>\n    <script type=\"application/json\" data-for=\"tspecies\">{}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
